@@ -246,15 +246,17 @@
             1 = 1
             <choose>
                 <when test="menuId != null">
-                    AND (T1.NAME = #{menuName} AND T1.ID != #{menuId})
+                    AND ( 1 = 0
+                        OR (T1.NAME = #{menuName} AND T1.ID != #{menuId})
+                        <if test="menuPerms != null">
+                            OR T1.PERMS = #{menuPerms}
+                        </if>
+                        )
                 </when>
                 <otherwise>
                     AND T1.NAME = #{menuName}
                 </otherwise>
             </choose>
-            <if test="menuPerms != null">
-                AND T1.PERMS = #{menuPerms}
-            </if>
         </where>
         LIMIT 1
     </select>
