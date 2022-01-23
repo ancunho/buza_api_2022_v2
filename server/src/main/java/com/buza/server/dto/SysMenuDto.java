@@ -13,9 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class SysMenuDto extends BaseDto implements Serializable {
+public class SysMenuDto extends BaseDto {
     private static final long serialVersionUID = 1L;
-    private Long rn;
     private Long id;
     private Long menuId;
     private Long parentId;

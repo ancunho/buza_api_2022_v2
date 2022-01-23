@@ -20,7 +20,6 @@ public class ServerResponse<T> implements Serializable {
     private int code;
     private String msg;
     private T data;
-    private int count;
 
     private ServerResponse(int status) {
         this.status = status;
@@ -31,9 +30,6 @@ public class ServerResponse<T> implements Serializable {
         this.status = status;
         this.code = status;
         this.data = data;
-        if (data instanceof List) {
-            this.count = ((List<?>) data).size();
-        }
     }
 
     private ServerResponse(int status, String msg, T data) {
@@ -41,9 +37,6 @@ public class ServerResponse<T> implements Serializable {
         this.code = status;
         this.msg = msg;
         this.data = data;
-        if (data instanceof List) {
-            this.count = ((List<?>) data).size();
-        }
     }
 
     private ServerResponse(int status, String msg) {

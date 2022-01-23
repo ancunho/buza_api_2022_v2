@@ -11,9 +11,9 @@ import java.io.Serializable;
 @Slf4j
 public class BaseDto implements Serializable {
 
-    private int rn;
-    private int page;
-    private int limit;
+    private Long rn;
+    private int page = 0;
+    private int limit = 15;
     private String startDate;
     private String endDate;
     private String startTime;

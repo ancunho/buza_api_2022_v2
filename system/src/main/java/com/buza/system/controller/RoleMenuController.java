@@ -2,23 +2,21 @@ package com.buza.system.controller;
 
 import com.buza.server.common.ResponseCode;
 import com.buza.server.common.ServerResponse;
-import com.buza.server.dto.SysMenuDto;
-import com.buza.server.dto.SysRoleDto;
-import com.buza.server.dto.SysRoleMenuDto;
-import com.buza.server.dto.SysUserDto;
+import com.buza.server.dto.*;
 import com.buza.server.entity.SysMenu;
 import com.buza.server.entity.SysRole;
 import com.buza.server.entity.SysUser;
 import com.buza.server.service.RoleMenuService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +35,13 @@ public class RoleMenuController {
      * @return
      */
     @GetMapping("/menu/list")
-    public ServerResponse<List<SysMenuDto>> getAllSysMenuList() {
+    public ServerResponse getAllSysMenuList(BaseDto params) {
+        Page page = PageHelper.startPage(params.getPage(),params.getLimit());
         List<SysMenuDto> returnData = roleMenuService.getAllSysMenuList();
+
+//        PageInfo pageInfo = new PageInfo(returnData);
+//        pageInfo.setList(returnData);
+
         return ServerResponse.createBySuccess(returnData);
     }
 
