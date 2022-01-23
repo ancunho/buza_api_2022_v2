@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author : Cunho
@@ -16,26 +17,38 @@ public class ServerResponse<T> implements Serializable {
     private static final long serialVersionUID = 2518991125211238907L;
 
     private int status;
+    private int code;
     private String msg;
     private T data;
+    private int count;
 
     private ServerResponse(int status) {
         this.status = status;
+        this.code = status;
     }
 
     private ServerResponse(int status, T data) {
         this.status = status;
+        this.code = status;
         this.data = data;
+        if (data instanceof List) {
+            this.count = ((List<?>) data).size();
+        }
     }
 
     private ServerResponse(int status, String msg, T data) {
         this.status = status;
+        this.code = status;
         this.msg = msg;
         this.data = data;
+        if (data instanceof List) {
+            this.count = ((List<?>) data).size();
+        }
     }
 
     private ServerResponse(int status, String msg) {
         this.status = status;
+        this.code = status;
         this.msg = msg;
     }
 
