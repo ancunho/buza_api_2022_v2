@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class SysUserDto implements Serializable {
+public class SysUserDto extends BaseDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long rn;

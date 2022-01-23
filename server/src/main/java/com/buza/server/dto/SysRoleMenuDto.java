@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class SysRoleMenuDto implements Serializable {
+public class SysRoleMenuDto extends BaseDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long menuId;
