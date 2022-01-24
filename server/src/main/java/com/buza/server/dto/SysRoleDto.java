@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class SysRoleDto extends BaseDto implements Serializable {
+public class SysRoleDto extends BaseRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long rn;

@@ -129,15 +129,23 @@
             1 = 1
             <choose>
                 <when test="roleId != null">
-                    AND (T1.NAME = #{roleName} AND T1.ID != #{roleId})
+                    AND ( 1 = 0
+                        OR (T1.NAME = #{roleName} AND T1.ID != #{roleId})
+                        <if test="roleCode != null">
+                            OR T1.CODE = #{roleCode}
+                        </if>
+                        )
                 </when>
                 <otherwise>
-                    AND T1.NAME = #{roleName}
+                    AND (1 = 0
+                        OR T1.NAME = #{roleName}
+                        <if test="roleCode != null">
+                            OR T1.CODE = #{roleCode}
+                        </if>
+                        )
                 </otherwise>
             </choose>
-            <if test="roleCode != null">
-                AND T1.CODE = #{roleCode}
-            </if>
+
         </where>
         LIMIT 1
     </select>

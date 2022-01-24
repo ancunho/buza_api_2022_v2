@@ -312,7 +312,9 @@
             1 = 1
             <choose>
                 <when test="userSeq != null">
-                    AND (T1.USERNAME = #{USERNAME} AND T1.USER_SEQ != #{userSeq})
+                    AND ( 1 = 0
+                        OR (T1.USERNAME = #{USERNAME} AND T1.USER_SEQ != #{userSeq})
+                        )
                 </when>
                 <otherwise>
                     AND T1.USERNAME = #{USERNAME}

@@ -1,15 +1,13 @@
 package com.buza.system.controller;
 
+import com.buza.server.common.BaseResponse;
 import com.buza.server.common.ResponseCode;
-import com.buza.server.common.ServerResponse;
 import com.buza.server.dto.*;
 import com.buza.server.entity.SysMenu;
 import com.buza.server.entity.SysRole;
 import com.buza.server.entity.SysUser;
 import com.buza.server.service.RoleMenuService;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -35,14 +34,10 @@ public class RoleMenuController {
      * @return
      */
     @GetMapping("/menu/list")
-    public ServerResponse getAllSysMenuList(BaseDto params) {
-        Page page = PageHelper.startPage(params.getPage(),params.getLimit());
-        List<SysMenuDto> returnData = roleMenuService.getAllSysMenuList();
-
-//        PageInfo pageInfo = new PageInfo(returnData);
-//        pageInfo.setList(returnData);
-
-        return ServerResponse.createBySuccess(returnData);
+    public BaseResponse getAllSysMenuList(HttpServletRequest request, BaseRequest baseRequest) {
+        PageHelper.startPage(baseRequest.getPage(),baseRequest.getLimit());
+        List<SysMenuDto> result = roleMenuService.getAllSysMenuList();
+        return BaseResponse.valueOfSuccessList(result);
     }
 
     /**
@@ -54,13 +49,13 @@ public class RoleMenuController {
      */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/menu/modify")
-    public ServerResponse modifySysMenu(@RequestBody SysMenuDto sysMenuDto) {
+    public BaseResponse modifySysMenu(HttpServletRequest request, @RequestBody SysMenuDto sysMenuDto) {
         if (StringUtils.isEmpty(sysMenuDto.getName())
             || sysMenuDto.getType() == null
             || StringUtils.isEmpty(String.valueOf(sysMenuDto.getType()))
             || StringUtils.isEmpty(sysMenuDto.getStatus())
         ) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
 
         if (sysMenuDto.getId() == null || String.valueOf(sysMenuDto.getId()) == "") {
@@ -71,7 +66,7 @@ public class RoleMenuController {
             mapParams.put("menuPerms", sysMenuDto.getPerms());
             boolean isExistMenuName = roleMenuService.existMenuName(mapParams);
             if (isExistMenuName) {
-                return ServerResponse.createByErrorMessage("菜单名重复, 请使用其他菜单名称");
+                return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ERROR.getCode(), "菜单名,权限码不能重复,请使用其他名称");
             }
 
             // 2. SysMenu 저장
@@ -92,9 +87,9 @@ public class RoleMenuController {
             sysMenu.setOption05(sysMenuDto.getOption05());
             boolean isSuccessInsert = roleMenuService.insertSysMenu(sysMenu);
             if (isSuccessInsert) {
-                return ServerResponse.createBySuccessMessage(ResponseCode.INSERT_SUCCESS.getDesc());
+                return BaseResponse.valueOfSuccessMessage(ResponseCode.INSERT_SUCCESS.getDesc());
             }
-            return ServerResponse.createByErrorMessage(ResponseCode.INSERT_ERROR.getDesc());
+            return BaseResponse.valueOfFailureMessage(ResponseCode.INSERT_ERROR.getDesc());
         } else {
             // modify origin
             Map<String, Object> mapParams = new HashMap<>();
@@ -103,7 +98,7 @@ public class RoleMenuController {
             mapParams.put("menuPerms", sysMenuDto.getPerms());
             boolean isExistMenuName = roleMenuService.existMenuName(mapParams);
             if (isExistMenuName) {
-                return ServerResponse.createByErrorMessage("菜单名重复, 请使用其他菜单名称");
+                return BaseResponse.valueOfFailureMessage("菜单名,权限码不能重复,请使用其他名称");
             }
 
             SysMenu sysMenu = new SysMenu();
@@ -125,9 +120,9 @@ public class RoleMenuController {
 
             boolean isSuccessUpdate = roleMenuService.updateSysMenu(sysMenu);
             if (isSuccessUpdate) {
-                return ServerResponse.createBySuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
+                return BaseResponse.valueOfSuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
             }
-            return ServerResponse.createByErrorMessage(ResponseCode.SAVE_ERROR.getDesc());
+            return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
         }
     }
 
@@ -136,9 +131,10 @@ public class RoleMenuController {
      * @return
      */
     @GetMapping("/role/list")
-    public ServerResponse<List<SysRoleDto>> getAllSysRoleList() {
+    public BaseResponse getAllSysRoleList(HttpServletRequest request, BaseRequest baseRequest) {
+        PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
         List<SysRoleDto> returnData = roleMenuService.getAllSysRoleList();
-        return ServerResponse.createBySuccess(returnData);
+        return BaseResponse.valueOfSuccessList(returnData);
     }
 
     /**
@@ -150,13 +146,13 @@ public class RoleMenuController {
      */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/role/modify")
-    public ServerResponse modifySysRole(@RequestBody SysRoleDto sysRoleDto) {
+    public BaseResponse modifySysRole(HttpServletRequest request, @RequestBody SysRoleDto sysRoleDto) {
         if (StringUtils.isEmpty(sysRoleDto.getName())
             || StringUtils.isEmpty(sysRoleDto.getCode())
             || StringUtils.isEmpty(sysRoleDto.getRemark())
             || StringUtils.isEmpty(sysRoleDto.getStatus())
         ) {
-            return ServerResponse.createByErrorMessage("权限名称,Code,备注,状态是必填项,请确认！");
+            return BaseResponse.valueOfSuccessMessage("权限名称,Code,备注,状态是必填项,请确认！");
         }
 
         if (sysRoleDto.getId() == null || String.valueOf(sysRoleDto.getId()) == "") {
@@ -167,7 +163,7 @@ public class RoleMenuController {
             mapParams.put("roleCode", sysRoleDto.getCode());
             boolean isExistRoleName = roleMenuService.existRoleName(mapParams);
             if (isExistRoleName) {
-                return ServerResponse.createByErrorMessage("权限名重复, 请使用其他权限名");
+                return BaseResponse.valueOfFailureMessage("权限名，权限Code不能重复, 请使用其他名称");
             }
 
             // 2. SysRole 저장
@@ -179,9 +175,9 @@ public class RoleMenuController {
 
             boolean isSuccessInsert = roleMenuService.insertSysRole(sysRole);
             if (isSuccessInsert) {
-                return ServerResponse.createBySuccessMessage(ResponseCode.INSERT_SUCCESS.getDesc());
+                return BaseResponse.valueOfSuccessMessage(ResponseCode.INSERT_SUCCESS.getDesc());
             }
-            return ServerResponse.createByErrorMessage(ResponseCode.INSERT_ERROR.getDesc());
+            return BaseResponse.valueOfFailureMessage(ResponseCode.INSERT_ERROR.getDesc());
         } else {
             // modify origin
             Map<String, Object> mapParams = new HashMap<>();
@@ -190,7 +186,7 @@ public class RoleMenuController {
             mapParams.put("roleCode", sysRoleDto.getCode());
             boolean isExistRoleName = roleMenuService.existRoleName(mapParams);
             if (isExistRoleName) {
-                return ServerResponse.createByErrorMessage("权限名重复, 请使用其他权限名");
+                return BaseResponse.valueOfFailureMessage("权限名，权限Code不能重复, 请使用其他名称");
             }
 
             // 2. SysRole 저장
@@ -202,9 +198,9 @@ public class RoleMenuController {
             sysRole.setStatus(sysRoleDto.getStatus());
             boolean isSuccessUpdate = roleMenuService.updateSysRole(sysRole);
             if (isSuccessUpdate) {
-                return ServerResponse.createBySuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
+                return BaseResponse.valueOfSuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
             }
-            return ServerResponse.createByErrorMessage(ResponseCode.SAVE_ERROR.getDesc());
+            return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
         }
 
     }
@@ -215,13 +211,13 @@ public class RoleMenuController {
      * @return
      */
     @GetMapping("/rolemenu/detail")
-    public ServerResponse<List<SysRoleMenuDto>> getSysRoleMenuByRoleId(@RequestParam("roleId") Integer roleId) {
+    public BaseResponse<List<SysRoleMenuDto>> getSysRoleMenuByRoleId(HttpServletRequest request, @RequestParam("roleId") Integer roleId) {
         if (roleId == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
 
-        List<SysRoleMenuDto> returnData = roleMenuService.getSysRoleMenuByRoleId(roleId);
-        return ServerResponse.createBySuccess(returnData);
+        List<SysRoleMenuDto> resultList = roleMenuService.getSysRoleMenuByRoleId(roleId);
+        return BaseResponse.valueOfSuccess(resultList);
     }
 
     /**
@@ -234,9 +230,9 @@ public class RoleMenuController {
      */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/rolemenu/modify")
-    public ServerResponse modifySysRoleMenu(@RequestParam("roleId") Integer roleId, @RequestParam("menuIds") String menuIds) {
+    public BaseResponse modifySysRoleMenu(HttpServletRequest request, @RequestParam("roleId") Integer roleId, @RequestParam("menuIds") String menuIds) {
         if (roleId == null || "".equals(menuIds)) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
 
         try {
@@ -249,13 +245,13 @@ public class RoleMenuController {
             mapParams.put("lstMenuIds", lstMenuIds);
             Boolean isSuccessInsert = roleMenuService.insertSysRoleMenuByRoleIdMenuIds(mapParams);
             if (isSuccessInsert) {
-                return ServerResponse.createBySuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
+                return BaseResponse.valueOfSuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
             } else {
-                return ServerResponse.createByErrorMessage(ResponseCode.SAVE_ERROR.getDesc());
+                return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ServerResponse.createByErrorMessage(ResponseCode.SAVE_ERROR.getDesc());
+            return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
         }
 
     }
@@ -265,18 +261,19 @@ public class RoleMenuController {
      * @return
      */
     @GetMapping("/user/list")
-    public ServerResponse<List<SysUserDto>> getAllSysUserList() {
+    public BaseResponse getAllSysUserList(HttpServletRequest request, BaseRequest baseRequest) {
+        PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
         List<SysUserDto> returnData = roleMenuService.getAllSysUserList();
-        return ServerResponse.createBySuccess(returnData);
+        return BaseResponse.valueOfSuccessList(returnData);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/user/modify")
-    public ServerResponse modifySysUser(@RequestBody SysUserDto sysUserDto) {
+    public BaseResponse modifySysUser(HttpServletRequest request, @RequestBody SysUserDto sysUserDto) {
         if (StringUtils.isEmpty(sysUserDto.getUsername())
             || StringUtils.isEmpty(sysUserDto.getRealname())
         ) {
-            return ServerResponse.createByErrorMessage("用户名和姓名必填");
+            return BaseResponse.valueOfFailureMessage("用户名和姓名必填");
         }
 
         if (sysUserDto.getUserSeq() == null || String.valueOf(sysUserDto.getUserSeq()) == "") {
@@ -284,7 +281,7 @@ public class RoleMenuController {
             mapParams.put("username", sysUserDto.getUsername());
             boolean isExistUsername = roleMenuService.existUserName(mapParams);
             if (isExistUsername) {
-                return ServerResponse.createByErrorMessage("Username重复,请使用其他用户名");
+                return BaseResponse.valueOfFailureMessage("Username重复,请使用其他用户名");
             }
 
             SysUser sysUser = new SysUser();
@@ -322,16 +319,16 @@ public class RoleMenuController {
 
             boolean isSuccessInsert = roleMenuService.insertSysUser(sysUser);
             if (isSuccessInsert) {
-                return ServerResponse.createBySuccessMessage(ResponseCode.INSERT_SUCCESS.getDesc());
+                return BaseResponse.valueOfSuccessMessage(ResponseCode.INSERT_SUCCESS.getDesc());
             }
-            return ServerResponse.createByErrorMessage(ResponseCode.INSERT_ERROR.getDesc());
+            return BaseResponse.valueOfFailureMessage(ResponseCode.INSERT_ERROR.getDesc());
         } else {
             Map<String, Object> mapParams = new HashMap<>();
             mapParams.put("username", sysUserDto.getUsername());
             mapParams.put("userSeq", sysUserDto.getUserSeq());
             boolean isExistUsername = roleMenuService.existUserName(mapParams);
             if (isExistUsername) {
-                return ServerResponse.createByErrorMessage("Username重复,请使用其他用户名");
+                return BaseResponse.valueOfFailureMessage("Username重复,请使用其他用户名");
             }
 
             SysUser sysUser = new SysUser();
@@ -366,29 +363,29 @@ public class RoleMenuController {
 
             boolean isSuccessUpdate = roleMenuService.updateSysUser(sysUser);
             if (isSuccessUpdate) {
-                return ServerResponse.createBySuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
+                return BaseResponse.valueOfSuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
             }
-            return ServerResponse.createByErrorMessage(ResponseCode.SAVE_ERROR.getDesc());
+            return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
         }
 
     }
 
     @GetMapping("/user/role")
-    public ServerResponse getRoleListByUserSeq(@RequestParam("userSeq") Integer userSeq) {
+    public BaseResponse getRoleListByUserSeq(HttpServletRequest request, @RequestParam("userSeq") Integer userSeq) {
         if (userSeq == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
 
         List<SysUserDto> reutrnData = roleMenuService.getRoleListByUserSeq(userSeq);
-        return ServerResponse.createBySuccess(reutrnData);
+        return BaseResponse.valueOfSuccessList(reutrnData);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
 //    @PreAuthorize("hasAuthority('sys:menu:delete')")
     @PostMapping("/user/role/modify")
-    public ServerResponse modifySysUserRoleByUserSeq(@RequestParam("userSeq") Integer userSeq, @RequestParam("roleIds") String roleIds) {
+    public BaseResponse modifySysUserRoleByUserSeq(HttpServletRequest request, @RequestParam("userSeq") Integer userSeq, @RequestParam("roleIds") String roleIds) {
         if (userSeq == null || "".equals(roleIds)) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
 
         try {
@@ -402,13 +399,13 @@ public class RoleMenuController {
             mapParams.put("lstRoleIds", lstRoleIds);
             Boolean isSuccessInsert = roleMenuService.insertSysUserRoleByUserSeqRoleIds(mapParams);
             if (isSuccessInsert) {
-                return ServerResponse.createBySuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
+                return BaseResponse.valueOfSuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
             } else {
-                return ServerResponse.createByErrorMessage(ResponseCode.SAVE_ERROR.getDesc());
+                return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ServerResponse.createByErrorMessage(ResponseCode.SAVE_SUCCESS.getDesc());
+            return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_SUCCESS.getDesc());
         }
     }
 

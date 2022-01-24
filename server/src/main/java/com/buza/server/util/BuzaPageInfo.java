@@ -1,12 +1,9 @@
 package com.buza.server.util;
 
-import com.buza.server.dto.SysMenuDto;
 import com.github.pagehelper.PageInfo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
 
 @Getter
 @Setter

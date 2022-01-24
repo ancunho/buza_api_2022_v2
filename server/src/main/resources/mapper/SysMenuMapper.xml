@@ -254,7 +254,12 @@
                         )
                 </when>
                 <otherwise>
-                    AND T1.NAME = #{menuName}
+                    AND ( 1 = 0
+                        OR T1.NAME = #{menuName}
+                        <if test="menuPerms != null">
+                            OR T1.PERMS = #{menuPerms}
+                        </if>
+                    )
                 </otherwise>
             </choose>
         </where>

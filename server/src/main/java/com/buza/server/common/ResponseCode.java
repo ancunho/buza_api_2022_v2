@@ -6,7 +6,9 @@ package com.buza.server.common;
  */
 public enum ResponseCode {
 
-    SUCCESS(200,"SUCCESS"),
+    SUCCESS(200,"Server Response Success"),
+    CODE(0,"code return success"),
+    CODE_ERROR(999,"code fail"),
     ERROR(400,"ERROR"),
     UNAUTHORIZED(401,"无权限"),
     ILLEGAL_ARGUMENT(402,"参数错误"),

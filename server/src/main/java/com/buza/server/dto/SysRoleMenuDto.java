@@ -1,18 +1,15 @@
 package com.buza.server.dto;
 
-import com.buza.server.entity.SysMenu;
-import com.buza.server.entity.SysRole;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Getter
 @Setter
 @ToString
-public class SysRoleMenuDto extends BaseDto implements Serializable {
+public class SysRoleMenuDto extends BaseRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long menuId;

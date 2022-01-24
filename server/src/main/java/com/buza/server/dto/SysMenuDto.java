@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class SysMenuDto extends BaseDto {
+public class SysMenuDto extends BaseRequest {
     private static final long serialVersionUID = 1L;
     private Long id;
     private Long menuId;

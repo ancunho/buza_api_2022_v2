@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author : Cunho
@@ -23,25 +22,21 @@ public class ServerResponse<T> implements Serializable {
 
     private ServerResponse(int status) {
         this.status = status;
-        this.code = status;
     }
 
     private ServerResponse(int status, T data) {
         this.status = status;
-        this.code = status;
         this.data = data;
     }
 
     private ServerResponse(int status, String msg, T data) {
         this.status = status;
-        this.code = status;
         this.msg = msg;
         this.data = data;
     }
 
     private ServerResponse(int status, String msg) {
         this.status = status;
-        this.code = status;
         this.msg = msg;
     }
 
