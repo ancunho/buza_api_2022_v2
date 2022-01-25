@@ -124,29 +124,16 @@
 
     <select id="existRoleName" parameterType="java.util.Map" resultType="java.lang.Integer">
         SELECT  1
-        FROM    sys_role T1
-        <where>
-            1 = 1
-            <choose>
-                <when test="roleId != null">
-                    AND ( 1 = 0
-                        OR (T1.NAME = #{roleName} AND T1.ID != #{roleId})
-                        <if test="roleCode != null">
-                            OR T1.CODE = #{roleCode}
+        FROM    SYS_MENU T1
+        WHERE   EXISTS  (
+                        SELECT  1
+                        FROM    SYS_MENU A1
+                        WHERE   A1.ID = T1.ID
+                        <if test="menuId != null">
+                            AND     A1.ID != #{menuId}
                         </if>
+                        AND     (A1.NAME = #{menuName} OR A1.PERMS = #{menuPerms})
                         )
-                </when>
-                <otherwise>
-                    AND (1 = 0
-                        OR T1.NAME = #{roleName}
-                        <if test="roleCode != null">
-                            OR T1.CODE = #{roleCode}
-                        </if>
-                        )
-                </otherwise>
-            </choose>
-
-        </where>
         LIMIT 1
     </select>
 
