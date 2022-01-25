@@ -240,29 +240,17 @@
     </select>
 
     <select id="existMenuName" parameterType="java.util.Map" resultType="java.lang.Integer">
-        SELECT  1
-        FROM    sys_menu T1
-        <where>
-            1 = 1
-            <choose>
-                <when test="menuId != null">
-                    AND ( 1 = 0
-                        OR (T1.NAME = #{menuName} AND T1.ID != #{menuId})
-                        <if test="menuPerms != null">
-                            OR T1.PERMS = #{menuPerms}
+       SELECT  1
+        FROM    SYS_MENU T1
+        WHERE   EXISTS  (
+                        SELECT  1
+                        FROM    SYS_MENU A1
+                        WHERE   A1.ID = T1.ID
+                        <if test="menuId != null">
+                            AND     A1.ID != #{menuId}
                         </if>
+                        AND     (A1.NAME = #{menuName} OR A1.PERMS = #{menuPerms})
                         )
-                </when>
-                <otherwise>
-                    AND ( 1 = 0
-                        OR T1.NAME = #{menuName}
-                        <if test="menuPerms != null">
-                            OR T1.PERMS = #{menuPerms}
-                        </if>
-                    )
-                </otherwise>
-            </choose>
-        </where>
         LIMIT 1
     </select>
 
