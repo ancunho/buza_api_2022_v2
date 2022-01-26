@@ -4,31 +4,21 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class TbCommonCode implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
     private Integer codeId;
-
     private String codeType;
-
     private String codeCd;
-
     private String codeName;
-
     private String useYn;
-
     private String remark;
-
     private String option01;
-
     private String option02;
-
     private String option03;
-
     private String option04;
-
     private String option05;
-
     private Date createTime;
-
     private Date updateTime;
 
     public Integer getCodeId() {
