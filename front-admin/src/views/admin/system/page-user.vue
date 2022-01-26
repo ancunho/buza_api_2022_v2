@@ -117,6 +117,7 @@ export default {
   },
   mounted: function() {
     let _this = this;
+    $("body").mLoading();
     _this.list();
     $.getScript("/ace/assets/js/bootbox.js");
   },
@@ -124,6 +125,7 @@ export default {
     list() {
       let _this = this;
       _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/list").then((response) => {
+        $("body").mLoading("hide");
         _this.userList = response.data.data;
         console.log("userList:", _this.userList);
       })
