@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 
 @Getter
@@ -25,14 +24,14 @@ public class BaseRequest implements Serializable {
     private String referer;
 
     public int getPage() {
-        if (this.page == 0) {
+        if (this.page == 0 || "".equals(String.valueOf(this.page))) {
             return 1;
         }
         return page;
     }
 
     public int getLimit() {
-        if (this.limit == 0) {
+        if (this.limit == 0 || "".equals(String.valueOf(this.limit))) {
             return 15;
         }
         return limit;
