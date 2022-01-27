@@ -127,6 +127,11 @@ public class CustomerController {
 
     }
 
+    /**
+     * 회원리스트
+     * @param baseRequest
+     * @return
+     */
     @GetMapping(value = "/list")
     public BaseResponse getAllCustomerList(BaseRequest baseRequest) {
         PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
@@ -134,6 +139,11 @@ public class CustomerController {
         return BaseResponse.valueOfSuccessList(returnData);
     }
 
+    /**
+     * 회원상세정보
+     * @param customerId
+     * @return
+     */
     @GetMapping(value = "/info")
     public BaseResponse getCustomerInfoByCustomerId(@RequestParam("customerId") Integer customerId) {
         if (customerId == null) {
@@ -144,12 +154,18 @@ public class CustomerController {
         return BaseResponse.valueOfSuccess(tbCustomerDto);
     }
 
-//    @PostMapping(value = "/info")
-//    public BaseResponse deleteCustomerByCustomerId(@RequestParam("customerid") Integer customerId) {
-//        if (customerId == null) {
-//            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
-//        }
-//
-//
-//    }
+    @PostMapping(value = "/delete")
+    public BaseResponse deleteCustomerByCustomerId(@RequestParam("customerid") Integer customerId) {
+        if (customerId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        try {
+            customerService.deleteCustomerByCustomerId(customerId);
+            return BaseResponse.valueOfSuccessMessage(ResponseCode.DELETE_SUCCESS.getDesc());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseResponse.valueOfFailureMessage(ResponseCode.DELETE_ERROR.getDesc());
+        }
+    }
 }

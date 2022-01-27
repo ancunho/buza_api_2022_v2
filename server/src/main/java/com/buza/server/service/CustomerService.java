@@ -14,4 +14,6 @@ public interface CustomerService {
 
     List<TbCustomerDto> getAllCustomerList();
     TbCustomerDto getCustomerInfoByCustomerId(Integer customerId);
+
+    public void deleteCustomerByCustomerId(Integer customerId);
 }

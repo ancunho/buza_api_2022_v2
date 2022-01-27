@@ -60,4 +60,9 @@ public class CustomerServiceImpl implements CustomerService {
         return tbCustomerMapper.getCustomerInfoByCustomerId(customerId);
     }
 
+    @Transactional
+    public void deleteCustomerByCustomerId(Integer customerId) {
+        tbCustomerMapper.deleteByPrimaryKey(customerId);
+    }
+
 }
