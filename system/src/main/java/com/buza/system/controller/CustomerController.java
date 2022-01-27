@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,7 @@ public class CustomerController {
      * @param tbCustomerDto
      * @return
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/proc")
     public BaseResponse procTB_CUSTOMER(BaseRequest baseRequest, @RequestBody TbCustomerDto tbCustomerDto) {
         if (StringUtils.isEmpty(tbCustomerDto.getMobileNo())) {
@@ -154,8 +156,9 @@ public class CustomerController {
         return BaseResponse.valueOfSuccess(tbCustomerDto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/delete")
-    public BaseResponse deleteCustomerByCustomerId(@RequestParam("customerid") Integer customerId) {
+    public BaseResponse deleteCustomerByCustomerId(@RequestParam("customerId") Integer customerId) {
         if (customerId == null) {
             return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
