@@ -13,7 +13,9 @@ import java.util.List;
 @Setter
 @ToString
 public class SysMenuDto extends BaseRequest {
+
     private static final long serialVersionUID = 1L;
+
     private Long id;
     private Long menuId;
     private Long parentId;

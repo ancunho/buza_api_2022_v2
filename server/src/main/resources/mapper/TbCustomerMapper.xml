@@ -30,7 +30,8 @@
         <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-        CUSTOMER_ID, WEIXIN_OPEN_ID, WEIXIN_UNION_ID, USERNAME, `PASSWORD`, MOBILE_NO, NICKNAME,
+        CUSTOMER_ID
+        , WEIXIN_OPEN_ID, WEIXIN_UNION_ID, USERNAME, `PASSWORD`, MOBILE_NO, NICKNAME,
         GRADE, CUSTOMER_TYPE, REALNAME, BIRTHDAY, SEX, EMAIL, COUNTRY, PROVINCE, CITY, ADDRESS,
         `STATUS`, WECHAT_ID, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05, CREATE_TIME,
         UPDATE_TIME
@@ -339,4 +340,6 @@
             UPDATE_TIME     = #{updateTime,jdbcType=TIMESTAMP}
         where CUSTOMER_ID = #{customerId,jdbcType=INTEGER}
     </update>
+
+
 </mapper>
