@@ -307,21 +307,16 @@
 
     <select id="existUserName" parameterType="java.util.Map" resultType="java.lang.Integer">
         SELECT  1
-        FROM    sys_user T1
-        <where>
-            1 = 1
-            <choose>
-                <when test="userSeq != null">
-                    AND ( 1 = 0
-                        OR (T1.USERNAME = #{USERNAME} AND T1.USER_SEQ != #{userSeq})
+        FROM    SYS_USER T1
+        WHERE   EXISTS  (
+                        SELECT  1
+                        FROM    SYS_USER A1
+                        WHERE   A1.USER_SEQ = T1.USER_SEQ
+                        <if test="userSeq != null">
+                        AND     A1.USER_SEQ != #{userSeq}
+                        </if>
+                        AND     A1.USERNAME = #{username}
                         )
-                </when>
-                <otherwise>
-                    AND T1.USERNAME = #{USERNAME}
-                </otherwise>
-            </choose>
-        </where>
-        LIMIT 1
     </select>
 
     <select id="getRoleListByUserSeq" parameterType="java.lang.Integer" resultType="com.buza.server.dto.SysUserDto">
