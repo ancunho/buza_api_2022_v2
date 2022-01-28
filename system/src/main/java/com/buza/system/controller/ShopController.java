@@ -6,15 +6,14 @@ import com.buza.server.dto.BaseRequest;
 import com.buza.server.dto.TbShopDto;
 import com.buza.server.entity.TbShop;
 import com.buza.server.service.ShopService;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -100,5 +99,32 @@ public class ShopController {
             return BaseResponse.valueOfFailureMessage(ResponseCode.ERROR.getDesc());
         }
 
+    }
+
+    /**
+     * 매장리스트
+     * @param baseRequest
+     * @return
+     */
+    @GetMapping(value = "/list")
+    public BaseResponse getAllShopList(BaseRequest baseRequest) {
+        PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
+        List<TbShopDto> returnData = shopService.getAllShopList();
+        return BaseResponse.valueOfSuccessList(returnData);
+    }
+
+    /**
+     * 매장정보
+     * @param shopId
+     * @return
+     */
+    @GetMapping(value = "/info")
+    public BaseResponse getShopInfoByShopId(@RequestParam("shopId") Integer shopId) {
+        if (shopId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        TbShopDto tbShopDto = shopService.getShopInfoByShopId(shopId);
+        return BaseResponse.valueOfSuccess(tbShopDto);
     }
 }

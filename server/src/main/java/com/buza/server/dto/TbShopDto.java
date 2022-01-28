@@ -22,6 +22,7 @@ public class TbShopDto extends BaseRequest implements Serializable {
     private String managerMobile;
     private String shopMobile;
     private String shopStatus;
+    private String statusName;
     private String shopProvince;
     private String shopCity;
     private String shopDistrict;

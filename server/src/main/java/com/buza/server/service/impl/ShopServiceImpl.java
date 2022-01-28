@@ -1,6 +1,7 @@
 package com.buza.server.service.impl;
 
 import com.buza.server.dao.TbShopMapper;
+import com.buza.server.dto.TbShopDto;
 import com.buza.server.entity.TbShop;
 import com.buza.server.service.ShopService;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -47,6 +49,19 @@ public class ShopServiceImpl implements ShopService {
             return false;
         }
         return true;
+    }
+
+    public List<TbShopDto> getAllShopList() {
+        return tbShopMapper.getAllShopList();
+    }
+
+    public TbShopDto getShopInfoByShopId(Integer shopId) {
+        return tbShopMapper.getShopInfoByShopId(shopId);
+    }
+
+    @Transactional
+    public void deleteShopByShopId(Integer shopId) {
+        tbShopMapper.deleteByPrimaryKey(shopId);
     }
 
 

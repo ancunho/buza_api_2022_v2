@@ -255,4 +255,51 @@
         </if>
     </select>
 
+    <select id="getAllShopList" resultType="com.buza.server.dto.TbShopDto">
+        SELECT 	T1.SHOP_ID
+                ,T1.SHOP_NAME
+                ,T1.SHOP_INTRO
+                ,T1.MANAGER_NAME
+                ,T1.MANAGER_MOBILE
+                ,T1.SHOP_MOBILE
+                ,T1.SHOP_STATUS
+                ,CASE WHEN T1.SHOP_STATUS = 1 THEN '使用中' WHEN T1.SHOP_STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.SHOP_PROVINCE
+                ,T1.SHOP_CITY
+                ,T1.SHOP_DISTRICT
+                ,T1.SHOP_ADDRESS
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d') AS UPDATE_TIME
+        FROM	TB_SHOP T1
+    </select>
+
+    <select id="getShopInfoByShopId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbShopDto">
+        SELECT 	T1.SHOP_ID
+                ,T1.SHOP_NAME
+                ,T1.SHOP_INTRO
+                ,T1.MANAGER_NAME
+                ,T1.MANAGER_MOBILE
+                ,T1.SHOP_MOBILE
+                ,T1.SHOP_STATUS
+                ,CASE WHEN T1.SHOP_STATUS = 1 THEN '使用中' WHEN T1.SHOP_STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.SHOP_PROVINCE
+                ,T1.SHOP_CITY
+                ,T1.SHOP_DISTRICT
+                ,T1.SHOP_ADDRESS
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d') AS UPDATE_TIME
+        FROM	TB_SHOP T1
+        WHERE   T1.SHOP_ID = #{shopId}
+    </select>
+
 </mapper>
