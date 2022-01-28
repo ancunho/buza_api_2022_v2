@@ -90,6 +90,7 @@ public class CustomerController {
                 }
 
                 TbCustomer tbCustomer = new TbCustomer();
+                tbCustomer.setCustomerId(tbCustomerDto.getCustomerId());
                 tbCustomer.setUsername(tbCustomerDto.getUsername());
                 if (StringUtils.isEmpty(tbCustomerDto.getPassword())) {
                     tbCustomer.setPassword(new BCryptPasswordEncoder().encode("g12345678"));

@@ -22,7 +22,8 @@
         <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-        SHOP_ID, SHOP_NAME, SHOP_INTRO, MANAGER_NAME, MANAGER_MOBILE, SHOP_MOBILE, SHOP_STATUS,
+        SHOP_ID
+        , SHOP_NAME, SHOP_INTRO, MANAGER_NAME, MANAGER_MOBILE, SHOP_MOBILE, SHOP_STATUS,
         SHOP_PROVINCE, SHOP_CITY, SHOP_DISTRICT, SHOP_ADDRESS, OPTION01, OPTION02, OPTION03,
         OPTION04, OPTION05, CREATE_TIME, UPDATE_TIME
     </sql>
@@ -244,4 +245,14 @@
             UPDATE_TIME    = #{updateTime,jdbcType=TIMESTAMP}
         where SHOP_ID = #{shopId,jdbcType=INTEGER}
     </update>
+
+    <select id="isExistShopName" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT  1
+        FROM    TB_SHOP T1
+        WHERE   T1.SHOP_NAME = #{shopName}
+        <if test="shopId != null">
+            AND T1.SHOP_ID != #{shopId}
+        </if>
+    </select>
+
 </mapper>

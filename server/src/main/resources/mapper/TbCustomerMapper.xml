@@ -348,6 +348,7 @@
         <if test="customerId != null">
             AND		T1.CUSTOMER_ID != #{customerId}
         </if>
+        LIMIT 1
     </select>
 
     <select id="getAllCustomerList" resultType="com.buza.server.dto.TbCustomerDto">

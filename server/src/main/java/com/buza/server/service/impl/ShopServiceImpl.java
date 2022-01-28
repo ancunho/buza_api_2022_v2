@@ -1,0 +1,53 @@
+package com.buza.server.service.impl;
+
+import com.buza.server.dao.TbShopMapper;
+import com.buza.server.entity.TbShop;
+import com.buza.server.service.ShopService;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.Map;
+
+@Slf4j
+@Getter
+@Setter
+@AllArgsConstructor
+@Service
+public class ShopServiceImpl implements ShopService {
+
+    @Resource
+    private TbShopMapper tbShopMapper;
+
+    @Transactional
+    public Boolean insertTbShop(TbShop tbShop) {
+        int insertCount = tbShopMapper.insertSelective(tbShop);
+        if (insertCount > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public Boolean updateTbCustomer(TbShop tbShop) {
+        int updateCount = tbShopMapper.updateByPrimaryKeySelective(tbShop);
+        if (updateCount > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean isExistShopName(Map<String, Object> mapParams) {
+        Integer isExistShopName = tbShopMapper.isExistShopName(mapParams);
+        if (isExistShopName == null) {
+            return false;
+        }
+        return true;
+    }
+
+
+}
