@@ -43,6 +43,11 @@ public class ShopServiceImpl implements ShopService {
         return false;
     }
 
+    @Transactional
+    public void deleteShopByShopId(Integer shopId) {
+        tbShopMapper.deleteByPrimaryKey(shopId);
+    }
+
     public Boolean isExistShopName(Map<String, Object> mapParams) {
         Integer isExistShopName = tbShopMapper.isExistShopName(mapParams);
         if (isExistShopName == null) {
@@ -59,10 +64,6 @@ public class ShopServiceImpl implements ShopService {
         return tbShopMapper.getShopInfoByShopId(shopId);
     }
 
-    @Transactional
-    public void deleteShopByShopId(Integer shopId) {
-        tbShopMapper.deleteByPrimaryKey(shopId);
-    }
 
 
 }

@@ -127,4 +127,24 @@ public class ShopController {
         TbShopDto tbShopDto = shopService.getShopInfoByShopId(shopId);
         return BaseResponse.valueOfSuccess(tbShopDto);
     }
+
+    /**
+     * 매장삭제
+     * @param shopId
+     * @return
+     */
+    @GetMapping(value = "/delete")
+    public BaseResponse deleteShopByShopId(@RequestParam("shopId") Integer shopId) {
+        if (shopId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        try {
+            shopService.deleteShopByShopId(shopId);
+            return BaseResponse.valueOfSuccessMessage(ResponseCode.DELETE_SUCCESS.getDesc());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseResponse.valueOfFailureMessage(ResponseCode.DELETE_ERROR.getDesc());
+        }
+    }
 }
