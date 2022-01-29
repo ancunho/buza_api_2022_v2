@@ -49,6 +49,6 @@
 <!--        <table tableName="tb_customer" domainObjectName="TbCustomer" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
 <!--        <table tableName="tb_room" domainObjectName="TbRoom" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
 <!--        <table tableName="tb_shop" domainObjectName="TbShop" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-        <table tableName="tb_user" domainObjectName="TbUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+<!--        <table tableName="tb_customer_shop" domainObjectName="TbCustomerShop" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
     </context>
 </generatorConfiguration>
