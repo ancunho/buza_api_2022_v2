@@ -172,4 +172,38 @@ public class CustomerController {
             return BaseResponse.valueOfFailureMessage(ResponseCode.DELETE_ERROR.getDesc());
         }
     }
+
+    /**
+     * TODO 회원별 예약 리스트
+     * @param baseRequest
+     * @param customerId
+     * @return
+     */
+    @GetMapping(value = "/booking/list")
+    public BaseResponse getBookingListByCustomerId(BaseRequest baseRequest, @RequestParam("customerId") Integer customerId) {
+        if (customerId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
+
+        return null;
+    }
+
+    /**
+     * TODO 회원별 지불 리스트
+     * @param baseRequest
+     * @param customerId
+     * @return
+     */
+    @GetMapping(value = "/pay/list")
+    public BaseResponse getPayListByCustomerId(BaseRequest baseRequest, @RequestParam("customerId") Integer customerId) {
+        if (customerId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
+
+        return null;
+    }
 }
