@@ -4,7 +4,9 @@ import com.buza.server.common.BaseResponse;
 import com.buza.server.common.ResponseCode;
 import com.buza.server.dto.BaseRequest;
 import com.buza.server.dto.TbCustomerDto;
+import com.buza.server.dto.TbCustomerShopDto;
 import com.buza.server.entity.TbCustomer;
+import com.buza.server.entity.TbCustomerShop;
 import com.buza.server.service.CustomerService;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +78,21 @@ public class CustomerController {
                 tbCustomer.setOption04(tbCustomerDto.getOption04());
                 tbCustomer.setOption05(tbCustomerDto.getOption05());
 
+                // 1. tb_customer insert하고 customerId반환 (tbCustomer오브젝트)
                 boolean isSuccessInsert = customerService.insertTbCustomer(tbCustomer);
+
+                // 해당고객이 속한 매장과 매핑
+                // 2. 1에서 반환한 customerId를 tbCustomerShop의 customerId에 세팅 및 insert
+                if (tbCustomerDto.getShopId() != null && tbCustomerDto.getShopId().length() > 0) {
+                    List<String> shopIds = Arrays.asList(tbCustomerDto.getShopId().split(","));
+                    for (int i = 0; i < shopIds.size(); i++) {
+                        TbCustomerShop tbCustomerShop = new TbCustomerShop();
+                        tbCustomerShop.setCustomerId(tbCustomer.getCustomerId());
+                        tbCustomerShop.setShopId(Integer.valueOf(shopIds.get(i)));
+                        customerService.insertTbCustomerShop(tbCustomerShop);
+                    }
+                }
+
                 if (isSuccessInsert) {
                     return BaseResponse.valueOfSuccessMessage(ResponseCode.INSERT_SUCCESS.getDesc());
                 }
@@ -118,6 +135,19 @@ public class CustomerController {
                 tbCustomer.setOption05(tbCustomerDto.getOption05());
 
                 boolean isSuccessUpdate = customerService.updateTbCustomer(tbCustomer);
+
+                //1. 해당고객이 속한 매장데이타 삭제
+                customerService.deleteTbCustomerShopByCustomerId(tbCustomer.getCustomerId());
+                if (tbCustomerDto.getShopId().length() > 0) {
+                    List<String> shopIds = Arrays.asList(tbCustomerDto.getShopId().split(","));
+                    for (int i = 0; i < shopIds.size(); i++) {
+                        TbCustomerShop tbCustomerShop = new TbCustomerShop();
+                        tbCustomerShop.setCustomerId(tbCustomer.getCustomerId());
+                        tbCustomerShop.setShopId(Integer.valueOf(shopIds.get(i)));
+                        customerService.insertTbCustomerShop(tbCustomerShop);
+                    }
+                }
+
                 if (isSuccessUpdate) {
                     return BaseResponse.valueOfSuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
                 }
@@ -154,6 +184,7 @@ public class CustomerController {
         }
 
         TbCustomerDto tbCustomerDto = customerService.getCustomerInfoByCustomerId(customerId);
+        List<TbCustomerShopDto> lstTbCustomerShop = customerService.getCustomerShopListByCustomerId(customerId);
         return BaseResponse.valueOfSuccess(tbCustomerDto);
     }
 

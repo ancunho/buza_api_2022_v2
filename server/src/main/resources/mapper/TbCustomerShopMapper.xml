@@ -150,4 +150,17 @@
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+
+  <delete id="deleteByCustomerId" parameterType="java.lang.Integer">
+    DELETE FROM TB_CUSTOMER_SHOP WHERE CUSTOMER_ID = #{customerid}
+  </delete>
+
+  <select id="getCustomerShopListByCustomerId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbCustomerShopDto">
+    SELECT  T1.ID
+            ,T1.CUSTOMER_ID
+            ,T1.SHOP_ID
+            ,(SELECT SHOP_NAME FROM TB_SHOP A1 WHERE A1.SHOP_ID = T1.SHOP_ID) AS SHOP_NAME
+    FROM    TB_CUSTOMER_SHOP T1
+    WHERE   T1.CUSTOMER_ID = #{customerId}
+  </select>
 </mapper>

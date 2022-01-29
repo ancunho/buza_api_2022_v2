@@ -1,6 +1,9 @@
 package com.buza.server.dao;
 
+import com.buza.server.dto.TbCustomerShopDto;
 import com.buza.server.entity.TbCustomerShop;
+
+import java.util.List;
 
 public interface TbCustomerShopMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,8 @@ public interface TbCustomerShopMapper {
     int updateByPrimaryKeySelective(TbCustomerShop record);
 
     int updateByPrimaryKey(TbCustomerShop record);
+
+    void deleteByCustomerId(Integer customerId);
+
+    List<TbCustomerShopDto> getCustomerShopListByCustomerId(Integer customerId);
 }

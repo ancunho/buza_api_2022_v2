@@ -1,12 +1,11 @@
 package com.buza.server.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -42,5 +41,10 @@ public class TbCustomerDto extends BaseRequest implements Serializable {
     private String option05;
     private String createTime;
     private String updateTime;
+
+    private String shopId;
+    private String shopName;
+    private List<TbCustomerShopDto> lstTbCustomerShop;
+
 
 }

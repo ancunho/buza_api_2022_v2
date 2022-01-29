@@ -14,6 +14,7 @@ public class TbCustomerShopDto extends BaseRequest implements Serializable {
     private Integer id;
     private Integer customerId;
     private Integer shopId;
+    private String shopName;
     private String option01;
     private String option02;
     private String option03;

@@ -21,7 +21,7 @@
                   <th>Username.</th>
                   <th>Mobile.</th>
                   <th>Realname.</th>
-                  <th>WeixinOpenId.</th>
+                  <th>Shop.</th>
                   <th class="center">Status</th>
                   <th class="center">Createtime</th>
                   <th class="center">Updatetime</th>
@@ -36,7 +36,7 @@
                   <td>{{ customerItem.username }}</td>
                   <td>{{ customerItem.mobileNo }}</td>
                   <td>{{ customerItem.realname }}</td>
-                  <td>{{ customerItem.weixinOpenId }}</td>
+                  <td>{{ customerItem.shopName }}</td>
                   <td class="center">
                     <span class="badge badge-danger" v-if="customerItem.status == '0'">{{ customerItem.statusName }}</span>
                     <span class="badge badge-success" v-if="customerItem.status == '1'">{{ customerItem.statusName }}</span>
@@ -77,6 +77,7 @@
               <p><span>mobileNo:</span>  <input type="text" v-model="modifyCustomerItem.mobileNo" /> </p>
               <p><span>country:</span>  <input type="text" v-model="modifyCustomerItem.country" /> </p>
               <p><span>city:</span>  <input type="text" v-model="modifyCustomerItem.city" /> </p>
+              <p><span>shopIds:</span>  <input type="text" v-model="modifyCustomerItem.shopId" /> </p>
               <p><span>status:</span>  <input type="text" v-model="modifyCustomerItem.status" /> </p>
             </div>
           </div>
@@ -101,12 +102,14 @@ export default {
   data: function() {
     return {
       customerList: [],
-      modifyCustomerItem: {}
+      modifyCustomerItem: {},
+      shopList: [],
     }
   },
   mounted: function() {
     let _this = this;
     _this.list();
+    _this.getShopList();
     $.getScript("/ace/assets/js/bootbox.js");
   },
   methods: {
@@ -114,6 +117,12 @@ export default {
       let _this = this;
       _this.$request.get(process.env.VUE_APP_SERVER + "/system/customer/list").then((response) => {
         _this.customerList = response.data.data;
+      })
+    },
+    getShopList() {
+      let _this = this;
+      _this.$request.get(process.env.VUE_APP_SERVER + "/system/shop/list").then(response => {
+        console.log(response);
       })
     },
     addNewCustomerHandler() {
