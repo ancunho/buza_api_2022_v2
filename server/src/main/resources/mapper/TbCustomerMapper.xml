@@ -142,12 +142,7 @@
             <if test="option05 != null">
                 OPTION05,
             </if>
-            <if test="createTime != null">
-                CREATE_TIME,
-            </if>
-            <if test="updateTime != null">
-                UPDATE_TIME,
-            </if>
+            CREATE_TIME
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="customerId != null">
@@ -222,12 +217,7 @@
             <if test="option05 != null">
                 #{option05,jdbcType=VARCHAR},
             </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
+            now()
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.buza.server.entity.TbCustomer">
@@ -302,12 +292,7 @@
             <if test="option05 != null">
                 OPTION05 = #{option05,jdbcType=VARCHAR},
             </if>
-            <if test="createTime != null">
-                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-            </if>
+            UPDATE_TIME = now()
         </set>
         where CUSTOMER_ID = #{customerId,jdbcType=INTEGER}
     </update>
@@ -336,8 +321,7 @@
             OPTION03        = #{option03,jdbcType=VARCHAR},
             OPTION04        = #{option04,jdbcType=VARCHAR},
             OPTION05        = #{option05,jdbcType=VARCHAR},
-            CREATE_TIME     = #{createTime,jdbcType=TIMESTAMP},
-            UPDATE_TIME     = #{updateTime,jdbcType=TIMESTAMP}
+            UPDATE_TIME     = now()
         where CUSTOMER_ID = #{customerId,jdbcType=INTEGER}
     </update>
 
@@ -377,8 +361,8 @@
                 ,T1.OPTION03
                 ,T1.OPTION04
                 ,T1.OPTION05
-                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d') AS CREATE_TIME
-                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d') AS UPDATE_TIME
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
         FROM 	TB_CUSTOMER T1
     </select>
 
@@ -408,8 +392,8 @@
                  ,T1.OPTION03
                  ,T1.OPTION04
                  ,T1.OPTION05
-                 ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d') AS CREATE_TIME
-                 ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d') AS UPDATE_TIME
+                 ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                 ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
         FROM 	TB_CUSTOMER T1
         WHERE   T1.CUSTOMER_ID = #{customerId}
     </select>

@@ -40,10 +40,7 @@ public class TbCustomerDto extends BaseRequest implements Serializable {
     private String option03;
     private String option04;
     private String option05;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private Date createTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private Date updateTime;
+    private String createTime;
+    private String updateTime;
 
 }

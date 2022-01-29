@@ -6,7 +6,7 @@ import Welcome from "./views/admin/welcome.vue"
 import System_Menu from "./views/admin/system/page-menu.vue"
 import System_Role from "./views/admin/system/page-role.vue"
 import System_User from "./views/admin/system/page-user.vue"
-import Customer_List from "./views/admin/customer/customer-list"
+import Customer_List from "./views/admin/customer/customer-list.vue"
 
 Vue.use(Router);
 
