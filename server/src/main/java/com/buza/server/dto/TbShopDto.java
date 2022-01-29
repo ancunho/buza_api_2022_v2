@@ -32,10 +32,7 @@ public class TbShopDto extends BaseRequest implements Serializable {
     private String option03;
     private String option04;
     private String option05;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createTime;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updateTime;
+    private String createTime;
+    private String updateTime;
 
 }
