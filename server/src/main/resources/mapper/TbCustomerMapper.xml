@@ -354,8 +354,8 @@
     <select id="getAllCustomerList" resultType="com.buza.server.dto.TbCustomerDto">
         SELECT 	ROW_NUMBER() OVER() AS RN
                 ,T1.CUSTOMER_ID
-                ,T1.WEIXIN_OPEN_ID
-                ,T1.WEIXIN_UNION_ID
+                ,IFNULL(T1.WEIXIN_OPEN_ID, '-') AS WEIXIN_OPEN_ID
+                ,IFNULL(T1.WEIXIN_UNION_ID, '-') AS WEIXIN_UNION_ID
                 ,T1.USERNAME
                 ,T1.MOBILE_NO
                 ,T1.NICKNAME
@@ -385,8 +385,8 @@
     <select id="getCustomerInfoByCustomerId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbCustomerDto">
         SELECT 	ROW_NUMBER() OVER() AS RN
                 ,T1.CUSTOMER_ID
-                 ,T1.WEIXIN_OPEN_ID
-                 ,T1.WEIXIN_UNION_ID
+                ,IFNULL(T1.WEIXIN_OPEN_ID, '-') AS WEIXIN_OPEN_ID
+                ,IFNULL(T1.WEIXIN_UNION_ID, '-') AS WEIXIN_UNION_ID
                  ,T1.USERNAME
                  ,T1.MOBILE_NO
                  ,T1.NICKNAME

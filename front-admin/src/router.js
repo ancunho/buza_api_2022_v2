@@ -6,6 +6,7 @@ import Welcome from "./views/admin/welcome.vue"
 import System_Menu from "./views/admin/system/page-menu.vue"
 import System_Role from "./views/admin/system/page-role.vue"
 import System_User from "./views/admin/system/page-user.vue"
+import Customer_List from "./views/admin/customer/customer-list"
 
 Vue.use(Router);
 
@@ -41,6 +42,10 @@ export default new Router({
             path: "system/role",
             name: "system/role",
             component: System_Role
+        }, {
+            path: "customer/list",
+            name: "customer/list",
+            component: Customer_List
         }]
     }]
 })

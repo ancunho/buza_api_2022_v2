@@ -30,19 +30,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="menuItem in menuList">
-                  <td class="center">{{ menuItem.rn }}</td>
-                  <td>{{ menuItem.name }}</td>
-                  <td>{{ menuItem.path }}</td>
-                  <td>{{ menuItem.perms }}</td>
+                <tr v-for="customerItem in customerList">
+                  <td class="center">{{ customerItem.rn }}</td>
+                  <td>{{ customerItem.name }}</td>
+                  <td>{{ customerItem.path }}</td>
+                  <td>{{ customerItem.perms }}</td>
                   <td class="center">
-                    <span class="badge badge-danger" v-if="menuItem.status == '0'">{{ menuItem.statusName }}</span>
-                    <span class="badge badge-success" v-if="menuItem.status == '1'">{{ menuItem.statusName }}</span>
+                    <span class="badge badge-danger" v-if="customerItem.status == '0'">{{ customerItem.statusName }}</span>
+                    <span class="badge badge-success" v-if="customerItem.status == '1'">{{ customerItem.statusName }}</span>
                   </td>
-                  <td class="center">{{ menuItem.createtime }}</td>
-                  <td class="center">{{ menuItem.updatetime }}</td>
+                  <td class="center">{{ customerItem.createtime }}</td>
+                  <td class="center">{{ customerItem.updatetime }}</td>
                   <td class="center">
-                    <button class="btn btn-xs btn-info" @click="modifyMenuHandler(menuItem)"><i class="ace-icon fa fa-pencil bigger-120"> 修改</i></button>
+                    <button class="btn btn-xs btn-info" @click="modifyMenuHandler(customerItem)"><i class="ace-icon fa fa-pencil bigger-120"> 修改</i></button>
                     &nbsp;&nbsp;
                     <button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"> 删除</i></button>
                   </td>
@@ -67,17 +67,17 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <input type="hidden" v-model="modifyMenuItem.id" />
-              <p><span>id</span> <input type="text" disabled v-model="modifyMenuItem.id" /> </p>
-              <p><span>名称</span> <input type="text" v-model="modifyMenuItem.name" /> </p>
-              <p><span>perms</span> <input type="text" v-model="modifyMenuItem.perms" /> </p>
-              <p><span>type</span> <input type="text" v-model="modifyMenuItem.type" /> </p>
-              <p><span>status</span>  <input type="text" v-model="modifyMenuItem.status" /> </p>
+              <input type="hidden" v-model="modifyCustomerItem.id" />
+              <p><span>id</span> <input type="text" disabled v-model="modifyCustomerItem.id" /> </p>
+              <p><span>名称</span> <input type="text" v-model="modifyCustomerItem.name" /> </p>
+              <p><span>perms</span> <input type="text" v-model="modifyCustomerItem.perms" /> </p>
+              <p><span>type</span> <input type="text" v-model="modifyCustomerItem.type" /> </p>
+              <p><span>status</span>  <input type="text" v-model="modifyCustomerItem.status" /> </p>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveMenu(modifyMenuItem)">Save changes</button>
+            <button type="button" class="btn btn-primary" v-on:click="saveMenu(modifyCustomerItem)">Save changes</button>
           </div>
         </div>
       </div>
@@ -95,8 +95,8 @@ export default {
   name: "page-menu",
   data: function() {
     return {
-      menuList: [],
-      modifyMenuItem: {}
+      customerList: [],
+      modifyCustomerItem: {}
     }
   },
   mounted: function() {
@@ -107,22 +107,22 @@ export default {
   methods: {
     list() {
       let _this = this;
-      _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/menu/list").then((response) => {
-        _this.menuList = response.data.data;
+      _this.$request.get(process.env.VUE_APP_SERVER + "/system/customer/list").then((response) => {
+        _this.customerList = response.data.data;
       })
     },
     addNewMenuHandler() {
       let _this = this;
-      _this.modifyMenuItem = {};
+      _this.modifyCustomerItem = {};
     },
-    modifyMenuHandler(menuItem) {
+    modifyMenuHandler(customerItem) {
       let _this = this;
       $("#myModal").modal('show');
-      _this.modifyMenuItem = menuItem;
+      _this.modifyCustomerItem = customerItem;
     },
-    saveMenu(sysMenuDto) {
+    saveMenu(customerDto) {
       let _this = this;
-      _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/menu/modify", sysMenuDto).then(response => {
+      _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/menu/modify", customerDto).then(response => {
         if (response.data.status == 200) {
           _this.list();
         } else {

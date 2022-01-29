@@ -363,7 +363,7 @@
           <li class="active open">
             <a href="#" class="dropdown-toggle">
               <i class="menu-icon fa fa-list"></i>
-              <span class="menu-text"> 系統管理 </span>
+              <span class="menu-text"> 系统管理 </span>
 
               <b class="arrow fa fa-angle-down"></b>
             </a>
@@ -381,6 +381,24 @@
               </li>
               <li class="" id="system-menu-sidebar">
                 <router-link to="/system/menu"><i class="menu-icon fa fa-caret-right"></i>菜单管理</router-link>
+                <b class="arrow"></b>
+              </li>
+            </ul>
+          </li>
+
+          <li class="active">
+            <a href="#" class="dropdown-toggle">
+              <i class="menu-icon fa fa-list"></i>
+              <span class="menu-text"> 客户管理 </span>
+
+              <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+              <li class="" id="customer-list-sidebar">
+                <router-link to="/customer/list"><i class="menu-icon fa fa-caret-right"></i>客户列表</router-link>
                 <b class="arrow"></b>
               </li>
             </ul>
