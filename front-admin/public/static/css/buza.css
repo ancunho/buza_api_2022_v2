@@ -1,0 +1,11 @@
+
+
+.navbar { background:#F7F8FA;}
+.main-content-inner { background:#F7F8FA; }
+.page-content { background:#F7F8FA; }
+/*.sidebar+.main-content {*/
+/*    margin-left: 250px;*/
+/*}*/
+/*.sidebar { width:250px;}*/
+.footer .footer-inner .footer-content { border-top: none;}
+/*.sidebar~.footer .footer-inner {left: 250px;}*/
