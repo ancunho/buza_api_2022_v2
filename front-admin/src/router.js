@@ -16,7 +16,8 @@ export default new Router({
     base: process.env.BASE_URL,
     routes: [{
         path: "",
-        redirect: "/login"
+        redirect: "/login",
+        title: "Login"
     }, {
         path: "/login",
         component: Login
@@ -30,27 +31,43 @@ export default new Router({
         children: [{
             path: "welcome",
             name: "welcome",
-            component: Welcome
+            component: Welcome,
+            meta: {
+                title: "Dashboard"
+            }
         }, {
             path: "system/user",
             name: "system/user",
-            component: System_User
+            component: System_User,
+            meta: {
+                title: "用户管理"
+            }
         }, {
             path: "system/menu",
             name: "system/menu",
-            component: System_Menu
+            component: System_Menu,
+            meta: {
+                title: "菜单管理"
+            }
         }, {
             path: "system/role",
             name: "system/role",
-            component: System_Role
+            component: System_Role,
+            meta: {
+                title: "权限管理"
+            }
         }, {
             path: "customer/list",
             name: "customer/list",
-            component: Customer_List
+            component: Customer_List,
+            title: "客户管理"
         }, {
             path: "shop/list",
             name: "shop/list",
-            component: Shop_List
+            component: Shop_List,
+            meta: {
+                title: "门店列表"
+            }
         }]
     }]
 })

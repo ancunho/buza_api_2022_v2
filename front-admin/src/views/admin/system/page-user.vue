@@ -1,64 +1,43 @@
 <template>
   <div>
-    <div class="page-header">
-      <h1>Menu<small><i class="ace-icon fa fa-angle-double-right"></i>XXXXXXX</small></h1>
-    </div><!-- /.page-header -->
+    <button class="btn btn-primary"><span class="las la-plus-circle"></span>新增用户</button>
+    <table id="simple-table" class="table01">
+      <thead>
+      <tr>
+        <th class="center">No.</th>
+        <th>Username.</th>
+        <th>Realname.</th>
+        <th class="center">Status</th>
+        <th class="center">Createtime</th>
+        <th class="center">Updatetime</th>
+        <th class="center">
+          操作
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="userItem in userList">
+        <input type="hidden" :value="userItem.userSeq" />
+        <td class="center">{{ userItem.rn }}</td>
+        <td>{{ userItem.username }}</td>
+        <td>{{ userItem.realname }}</td>
+        <td class="center">
+          <span class="badge badge-danger" v-if="userItem.status == '0'">{{ userItem.statusName }}</span>
+          <span class="badge badge-success" v-if="userItem.status == '1'">{{ userItem.statusName }}</span>
+        </td>
+        <td class="center">{{ userItem.createtime }}</td>
+        <td class="center">{{ userItem.updatetime }}</td>
+        <td class="center">
+          <button class="btn01" @click="modifyUserHandler(userItem)"><span class="las la-edit"> 修改</span></button>
+          &nbsp;
+          <button class="btn01" v-on:click="getRoleHandler(userItem)"><span class="las la-sitemap"> 编辑菜单</span></button>
+          &nbsp;
+          <button class="btn01"><span class="las la-times"> 删除</span></button>
 
-    <div class="row">
-      <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
-        <div class="row">
-          <div class="col-xs-12">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary btn-sm" v-on:click="addNewUserHandler()" data-toggle="modal" data-target="#myModal">
-              新增权限
-            </button>
-            <br/><br/>
-            <table id="simple-table" class="table  table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th class="center">No.</th>
-                  <th>Username.</th>
-                  <th>Realname.</th>
-                  <th class="center">Status</th>
-                  <th class="center">Createtime</th>
-                  <th class="center">Updatetime</th>
-                  <th class="center">
-                    操作
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="userItem in userList">
-                  <input type="hidden" :value="userItem.userSeq" />
-                  <td class="center">{{ userItem.rn }}</td>
-                  <td>{{ userItem.username }}</td>
-                  <td>{{ userItem.realname }}</td>
-                  <td class="center">
-                    <span class="badge badge-danger" v-if="userItem.status == '0'">{{ userItem.statusName }}</span>
-                    <span class="badge badge-success" v-if="userItem.status == '1'">{{ userItem.statusName }}</span>
-                  </td>
-                  <td class="center">{{ userItem.createtime }}</td>
-                  <td class="center">{{ userItem.updatetime }}</td>
-                  <td class="center">
-                    <button class="btn btn-xs btn-info" @click="modifyUserHandler(userItem)"><i class="ace-icon fa fa-pencil bigger-120"> 修改</i></button>
-                    &nbsp;
-                    <button class="btn btn-xs btn-success" v-on:click="getRoleHandler(userItem)"><i class="ace-icon fa fa-trash-o bigger-120"> 编辑菜单</i></button>
-                    &nbsp;
-                    <button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"> 删除</i></button>
-
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div><!-- /.span -->
-        </div><!-- /.row -->
-
-        <div class="hr hr-18 dotted hr-double"></div>
-
-        <!-- PAGE CONTENT ENDS -->
-      </div><!-- /.col -->
-    </div><!-- /.row -->
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
     <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">

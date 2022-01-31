@@ -15,7 +15,7 @@ axios.interceptors.request.use(function(config) {
     config.headers.Authorization = '';
   }
   return config;
-})
+});
 
 // router.beforeEach((to, from, next) => {
 //   console.log(to);
