@@ -1,0 +1,36 @@
+
+<BuzaModal
+            v-bind:title="buzaModalTitle"
+            v-show="isModalVisible"
+            v-on:buzaModalClose="buzaModalClose"
+        >
+          <div slot="modal-body">
+            <div class="form-group" v-if="modalType == 1">
+              <input type="hidden" v-model="modifyUserItem.userSeq" />
+              <p><span>id</span> <input type="text" disabled v-model="modifyUserItem.userSeq" /> </p>
+              <p><span>username</span> <input type="text" v-model="modifyUserItem.username" /> </p>
+              <p v-if="modifyUserItem.userSeq == null"><span>PASSWORD</span> <input type="text" v-model="modifyUserItem.password" /> </p>
+              <p><span>real_name</span> <input type="text" v-model="modifyUserItem.realname" /> </p>
+              <p><span>status</span>  <input type="text" v-model="modifyUserItem.status" /> </p>
+            </div>
+            <div class="form-group" v-if="modalType == 2">
+              <input type="hidden" v-model="modifyUserId" />
+              <p v-for="roleItem in roleList" class="treeList">
+                    <span>
+                      <input type="checkbox" :value="roleItem.roleId" class="checkbox01" v-model="roleIdChecked" />
+                    </span>
+                <span> &nbsp; {{ roleItem.roleId }}</span>
+                <strong> &nbsp; {{ roleItem.roleName }}</strong>
+                <strong> &nbsp; {{ roleItem.roleRemark }}</strong>
+              </p>
+            </div>
+          </div>
+
+          <div slot="modal-footer">
+            <div style="display: flex; justify-content: center">
+              <button type="button" class="btn01 btn-white" v-on:click="modalHide">Close</button>
+              <button type="button" class="btn01 btn-primary" v-if="modalType == 1" v-on:click="saveUser(modifyUserItem)">Save User</button>
+              <button type="button" class="btn01 btn-primary" v-if="modalType == 2" v-on:click="saveUserRole(modifyUserItem.id)">Save User Role</button>
+            </div>
+          </div>
+        </BuzaModal>

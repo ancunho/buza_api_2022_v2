@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="btn btn-primary" @click="addNewUserHandler"><span class="las la-plus-circle"></span>新增用户</button>
+    <el-button @click="addNewUserHandler" icon="el-icon-plus">新增用户</el-button>
     <table id="simple-table" class="table01">
       <thead>
       <tr>
@@ -16,77 +16,78 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="userItem in userList">
-        <input type="hidden" :value="userItem.userSeq" />
-        <td class="center">{{ userItem.rn }}</td>
-        <td>{{ userItem.username }}</td>
-        <td>{{ userItem.realname }}</td>
+      <tr v-for="item in userList">
+        <input type="hidden" :value="item.userSeq" />
+        <td class="center">{{ item.rn }}</td>
+        <td>{{ item.username }}</td>
+        <td>{{ item.realname }}</td>
         <td class="center">
-          <span class="badge badge-danger" v-if="userItem.status == '0'">{{ userItem.statusName }}</span>
-          <span class="badge badge-success" v-if="userItem.status == '1'">{{ userItem.statusName }}</span>
+          <el-tag type="danger" v-if="item.status == '0'"> {{ item.statusName }} </el-tag>
+          <el-tag type="success" v-if="item.status == '1'"> {{ item.statusName }} </el-tag>
         </td>
-        <td class="center">{{ userItem.createtime }}</td>
-        <td class="center">{{ userItem.updatetime }}</td>
+        <td class="center">{{ item.createtime }}</td>
+        <td class="center">{{ item.updatetime }}</td>
         <td class="center">
-          <button class="btn01" @click="modifyUserHandler(userItem)"><span class="las la-edit"> 修改</span></button>
-          &nbsp;
-          <button class="btn01" v-on:click="getRoleHandler(userItem)"><span class="las la-sitemap"> 编辑菜单</span></button>
-          &nbsp;
-          <button class="btn01"><span class="las la-times"> 删除</span></button>
+          <el-button @click="modifyUserHandler(item)" type="primary" plain icon="el-icon-edit-outline">修改信息</el-button>
+          <el-button @click="getRoleHandler(item)" type="info" plain icon="el-icon-edit-outline">编辑权限</el-button>
+          <el-button @click="getRoleHandler(item)" type="danger" plain icon="el-icon-delete">删除</el-button>
         </td>
       </tr>
       </tbody>
     </table>
 
-    <BuzaModal
-        v-bind:title="buzaModalTitle"
-        v-show="isModalVisible"
-        v-on:buzaModalClose="buzaModalClose"
-    >
-      <div slot="modal-body">
-        <div class="form-group" v-if="modalType == 1">
-          <input type="hidden" v-model="modifyUserItem.userSeq" />
-          <p><span>id</span> <input type="text" disabled v-model="modifyUserItem.userSeq" /> </p>
-          <p><span>username</span> <input type="text" v-model="modifyUserItem.username" /> </p>
-          <p v-if="modifyUserItem.userSeq == null"><span>PASSWORD</span> <input type="text" v-model="modifyUserItem.password" /> </p>
-          <p><span>real_name</span> <input type="text" v-model="modifyUserItem.realname" /> </p>
-          <p><span>status</span>  <input type="text" v-model="modifyUserItem.status" /> </p>
-        </div>
-        <div class="form-group" v-if="modalType == 2">
-          <input type="hidden" v-model="modifyUserId" />
-          <p v-for="roleItem in roleList" class="treeList">
-                <span>
-                  <input type="checkbox" :value="roleItem.roleId" class="checkbox01" v-model="roleIdChecked" />
-                </span>
-            <span> &nbsp; {{ roleItem.roleId }}</span>
-            <strong> &nbsp; {{ roleItem.roleName }}</strong>
-            <strong> &nbsp; {{ roleItem.roleRemark }}</strong>
-          </p>
-        </div>
+    <el-dialog v-bind:title="buzaModalTitle" :visible.sync="isModalVisible"> <!--:close-on-click-modal="false"-->
+      <div v-if="modalType == 1">
+        <input type="hidden" v-model="modifyUserItem.userSeq" />
+        <el-form ref="form" label-width="80px">
+          <el-form-item label="ID" v-if="modifyUserItem.userSeq != null">
+            <el-input v-model="modifyUserItem.userSeq" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="用户名">
+            <el-input v-model="modifyUserItem.username"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" v-if="modifyUserItem.userSeq == null">
+            <el-input v-model="modifyUserItem.password"></el-input>
+          </el-form-item>
+          <el-form-item label="真实姓名">
+            <el-input v-model="modifyUserItem.realname"></el-input>
+          </el-form-item>
+          <el-form-item label="是否激活">
+            <el-switch v-model="modifyUserItem.status"></el-switch>
+          </el-form-item>
+        </el-form>
       </div>
+      <div v-if="modalType == 2">
+        <input type="hidden" v-model="modifyUserId" />
+        <el-form ref="form" label-width="80px">
+          <el-checkbox-group v-model="roleIdChecked">
+            <ul>
+              <li v-for="roleItem in roleList">
+                <el-checkbox
+                    :value="roleItem.roleId"
+                    :label="roleItem.roleId"
+                    :key="roleItem.roleId"
+                    name="roleId"
+                >{{roleItem.roleName}}</el-checkbox>
+              </li>
+            </ul>
 
-      <div slot="modal-footer">
-        <div style="display: flex; justify-content: center">
-          <button type="button" class="btn01 btn-white" v-on:click="modalHide">Close</button>
-          <button type="button" class="btn01 btn-primary" v-if="modalType == 1" v-on:click="saveUser(modifyUserItem)">Save User</button>
-          <button type="button" class="btn01 btn-primary" v-if="modalType == 2" v-on:click="saveUserRole(modifyUserItem.id)">Save User Role</button>
-        </div>
+          </el-checkbox-group>
+          <br/>
+        </el-form>
       </div>
-    </BuzaModal>
-
+      <div slot="footer" class="dialog-footer">
+        <el-button type="danger" v-on:click="modalHide">取 消</el-button>
+        <el-button type="primary" v-if="modalType == 1" v-on:click="saveUser(modifyUserItem)">保存用户</el-button>
+        <el-button type="info" v-if="modalType == 2" v-on:click="saveUserRole(modifyUserItem.id)">保存用户权限</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-
-import BuzaModal from "@/components/BuzaModal";
-
 export default {
   name: "page-user",
-
-  components: {
-    BuzaModal
-  },
 
   data: function() {
     return {
@@ -98,6 +99,7 @@ export default {
       modifyUserId: '',
       isModalVisible: false,
       buzaModalTitle: 'Modal',
+
     }
   },
 
@@ -117,7 +119,6 @@ export default {
       _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/list").then((response) => {
         $("body").mLoading("hide");
         _this.userList = response.data.data;
-        console.log("userList:", _this.userList);
       })
     },
     addNewUserHandler() {
@@ -131,6 +132,7 @@ export default {
       let _this = this;
       _this.isModalVisible = true;
       _this.buzaModalTitle = (flag === 1 ? "修改用户" : "编辑权限");
+      userItem.status = userItem.status == "1" ? true : false;
       _this.modifyUserItem = userItem;
     },
     modalHide() {
@@ -151,6 +153,7 @@ export default {
       _this.modifyUserId = userItem.userSeq;
       _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/role?userSeq=" + userSeq).then(response => {
       _this.roleList = response.data.data;
+      console.log("_this.roleList", _this.roleList);
 
       let cloneData = [];
 
@@ -159,59 +162,54 @@ export default {
           cloneData.push(_this.roleList[i].roleId);
         }
       }
+
       _this.roleIdChecked = cloneData;
-      console.log("resultData:", _this.roleList);
       _this.modalShow(userItem, 2);
       });
     },
     saveUser(sysUserDto) {
       let _this = this;
       _this.modalType = 1;
+      sysUserDto.status = sysUserDto.status === true ? "1" : "0";
       _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/user/modify", sysUserDto).then(response => {
-        console.log(response);
         if (response.data.code == 0) {
+          _this.$message.info(response.data.msg);
           _this.modalHide();
           _this.list();
         } else {
-          alert(response.data.msg);
+          _this.$message.error(response.data.msg);
         }
       });
 
     },
     saveUserRole(roleId) {
       let _this = this;
-      _this.isModalVisible = false;
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, Do it!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/user/role/modify?userSeq=" + _this.modifyUserId + "&roleIds=" + _this.roleIdChecked.toString(), )
-          .then(reponse => {
-            if (reponse.data.status == 200) {
-              Swal.fire(
-                  'userSeq:' + _this.modifyUserId,
-                  'roleIds:' + _this.roleIdChecked,
-                  'success'
-              )
-            } else {
-              alert("Fail");
-            }
-          })
-          .catch(response => {
-            console.log("user/role/modify->fail:", response);
-            alert("Fail");
-          });
 
-        }
-      }).catch(result => {
-        alert(reslut);
-      })
+      console.log("_this.roleIdChecked", _this.roleIdChecked);
+      _this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        _this.$request
+            .post(process.env.VUE_APP_SERVER + "/system/config/user/role/modify?userSeq=" + _this.modifyUserId + "&roleIds=" + _this.roleIdChecked.toString(), )
+            .then(response => {
+              if (response.data.code == 0) {
+                _this.$message.success(response.data.msg);
+              } else {
+                _this.$message.error(response.data.msg);
+              }
+            })
+            .catch(response => {
+              console.log("user/role/modify->fail:", response);
+              _this.$message.error(response.data.msg);
+            });
+        _this.isModalVisible = false;
+      }).catch(response => {
+        _this.isModalVisible = false;
+        _this.$message.error(response.data.msg);
+      });
+
     },
   }
 }

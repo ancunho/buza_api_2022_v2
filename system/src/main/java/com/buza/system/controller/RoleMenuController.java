@@ -403,6 +403,8 @@ public class RoleMenuController {
             } else {
                 return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
             }
+
+            // TODO 유저의 권한을 수정했을때 유저테이블의 updatetime도 바꿔줘야됨
         } catch (Exception e) {
             e.printStackTrace();
             return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_SUCCESS.getDesc());

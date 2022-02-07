@@ -1,65 +1,44 @@
 <template>
   <div>
-    <div class="page-header">
-      <h1>Menu<small><i class="ace-icon fa fa-angle-double-right"></i>XXXXXXX</small></h1>
-    </div><!-- /.page-header -->
+    <button class="btn btn-primary" @click="addNewRoleHandler"><span class="las la-plus-circle"></span>新增权限</button>
+    <table id="simple-table" class="table01">
+      <thead>
+      <tr>
+        <th class="center">No.</th>
+        <th>Name.</th>
+        <th>Code.</th>
+        <th>Remark.</th>
+        <th class="center">Status</th>
+        <th class="center">Createtime</th>
+        <th class="center">Updatetime</th>
+        <th class="center">
+          操作
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="roleItem in roleList">
+        <td class="center">{{ roleItem.rn }}</td>
+        <td>{{ roleItem.name }}</td>
+        <td>{{ roleItem.code }}</td>
+        <td>{{ roleItem.remark }}</td>
+        <td class="center">
+          <span class="badge badge-danger" v-if="roleItem.status == '0'">{{ roleItem.statusName }}</span>
+          <span class="badge badge-success" v-if="roleItem.status == '1'">{{ roleItem.statusName }}</span>
+        </td>
+        <td class="center">{{ roleItem.createtime }}</td>
+        <td class="center">{{ roleItem.updatetime }}</td>
+        <td class="center">
+          <button class="btn01" @click="modifyRoleHandler(roleItem)"><span class="las la-edit"> 修改</span></button>
+          &nbsp;
+          <button class="btn01" v-on:click="getRoleMenuHandler(roleItem)"><span class="las la-sitemap"> 编辑菜单</span></button>
+          &nbsp;
+          <button class="btn01"><span class="las la-times"> 删除</span></button>
 
-    <div class="row">
-      <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
-        <div class="row">
-          <div class="col-xs-12">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary btn-sm" v-on:click="addNewRoleHandler()" data-toggle="modal" data-target="#myModal">
-              新增权限
-            </button>
-            <br/><br/>
-            <table id="simple-table" class="table  table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th class="center">No.</th>
-                  <th>Name.</th>
-                  <th>Code.</th>
-                  <th>Remark.</th>
-                  <th class="center">Status</th>
-                  <th class="center">Createtime</th>
-                  <th class="center">Updatetime</th>
-                  <th class="center">
-                    操作
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="roleItem in roleList">
-                  <td class="center">{{ roleItem.rn }}</td>
-                  <td>{{ roleItem.name }}</td>
-                  <td>{{ roleItem.code }}</td>
-                  <td>{{ roleItem.remark }}</td>
-                  <td class="center">
-                    <span class="badge badge-danger" v-if="roleItem.status == '0'">{{ roleItem.statusName }}</span>
-                    <span class="badge badge-success" v-if="roleItem.status == '1'">{{ roleItem.statusName }}</span>
-                  </td>
-                  <td class="center">{{ roleItem.createtime }}</td>
-                  <td class="center">{{ roleItem.updatetime }}</td>
-                  <td class="center">
-                    <button class="btn btn-xs btn-info" @click="modifyRoleHandler(roleItem)"><i class="ace-icon fa fa-pencil bigger-120"> 修改</i></button>
-                    &nbsp;
-                    <button class="btn btn-xs btn-success" v-on:click="getRoleMenuHandler(roleItem)"><i class="ace-icon fa fa-trash-o bigger-120"> 编辑菜单</i></button>
-                    &nbsp;
-                    <button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"> 删除</i></button>
-
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div><!-- /.span -->
-        </div><!-- /.row -->
-
-        <div class="hr hr-18 dotted hr-double"></div>
-
-        <!-- PAGE CONTENT ENDS -->
-      </div><!-- /.col -->
-    </div><!-- /.row -->
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
     <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -98,13 +77,52 @@
       </div>
     </div>
 
+    <BuzaModal
+        v-bind:title="buzaModalTitle"
+        v-show="isModalVisible"
+        v-on:buzaModalClose="buzaModalClose"
+    >
+      <div slot="modal-body">
+        <div class="form-group" v-if="modalType == 1">
+          <input type="hidden" v-model="modifyUserItem.userSeq" />
+          <p><span>id</span> <input type="text" disabled v-model="modifyUserItem.userSeq" /> </p>
+          <p><span>username</span> <input type="text" v-model="modifyUserItem.username" /> </p>
+          <p v-if="modifyUserItem.userSeq == null"><span>PASSWORD</span> <input type="text" v-model="modifyUserItem.password" /> </p>
+          <p><span>real_name</span> <input type="text" v-model="modifyUserItem.realname" /> </p>
+          <p><span>status</span>  <input type="text" v-model="modifyUserItem.status" /> </p>
+        </div>
+        <div class="form-group" v-if="modalType == 2">
+          <input type="hidden" v-model="modifyUserId" />
+          <p v-for="roleItem in roleList" class="treeList">
+                <span>
+                  <input type="checkbox" :value="roleItem.roleId" class="checkbox01" v-model="roleIdChecked" />
+                </span>
+            <span> &nbsp; {{ roleItem.roleId }}</span>
+            <strong> &nbsp; {{ roleItem.roleName }}</strong>
+            <strong> &nbsp; {{ roleItem.roleRemark }}</strong>
+          </p>
+        </div>
+      </div>
+
+      <div slot="modal-footer">
+        <div style="display: flex; justify-content: center">
+          <button type="button" class="btn01 btn-white" v-on:click="modalHide">Close</button>
+          <button type="button" class="btn01 btn-primary" v-if="modalType == 1" v-on:click="saveUser(modifyUserItem)">Save User</button>
+          <button type="button" class="btn01 btn-primary" v-if="modalType == 2" v-on:click="saveUserRole(modifyUserItem.id)">Save User Role</button>
+        </div>
+      </div>
+    </BuzaModal>
+
   </div>
 </template>
 
 <script>
-
+import BuzaModal from "@/components/BuzaModal";
 export default {
   name: "page-role",
+  components: {
+    BuzaModal
+  },
   data: function() {
     return {
       roleList: [],
@@ -112,7 +130,9 @@ export default {
       modifyRoleItem: {},
       modalType: 1, // 1:新增权限/修改权限, 2: 编辑菜单
       menuIdChecked: [],
-      modifyRoleId: ''
+      modifyRoleId: '',
+      isModalVisible: false,
+      buzaModalTitle: 'Modal',
     }
   },
   mounted: function() {
