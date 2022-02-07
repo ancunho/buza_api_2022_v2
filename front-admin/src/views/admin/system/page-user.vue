@@ -67,7 +67,7 @@
 
       <div slot="modal-footer">
         <div style="display: flex; justify-content: center">
-          <button type="button" class="btn01 btn-white">Close</button>
+          <button type="button" class="btn01 btn-white" v-on:click="modalHide">Close</button>
           <button type="button" class="btn01 btn-primary" v-if="modalType == 1" v-on:click="saveUser(modifyUserItem)">Save User</button>
           <button type="button" class="btn01 btn-primary" v-if="modalType == 2" v-on:click="saveUserRole(modifyUserItem.id)">Save User Role</button>
         </div>
@@ -167,9 +167,9 @@ export default {
     saveUser(sysUserDto) {
       let _this = this;
       _this.modalType = 1;
-      console.log("saveUser:", sysUserDto);
       _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/user/modify", sysUserDto).then(response => {
-        if (response.data.status == 200) {
+        console.log(response);
+        if (response.data.code == 0) {
           _this.modalHide();
           _this.list();
         } else {
