@@ -1,40 +1,27 @@
 <template>
   <div>
-    <el-button @click="addNewUserHandler" icon="el-icon-plus">新增用户</el-button>
-    <table id="simple-table" class="table01">
-      <thead>
-      <tr>
-        <th class="center">No.</th>
-        <th>Username.</th>
-        <th>Realname.</th>
-        <th class="center">Status</th>
-        <th class="center">Createtime</th>
-        <th class="center">Updatetime</th>
-        <th class="center">
-          操作
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="item in userList">
-        <input type="hidden" :value="item.userSeq" />
-        <td class="center">{{ item.rn }}</td>
-        <td>{{ item.username }}</td>
-        <td>{{ item.realname }}</td>
-        <td class="center">
-          <el-tag type="danger" v-if="item.status == '0'"> {{ item.statusName }} </el-tag>
-          <el-tag type="success" v-if="item.status == '1'"> {{ item.statusName }} </el-tag>
-        </td>
-        <td class="center">{{ item.createtime }}</td>
-        <td class="center">{{ item.updatetime }}</td>
-        <td class="center">
-          <el-button @click="modifyUserHandler(item)" type="primary" plain icon="el-icon-edit-outline">修改信息</el-button>
-          <el-button @click="getRoleHandler(item)" type="info" plain icon="el-icon-edit-outline">编辑权限</el-button>
-          <el-button @click="getRoleHandler(item)" type="danger" plain icon="el-icon-delete">删除</el-button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <el-button @click="addNewUserHandler" type="primary" icon="el-icon-plus">新增用户</el-button>
+    <el-table :data="userList" style="width: 100%" v-loading="loading">
+      <el-table-column prop="userSeq" label="userSeq" v-if="false"></el-table-column>
+      <el-table-column prop="rn" label="编号" width="120"></el-table-column>
+        <el-table-column prop="username" label="账号" width="200"></el-table-column>
+      <el-table-column prop="realname" label="真是姓名" width="220"></el-table-column>
+      <el-table-column prop="status" align="center" label="状态" width="120">
+        <template slot-scope="scope">
+          <el-tag type="danger" v-if="scope.row.status == '0'"> {{ scope.row.statusName }} </el-tag>
+          <el-tag type="success" v-if="scope.row.status == '1'"> {{ scope.row.statusName }} </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="createtime" label="创建时间" width="220"></el-table-column>
+      <el-table-column prop="updatetime" label="更新时间" width="220"></el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button @click="modifyUserHandler(scope.row)" type="primary" icon="el-icon-edit-outline">修改信息</el-button>
+          <el-button @click="getRoleHandler(scope.row)" type="info" icon="el-icon-edit-outline">编辑权限</el-button>
+          <el-button @click="getRoleHandler(scope.row)" type="danger" icon="el-icon-delete">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
     <el-dialog v-bind:title="buzaModalTitle" :visible.sync="isModalVisible"> <!--:close-on-click-modal="false"-->
       <div v-if="modalType == 1">
@@ -99,14 +86,13 @@ export default {
       modifyUserId: '',
       isModalVisible: false,
       buzaModalTitle: 'Modal',
-
+      loading: true,
     }
   },
 
   mounted: function() {
     let _this = this;
-    $("body").mLoading();
-    _this.list();
+    _this.listTable();
     $.getScript("/ace/assets/js/bootbox.js");
   },
 
@@ -114,11 +100,12 @@ export default {
     buzaModalClose() {
       this.isModalVisible = false
     },
-    list() {
+    listTable() {
       let _this = this;
       _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/list").then((response) => {
-        $("body").mLoading("hide");
         _this.userList = response.data.data;
+        _this.loading = false;
+        console.log("_this.userList", _this.userList);
       })
     },
     addNewUserHandler() {
@@ -173,11 +160,11 @@ export default {
       sysUserDto.status = sysUserDto.status === true ? "1" : "0";
       _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/user/modify", sysUserDto).then(response => {
         if (response.data.code == 0) {
-          _this.$message.info(response.data.msg);
+          _this.$notify.success(response.data.msg);
           _this.modalHide();
           _this.list();
         } else {
-          _this.$message.error(response.data.msg);
+          _this.$notify.error(response.data.msg);
         }
       });
 
@@ -195,19 +182,19 @@ export default {
             .post(process.env.VUE_APP_SERVER + "/system/config/user/role/modify?userSeq=" + _this.modifyUserId + "&roleIds=" + _this.roleIdChecked.toString(), )
             .then(response => {
               if (response.data.code == 0) {
-                _this.$message.success(response.data.msg);
+                _this.$notify.success(response.data.msg);
               } else {
-                _this.$message.error(response.data.msg);
+                _this.$notify.error(response.data.msg);
               }
             })
             .catch(response => {
               console.log("user/role/modify->fail:", response);
-              _this.$message.error(response.data.msg);
+              _this.$notify.error(response.data.msg);
             });
         _this.isModalVisible = false;
       }).catch(response => {
         _this.isModalVisible = false;
-        _this.$message.error(response.data.msg);
+        _this.$notify.error(response.data.msg);
       });
 
     },
