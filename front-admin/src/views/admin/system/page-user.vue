@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="btn btn-primary"><span class="las la-plus-circle"></span>新增用户</button>
+    <button class="btn btn-primary" @click="addNewUserHandler"><span class="las la-plus-circle"></span>新增用户</button>
     <table id="simple-table" class="table01">
       <thead>
       <tr>
@@ -33,57 +33,61 @@
           <button class="btn01" v-on:click="getRoleHandler(userItem)"><span class="las la-sitemap"> 编辑菜单</span></button>
           &nbsp;
           <button class="btn01"><span class="las la-times"> 删除</span></button>
-
         </td>
       </tr>
       </tbody>
     </table>
 
-    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-          </div>
-          <div class="modal-body">
-            <div class="form-group" v-if="modalType == 1">
-              <input type="hidden" v-model="modifyUserItem.userSeq" />
-              <p><span>id</span> <input type="text" disabled v-model="modifyUserItem.userSeq" /> </p>
-              <p><span>username</span> <input type="text" v-model="modifyUserItem.username" /> </p>
-              <p v-if="modifyUserItem.userSeq == null"><span>PASSWORD</span> <input type="text" v-model="modifyUserItem.password" /> </p>
-              <p><span>real_name</span> <input type="text" v-model="modifyUserItem.realname" /> </p>
-              <p><span>status</span>  <input type="text" v-model="modifyUserItem.status" /> </p>
-            </div>
-            <div class="form-group" v-if="modalType == 2">
-              <input type="hidden" v-model="modifyUserId" />
-              <p v-for="roleItem in roleList" class="treeList">
+    <BuzaModal
+        v-bind:title="buzaModalTitle"
+        v-show="isModalVisible"
+        v-on:buzaModalClose="buzaModalClose"
+    >
+      <div slot="modal-body">
+        <div class="form-group" v-if="modalType == 1">
+          <input type="hidden" v-model="modifyUserItem.userSeq" />
+          <p><span>id</span> <input type="text" disabled v-model="modifyUserItem.userSeq" /> </p>
+          <p><span>username</span> <input type="text" v-model="modifyUserItem.username" /> </p>
+          <p v-if="modifyUserItem.userSeq == null"><span>PASSWORD</span> <input type="text" v-model="modifyUserItem.password" /> </p>
+          <p><span>real_name</span> <input type="text" v-model="modifyUserItem.realname" /> </p>
+          <p><span>status</span>  <input type="text" v-model="modifyUserItem.status" /> </p>
+        </div>
+        <div class="form-group" v-if="modalType == 2">
+          <input type="hidden" v-model="modifyUserId" />
+          <p v-for="roleItem in roleList" class="treeList">
                 <span>
                   <input type="checkbox" :value="roleItem.roleId" class="checkbox01" v-model="roleIdChecked" />
                 </span>
-                <span> &nbsp; {{ roleItem.roleId }}</span>
-                <strong> &nbsp; {{ roleItem.roleName }}</strong>
-                <strong> &nbsp; {{ roleItem.roleRemark }}</strong>
-
-              </p>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" v-if="modalType == 1" v-on:click="saveUser(modifyUserItem)">Save Role</button>
-            <button type="button" class="btn btn-primary" v-if="modalType == 2" v-on:click="saveUserRole(modifyUserItem.id)">Save RoleMenu</button>
-          </div>
+            <span> &nbsp; {{ roleItem.roleId }}</span>
+            <strong> &nbsp; {{ roleItem.roleName }}</strong>
+            <strong> &nbsp; {{ roleItem.roleRemark }}</strong>
+          </p>
         </div>
       </div>
-    </div>
+
+      <div slot="modal-footer">
+        <div style="display: flex; justify-content: center">
+          <button type="button" class="btn01 btn-white">Close</button>
+          <button type="button" class="btn01 btn-primary" v-if="modalType == 1" v-on:click="saveUser(modifyUserItem)">Save User</button>
+          <button type="button" class="btn01 btn-primary" v-if="modalType == 2" v-on:click="saveUserRole(modifyUserItem.id)">Save User Role</button>
+        </div>
+      </div>
+    </BuzaModal>
 
   </div>
 </template>
 
 <script>
 
+import BuzaModal from "@/components/BuzaModal";
+
 export default {
   name: "page-user",
+
+  components: {
+    BuzaModal
+  },
+
   data: function() {
     return {
       userList: [],
@@ -91,16 +95,23 @@ export default {
       modifyUserItem: {},
       modalType: 1, // 1:新增权限/修改权限, 2: 编辑菜单
       roleIdChecked: [],
-      modifyUserId: ''
+      modifyUserId: '',
+      isModalVisible: false,
+      buzaModalTitle: 'Modal',
     }
   },
+
   mounted: function() {
     let _this = this;
     $("body").mLoading();
     _this.list();
     $.getScript("/ace/assets/js/bootbox.js");
   },
+
   methods: {
+    buzaModalClose() {
+      this.isModalVisible = false
+    },
     list() {
       let _this = this;
       _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/list").then((response) => {
@@ -112,26 +123,30 @@ export default {
     addNewUserHandler() {
       let _this = this;
       _this.modalType = 1;
+      _this.isModalVisible = true;
+      _this.buzaModalTitle = "新增用户";
       _this.modifyUserItem = {};
     },
-    modalShow(userItem) {
+    modalShow(userItem, flag) {
       let _this = this;
-      $("#myModal").modal('show');
+      _this.isModalVisible = true;
+      _this.buzaModalTitle = (flag === 1 ? "修改用户" : "编辑权限");
       _this.modifyUserItem = userItem;
     },
     modalHide() {
       let _this = this;
-      $("#myModal").modal('hide');
+      _this.isModalVisible = false;
       _this.modifyUserItem = {};
     },
     modifyUserHandler(userItem) {
       let _this = this;
       _this.modalType = 1;
-      _this.modalShow(userItem);
+      _this.modalShow(userItem, 1);
     },
     getRoleHandler(userItem) {
       let _this = this;
       _this.modalType = 2;
+
       let userSeq = userItem.userSeq;
       _this.modifyUserId = userItem.userSeq;
       _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/role?userSeq=" + userSeq).then(response => {
@@ -146,7 +161,7 @@ export default {
       }
       _this.roleIdChecked = cloneData;
       console.log("resultData:", _this.roleList);
-      _this.modalShow(userItem);
+      _this.modalShow(userItem, 2);
       });
     },
     saveUser(sysUserDto) {
@@ -165,7 +180,7 @@ export default {
     },
     saveUserRole(roleId) {
       let _this = this;
-      console.log(_this);
+      _this.isModalVisible = false;
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -173,7 +188,7 @@ export default {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes, Do it!'
       }).then((result) => {
         if (result.isConfirmed) {
           _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/user/role/modify?userSeq=" + _this.modifyUserId + "&roleIds=" + _this.roleIdChecked.toString(), )
