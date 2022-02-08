@@ -57,6 +57,13 @@
                                         <span class="las la-angle-right"></span>
                                     </router-link>
                                 </li>
+                                <li class="common-dict-sidebar">
+                                    <router-link to="/common/dict">
+                                        <i class="el-icon-paperclip" style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>数据字典</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
                             </ul>
                         </li>
                         <!-- // 系统管理 end -->

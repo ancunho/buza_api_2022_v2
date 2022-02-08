@@ -6,6 +6,7 @@ import Welcome from "./views/admin/welcome.vue"
 import System_Menu from "./views/admin/system/page-menu.vue"
 import System_Role from "./views/admin/system/page-role.vue"
 import System_User from "./views/admin/system/page-user.vue"
+import Common_Dict from "./views/admin/system/common-dict.vue"
 import Customer_List from "./views/admin/customer/customer-list.vue"
 import Shop_List from "./views/admin/shop/shop-list.vue"
 import Post_List from "./views/admin/post/post-list.vue"
@@ -62,6 +63,13 @@ export default new Router({
             name: "customer/list",
             component: Customer_List,
             title: "客户管理"
+        }, {
+            path: "common/dict",
+            name: "common/dict",
+            component: Common_Dict,
+            meta: {
+                title: "数据字典"
+            }
         }, {
             path: "shop/list",
             name: "shop/list",
