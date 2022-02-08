@@ -6,19 +6,18 @@ import com.buza.server.common.BaseResponse;
 import com.buza.server.common.Const;
 import com.buza.server.common.ResponseCode;
 import com.buza.server.common.ServerResponse;
+import com.buza.server.dto.BaseRequest;
 import com.buza.server.dto.TbCommonCodeDto;
 import com.buza.server.entity.TbCommonCode;
 import com.buza.server.service.CommonService;
 import com.buza.server.util.RedisUtil;
+import com.github.pagehelper.PageHelper;
 import com.google.code.kaptcha.Producer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
@@ -27,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -87,7 +87,7 @@ public class CommonController {
                 tbCommonCode.setCodeType(tbCommonCodeDto.getCodeType());
                 tbCommonCode.setCodeCd(tbCommonCodeDto.getCodeCd());
                 tbCommonCode.setCodeName(tbCommonCodeDto.getCodeName());
-                tbCommonCode.setUseYn(tbCommonCodeDto.getUseYn());
+                tbCommonCode.setUseYn(tbCommonCodeDto.getStatus());
                 tbCommonCode.setRemark(tbCommonCodeDto.getRemark());
                 tbCommonCode.setOption01(tbCommonCodeDto.getOption01());
                 tbCommonCode.setOption02(tbCommonCodeDto.getOption02());
@@ -108,7 +108,7 @@ public class CommonController {
                 tbCommonCode.setCodeType(tbCommonCodeDto.getCodeType());
                 tbCommonCode.setCodeCd(tbCommonCodeDto.getCodeCd());
                 tbCommonCode.setCodeName(tbCommonCodeDto.getCodeName());
-                tbCommonCode.setUseYn(tbCommonCodeDto.getUseYn());
+                tbCommonCode.setUseYn(tbCommonCodeDto.getStatus());
                 tbCommonCode.setRemark(tbCommonCodeDto.getRemark());
                 tbCommonCode.setOption01(tbCommonCodeDto.getOption01());
                 tbCommonCode.setOption02(tbCommonCodeDto.getOption02());
@@ -127,6 +127,23 @@ public class CommonController {
             e.printStackTrace();
             return BaseResponse.valueOfFailureMessage(ResponseCode.ERROR.getDesc());
         }
+    }
+
+    @GetMapping(value = "/code/list")
+    public BaseResponse getAllTbCommonCodeList(BaseRequest baseRequest) {
+        PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
+        List<TbCommonCodeDto> returnData = commonService.getAllTbCommonCodeList();
+        return BaseResponse.valueOfSuccessList(returnData);
+    }
+
+    @GetMapping(value = "/code/info")
+    public BaseResponse getTbCommonCodeInfoByCodeId(@RequestParam("codeId") Integer codeId) {
+        if (codeId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        TbCommonCodeDto tbCommonCodeDto = commonService.getTbCommonCodeInfoByCodeId(codeId);
+        return BaseResponse.valueOfSuccess(tbCommonCodeDto);
     }
 
 }

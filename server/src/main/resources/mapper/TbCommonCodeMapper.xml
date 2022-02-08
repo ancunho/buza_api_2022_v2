@@ -79,12 +79,7 @@
             <if test="option05 != null">
                 OPTION05,
             </if>
-            <if test="createTime != null">
-                CREATE_TIME,
-            </if>
-            <if test="updateTime != null">
-                UPDATE_TIME,
-            </if>
+            CREATE_TIME
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="codeId != null">
@@ -120,12 +115,7 @@
             <if test="option05 != null">
                 #{option05,jdbcType=VARCHAR},
             </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
+            now()
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.buza.server.entity.TbCommonCode">
@@ -161,12 +151,7 @@
             <if test="option05 != null">
                 OPTION05 = #{option05,jdbcType=VARCHAR},
             </if>
-            <if test="createTime != null">
-                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-            </if>
+            UPDATE_TIME = now()
         </set>
         where CODE_ID = #{codeId,jdbcType=INTEGER}
     </update>
@@ -186,4 +171,50 @@
             UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
         where CODE_ID = #{codeId,jdbcType=INTEGER}
     </update>
+
+    <select id="getAllTbCommonCodeList" resultType="com.buza.server.dto.TbCommonCodeDto">
+        <![CDATA[
+        SELECT 	ROW_NUMBER() OVER() AS RN
+                ,T1.CODE_ID
+                ,T1.CODE_TYPE
+                ,T1.CODE_CD
+                ,T1.CODE_NAME
+                ,T1.REMARK
+                ,T1.USE_YN
+                ,T1.USE_YN AS STATUS
+                ,CASE WHEN T1.USE_YN = 1 THEN '使用中' WHEN T1.USE_YN = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM 	TB_COMMON_CODE T1
+        ]]>
+    </select>
+
+    <select id="getTbCommonCodeInfoByCodeId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbCommonCodeDto">
+        <![CDATA[
+        SELECT 	ROW_NUMBER() OVER() AS RN
+                ,T1.CODE_ID
+                ,T1.CODE_TYPE
+                ,T1.CODE_CD
+                ,T1.CODE_NAME
+                ,T1.REMARK
+                ,T1.USE_YN
+                ,T1.USE_YN AS STATUS
+                ,CASE WHEN T1.USE_YN = 1 THEN '使用中' WHEN T1.USE_YN = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM 	TB_COMMON_CODE T1
+        WHERE   T1.CODE_ID = #{codeId}
+        ]]>
+    </select>
+
 </mapper>
