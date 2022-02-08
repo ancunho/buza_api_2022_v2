@@ -37,7 +37,7 @@
       </el-col>
     </el-row>
 
-    <el-dialog v-bind:title="buzaModalTitle" :visible.sync="isModalVisible"> <!--:close-on-click-modal="false"-->
+    <el-dialog v-bind:title="buzaModalTitle" :visible.sync="isModalVisible" :close-on-click-modal="false"> <!--:close-on-click-modal="false"-->
       <div v-if="modalType == 1">
         <input type="hidden" v-model="modifyUserItem.userSeq" />
         <el-form ref="form" label-width="80px">
@@ -108,28 +108,23 @@ export default {
   },
 
   created: function() {
-    console.log("mounted:", this.currentPage, this.pageSize, this.total);
-    this.listTable(this.currentPage, this.pageSize);
+    this.listTable();
   },
 
   methods: {
     handleSizeChange(limit) {
       this.currentPage = 1;
       this.pageSize = limit;
-      console.log("handleSizeChange:", this.currentPage, this.pageSize, this.total);
-      this.listTable(this.currentPage, this.pageSize);
+      this.listTable();
     },
     handleCurrentChange(page) {
       this.currentPage = page;
-      console.log("handleCurrentChange:", this.currentPage, this.pageSize, this.total);
-      this.listTable(this.currentPage, this.pageSize);
+      this.listTable();
     },
-    listTable(currentPage,pageSize) {
+    listTable() {
       let _this = this;
-      _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/list?page=" + currentPage + "&limit=" + pageSize).then((response) => {
+      _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/list?page=" + _this.currentPage + "&limit=" + _this.pageSize).then((response) => {
         _this.userList = response.data.data;
-        _this.currentPage = currentPage;
-        _this.pageSize = pageSize;
         _this.total = response.data.count;
         _this.loading = false;
       })
@@ -187,7 +182,7 @@ export default {
         if (response.data.code == 0) {
           _this.$notify.success(response.data.msg);
           _this.modalHide();
-          _this.list();
+          _this.listTable();
         } else {
           _this.$notify.error(response.data.msg);
         }
@@ -196,7 +191,7 @@ export default {
     },
     saveUserRole(roleId) {
       let _this = this;
-      _this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      _this.$confirm('是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -211,13 +206,12 @@ export default {
               }
             })
             .catch(response => {
-              console.log("user/role/modify->fail:", response);
               _this.$notify.error(response.data.msg);
             });
         _this.isModalVisible = false;
       }).catch(response => {
         _this.isModalVisible = false;
-        _this.$notify.error(response.data.msg);
+        _this.$notify.error("取消操作");
       });
 
     },
