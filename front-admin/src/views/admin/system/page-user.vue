@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <el-button @click="addNewUserHandler" type="primary" icon="el-icon-plus">新增用户</el-button>
-    <el-table :data="userList" style="width: 100%; margin-top: 1.5rem;" v-loading="loading">
+    <el-table :data="userList" style="width: 100%; margin-top: 1.5rem;">
       <el-table-column prop="userSeq" label="userSeq" v-if="false"></el-table-column>
       <el-table-column prop="rn" label="编号" width="120"></el-table-column>
         <el-table-column prop="username" label="账号" width="200"></el-table-column>
@@ -22,6 +22,19 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <el-row style="margin: 2rem 0;">
+      <el-col :span="12" :offset="6">
+        <el-pagination
+            @current-change="handlePage"
+            :current-page="currentPage"
+            :page-sizes="[5, 10, 20, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+        </el-pagination>
+      </el-col>
+    </el-row>
 
     <el-dialog v-bind:title="buzaModalTitle" :visible.sync="isModalVisible"> <!--:close-on-click-modal="false"-->
       <div v-if="modalType == 1">
@@ -87,23 +100,29 @@ export default {
       isModalVisible: false,
       buzaModalTitle: 'Modal',
       loading: true,
+      currentPage: 1,
+      pageSize: 2, //limit
+      total: 1,
     }
   },
 
   mounted: function() {
     let _this = this;
-    _this.listTable();
-    // $.getScript("/ace/assets/js/bootbox.js");
+    _this.listTable(_this.currentPage, _this.pageSize);
   },
 
   methods: {
-    buzaModalClose() {
-      this.isModalVisible = false
+    handlePage() {
+      this.listTable(this.currentPage, this.pageSize);
     },
-    listTable() {
+    listTable(page,limit) {
       let _this = this;
-      _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/list").then((response) => {
+      console.log("page:", page, ", limit:", limit);
+      _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/list?page=" + page + "&limit=" + limit).then((response) => {
         _this.userList = response.data.data;
+        _this.currentPage = page;
+        _this.pageSize = limit;
+        _this.total = response.data.count;
         _this.loading = false;
         console.log("_this.userList", _this.userList);
       })
