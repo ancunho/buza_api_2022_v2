@@ -117,4 +117,13 @@ Tool = {
         return uuid.join('');
     },
 
+    /**
+     * 数组转树
+     * @param list
+     * @param parentId
+     */
+    // listToTree: function(list, parentId = null) {
+    //     return list.
+    // }
+
 }
