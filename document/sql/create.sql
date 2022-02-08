@@ -89,7 +89,7 @@ CREATE TABLE `sys_user_role` (
 
 --공통코드테이블
 CREATE TABLE `tb_common_code` (
-                                  `CODE_ID` int NOT NULL COMMENT '번호',
+                                  `CODE_ID` int NOT NULL AUTO_INCREMENT COMMENT '번호',
                                   `CODE_TYPE` varchar(45) DEFAULT NULL,
                                   `CODE_CD` varchar(45) DEFAULT NULL,
                                   `CODE_NAME` varchar(45) DEFAULT NULL,
@@ -100,10 +100,10 @@ CREATE TABLE `tb_common_code` (
                                   `OPTION03` varchar(45) DEFAULT NULL,
                                   `OPTION04` varchar(45) DEFAULT NULL,
                                   `OPTION05` varchar(45) DEFAULT NULL,
-                                  `CREATE_TIME` datetime DEFAULT CURRENT_TIMESTAMP,
+                                  `CREATE_TIME` datetime DEFAULT NULL,
                                   `UPDATE_TIME` datetime DEFAULT NULL,
                                   PRIMARY KEY (`CODE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='공통코드테이블';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='공통코드테이블';
 
 --고객테이블 - 클라이언트정보
 CREATE TABLE `tb_customer` (
