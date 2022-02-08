@@ -34,3 +34,26 @@
             </div>
           </div>
         </BuzaModal>
+
+
+---------list To Tree start
+let listToTree = response.data.data;
+let result = [];
+listToTree.forEach(item => {
+  delete item.children;
+});
+
+let map = {};
+listToTree.forEach(item => {
+  map[item.menuId] = item;
+});
+listToTree.forEach(item => {
+  let parent = map[item.menuParentId];
+  if (parent) {
+    (parent.children || (parent.children = [])).push(item);
+  } else {
+    result.push(item);
+  }
+});
+console.log(result);
+---------list To Tree end
