@@ -26,9 +26,10 @@
     <el-row style="margin: 2rem 0;">
       <el-col :span="12" :offset="6">
         <el-pagination
-            @current-change="handlePage"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
             :current-page="currentPage"
-            :page-sizes="[5, 10, 20, 50]"
+            :page-sizes="pageSizes"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total">
@@ -88,7 +89,6 @@
 <script>
 export default {
   name: "page-user",
-
   data: function() {
     return {
       userList: [],
@@ -100,31 +100,38 @@ export default {
       isModalVisible: false,
       buzaModalTitle: 'Modal',
       loading: true,
-      currentPage: 1,
-      pageSize: 2, //limit
-      total: 1,
+      currentPage: 1, //page
+      pageSize: 5, //limit
+      pageSizes: [5,15,30,50],
+      total: 100,
     }
   },
 
-  mounted: function() {
-    let _this = this;
-    _this.listTable(_this.currentPage, _this.pageSize);
+  created: function() {
+    console.log("mounted:", this.currentPage, this.pageSize, this.total);
+    this.listTable(this.currentPage, this.pageSize);
   },
 
   methods: {
-    handlePage() {
+    handleSizeChange(limit) {
+      this.currentPage = 1;
+      this.pageSize = limit;
+      console.log("handleSizeChange:", this.currentPage, this.pageSize, this.total);
       this.listTable(this.currentPage, this.pageSize);
     },
-    listTable(page,limit) {
+    handleCurrentChange(page) {
+      this.currentPage = page;
+      console.log("handleCurrentChange:", this.currentPage, this.pageSize, this.total);
+      this.listTable(this.currentPage, this.pageSize);
+    },
+    listTable(currentPage,pageSize) {
       let _this = this;
-      console.log("page:", page, ", limit:", limit);
-      _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/list?page=" + page + "&limit=" + limit).then((response) => {
+      _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/list?page=" + currentPage + "&limit=" + pageSize).then((response) => {
         _this.userList = response.data.data;
-        _this.currentPage = page;
-        _this.pageSize = limit;
+        _this.currentPage = currentPage;
+        _this.pageSize = pageSize;
         _this.total = response.data.count;
         _this.loading = false;
-        console.log("_this.userList", _this.userList);
       })
     },
     addNewUserHandler() {
@@ -159,7 +166,6 @@ export default {
       _this.modifyUserId = userItem.userSeq;
       _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/role?userSeq=" + userSeq).then(response => {
       _this.roleList = response.data.data;
-      console.log("_this.roleList", _this.roleList);
 
       let cloneData = [];
 
@@ -190,8 +196,6 @@ export default {
     },
     saveUserRole(roleId) {
       let _this = this;
-
-      console.log("_this.roleIdChecked", _this.roleIdChecked);
       _this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
