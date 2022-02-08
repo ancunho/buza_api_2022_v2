@@ -97,7 +97,7 @@
             <span  class="las la-bars"></span>
           </label>
           <div class="header-title">
-            <h4>Analytics</h4>
+            <h2>Analytics</h2>
 <!--            <p>Display analytics about your Channel <span class="las la-chart-line"></span></p>-->
           </div>
 
@@ -126,7 +126,6 @@ export default {
   name: "index",
   mounted: function() {
     let _this = this;
-    $('body').attr('class', 'no-skin');
     _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar", _this.$route.meta.title);
   },
   watch: {
@@ -143,7 +142,7 @@ export default {
   methods: {
     activeSidebar: function(className, title) {
       // console.log(title);
-      $(".header-title h1").text(title);
+      $(".header-title h2").text(title);
       $(".sidebar-menu li").removeClass("active");
       $("." + className).addClass("active");
 

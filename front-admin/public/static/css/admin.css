@@ -125,6 +125,7 @@ img {
 .sidebar-menu ul > li.active {
     background: var(--main-accent);
     border-radius: 7px;
+    color: var(--color-main);
     transition: background-color 300ms;
 
 }
@@ -155,8 +156,12 @@ img {
 .sidebar-submenu a {
     font-weight: 400;
 }
-.sidebar-submenu a.active,
+.sidebar-submenu li.active a {
+    color: var(--color-main);
+}
 .sidebar-submenu a:hover {
+    color: var(--color-main);
+    transition: all 0.5s ease;
 }
 
 .sidebar-card {
@@ -229,8 +234,7 @@ img {
 .main-content {
     margin-left: 285px;
     width: calc(100vw - 285px);
-    padding: 1rem 1.2rem;
-    padding-right: 2rem;
+    padding: 1rem 2rem 1rem 2rem;
     transition: margin-left 300ms;
 }
 
@@ -252,9 +256,10 @@ header {
     font-size: 1.8rem;
 }
 
-.header-title h1 {
+.header-title h2 {
     color: var(--main-text);
     font-weight: 600;
+    line-height: 1.6;
 }
 
 .header-title p {
@@ -291,7 +296,7 @@ main {
     padding: 2.5rem;
     background: #fff;
     box-shadow: var(--shadow);
-
+    border-radius: 20px;
 }
 .analytics {
     display: grid;
