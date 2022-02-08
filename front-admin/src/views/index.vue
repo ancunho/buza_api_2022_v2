@@ -17,6 +17,7 @@
                 </div>
                 <div class="sidebar-menu" id="navbar">
                     <ul>
+                        <!-- Dashboard start -->
                         <li class="welcome-sidebar active">
                             <router-link to="/welcome">
                                 <i class="el-icon-s-data" style="font-size: 20px; margin-right: 0.5rem;"></i>
@@ -24,6 +25,9 @@
                                 <span class="las la-angle-down"></span>
                             </router-link>
                         </li>
+                        <!-- // Dashboard end -->
+
+                        <!-- 系统管理 start -->
                         <li class="system-user-sidebar">
                             <router-link to="/system/user">
                                 <i class="el-icon-s-tools" style="font-size: 20px; margin-right: 0.5rem;"></i>
@@ -55,7 +59,9 @@
                                 </li>
                             </ul>
                         </li>
+                        <!-- // 系统管理 end -->
 
+                        <!-- 门店管理 start -->
                         <li class="shop-list-sidebar">
                             <router-link to="/shop/list">
                                 <i class="el-icon-place" style="font-size: 20px; margin-right: 0.5rem;"></i>
@@ -73,6 +79,27 @@
                                 </li>
                             </ul>
                         </li>
+                        <!-- // 门店管理 end -->
+
+                        <!-- 文章管理 start -->
+                        <li class="shop-list-sidebar">
+                            <router-link to="/post/list">
+                                <i class="el-icon-document-copy" style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                <span>文章管理</span>
+                                <span class="las la-angle-down"></span>
+                            </router-link>
+                            <ul class="sidebar-submenu">
+                                <li class="post-list-sidebar">
+                                    <router-link to="/post/list">
+                                        <i class="el-icon-document"
+                                           style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>文章列表</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- // 文章管理 end -->
 
                     </ul>
                 </div>

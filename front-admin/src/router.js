@@ -8,6 +8,7 @@ import System_Role from "./views/admin/system/page-role.vue"
 import System_User from "./views/admin/system/page-user.vue"
 import Customer_List from "./views/admin/customer/customer-list.vue"
 import Shop_List from "./views/admin/shop/shop-list.vue"
+import Post_List from "./views/admin/post/post-list.vue"
 
 Vue.use(Router);
 
@@ -67,6 +68,13 @@ export default new Router({
             component: Shop_List,
             meta: {
                 title: "门店列表"
+            }
+        }, {
+            path: "post/list",
+            name: "post/list",
+            component: Post_List,
+            meta: {
+                title: "文章列表"
             }
         }]
     }]
