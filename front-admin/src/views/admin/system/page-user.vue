@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-button @click="addNewUserHandler" type="primary" icon="el-icon-plus">新增用户</el-button>
-    <el-table :data="userList" style="width: 100%" v-loading="loading">
+    <el-table :data="userList" style="width: 100%; margin-top: 1.5rem;" v-loading="loading">
       <el-table-column prop="userSeq" label="userSeq" v-if="false"></el-table-column>
       <el-table-column prop="rn" label="编号" width="120"></el-table-column>
         <el-table-column prop="username" label="账号" width="200"></el-table-column>
@@ -14,11 +14,11 @@
       </el-table-column>
       <el-table-column prop="createtime" label="创建时间" width="220"></el-table-column>
       <el-table-column prop="updatetime" label="更新时间" width="220"></el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center" >
         <template slot-scope="scope">
           <el-button @click="modifyUserHandler(scope.row)" type="primary" icon="el-icon-edit-outline">修改信息</el-button>
-          <el-button @click="getRoleHandler(scope.row)" type="info" icon="el-icon-edit-outline">编辑权限</el-button>
-          <el-button @click="getRoleHandler(scope.row)" type="danger" icon="el-icon-delete">删除</el-button>
+          <el-button @click="getRoleHandler(scope.row)" type="info" icon="el-icon-lock">编辑权限</el-button>
+<!--          <el-button @click="getRoleHandler(scope.row)" type="danger" icon="el-icon-delete">删除</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -93,7 +93,7 @@ export default {
   mounted: function() {
     let _this = this;
     _this.listTable();
-    $.getScript("/ace/assets/js/bootbox.js");
+    // $.getScript("/ace/assets/js/bootbox.js");
   },
 
   methods: {
