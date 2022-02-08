@@ -212,3 +212,32 @@ CREATE TABLE `tb_booking` (
                               `UPDATE_TIME` datetime DEFAULT NULL,
                               PRIMARY KEY (`BOOKING_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='예약정보(메인)';
+
+--포스트 테이블
+CREATE TABLE IF NOT EXISTS `tb_post` (
+                                    `POST_ID` INT NOT NULL AUTO_INCREMENT,
+                                    `POST_TYPE` VARCHAR(10) NOT NULL,
+                                    `POST_CATEGORY_ID` INT NULL,
+                                    `POST_TITLE` VARCHAR(100) NULL,
+                                    `POST_CONTENT` VARCHAR(1000) NULL,
+                                    `POST_THUMBNAIL_SMALL` VARCHAR(100) NULL,
+                                    `POST_THUMBNAIL_BIG` VARCHAR(100) NULL,
+                                    `POST_AUTHOR` VARCHAR(45) NULL,
+                                    `STATUS` VARCHAR(10) NULL,
+                                    `OPTION01` VARCHAR(45) NULL,
+                                    `OPTION02` VARCHAR(45) NULL,
+                                    `OPTION03` VARCHAR(45) NULL,
+                                    `OPTION04` VARCHAR(45) NULL,
+                                    `OPTION05` VARCHAR(45) NULL,
+                                    `CREATE_TIME` DATETIME NULL DEFAULT NOW(),
+                                    `UPDATE_TIME` DATETIME NULL,
+    PRIMARY KEY (`POST_ID`))
+    ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='포스트테이블';
+
+--포스트 태그 테이블
+CREATE TABLE `tb_post_tag` (
+                           `TAG_ID` int NOT NULL AUTO_INCREMENT,
+                           `POST_ID` int NOT NULL,
+                           `TAG_NAME` varchar(100) DEFAULT NULL,
+                           PRIMARY KEY (`TAG_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='포스트 태그 테이블';
