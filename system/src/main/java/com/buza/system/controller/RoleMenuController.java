@@ -47,7 +47,7 @@ public class RoleMenuController {
      * @param sysMenuDto
      * @return
      */
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/menu/modify")
     public BaseResponse modifySysMenu(HttpServletRequest request, @RequestBody SysMenuDto sysMenuDto) {
         if (StringUtils.isEmpty(sysMenuDto.getName())
