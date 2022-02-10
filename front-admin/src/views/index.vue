@@ -15,6 +15,10 @@
                         Good Shot
                     </h2>
                 </div>
+                <div class="block" style="display: flex; justify-content: center; margin: 1.2rem 0 .6rem 0">
+                    <el-avatar :size="50" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+                </div>
+                <p style="text-align: center; margin: 0 0 1.2rem 0; font-weight: 600;">{{ username }}</p>
                 <div class="sidebar-menu" id="navbar">
                     <ul>
                         <!-- Dashboard start -->
@@ -111,18 +115,6 @@
                     </ul>
                 </div>
 
-                <!--        <div class="sidebar-card">-->
-                <!--          &lt;!&ndash;                <img src="./static/images/main02.png" />&ndash;&gt;-->
-                <!--          <div class="side-card-icon">-->
-                <!--            <span class="lab la-codiepie"></span>-->
-                <!--          </div>-->
-                <!--          <div>-->
-                <!--            <h4>Make Adsence</h4>-->
-                <!--            <p>Add ass foasdklfj</p>-->
-                <!--          </div>-->
-                <!--          <button class="btn btn-main btn-block">Create now</button>-->
-                <!--        </div>-->
-
             </div>
         </div><!-- //.sidebar -->
 
@@ -156,9 +148,15 @@
 <script>
 export default {
     name: "index",
+    data() {
+        return {
+            username: '',
+        }
+    },
     mounted: function () {
         let _this = this;
         _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar", _this.$route.meta.title);
+        _this.username = Tool.getStorageParam("username");
     },
     watch: {
         $route: {

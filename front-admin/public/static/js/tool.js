@@ -100,6 +100,24 @@ Tool = {
     },
 
     /**
+     * 保存到session storage
+     * @param param_key
+     * @param param_value
+     */
+    setStorageParam: function(param_key, param_value) {
+        SessionStorage.set(param_key, param_value);
+    },
+
+    /**
+     * 获取session storage值
+     * @param param_key
+     * @returns {any|string}
+     */
+    getStorageParam: function(param_key) {
+        return SessionStorage.get(param_key) || '';
+    },
+
+    /**
      * 随机生成[len]长度的[radix]进制数
      * @param len
      * @param radix 默认62

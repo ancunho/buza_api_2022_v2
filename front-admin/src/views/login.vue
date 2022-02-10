@@ -141,6 +141,7 @@ export default {
       _this.$request.post(process.env.VUE_APP_SERVER + "/system/login?username=" + _this.username + "&password=" + _this.password + "&captchaCode=" + _this.captchaCode + "&captchaKey=" + _this.captchaKey).then(response => {
         if (response.data.status === 200) {
           Tool.setLoginUser(response.data.data.token);
+          Tool.setStorageParam("username", _this.username);
           _this.$router.push("/welcome");
         } else {
           alert(response.data.msg);
