@@ -100,6 +100,14 @@
                                 <span class="las la-angle-down"></span>
                             </router-link>
                             <ul class="sidebar-submenu">
+                                <li class="post-create-sidebar">
+                                    <router-link to="/post/create">
+                                        <i class="el-icon-edit"
+                                           style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>新建文章</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
                                 <li class="post-list-sidebar">
                                     <router-link to="/post/list">
                                         <i class="el-icon-document"

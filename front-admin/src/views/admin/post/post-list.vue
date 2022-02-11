@@ -1,19 +1,20 @@
 <template>
     <div v-loading="loading">
 
-        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增门店</el-button>
+<!--        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增文章</el-button>-->
+        <router-link to="/post/create"><el-button type="primary" icon="el-icon-plus">新增文章</el-button></router-link>
 
         <!--  table list start  -->
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
-            <el-table-column prop="shopName" label="门店名" ></el-table-column>
-            <el-table-column prop="shopMobile" label="门店电话号码" ></el-table-column>
-            <el-table-column prop="managerName" label="负责人" width="250"></el-table-column>
-            <el-table-column prop="managerMobile" label="负责人手机" width="250"></el-table-column>
-            <el-table-column prop="shopStatus" label="状态" align="center" width="120">
+            <el-table-column prop="postTitle" label="postTitle" ></el-table-column>
+            <el-table-column prop="postContent" label="postContent" ></el-table-column>
+            <el-table-column prop="eventStartTime" label="eventStartTime" width="250"></el-table-column>
+            <el-table-column prop="eventEndTime" label="eventEndTime" width="250"></el-table-column>
+            <el-table-column prop="status" label="状态" align="center" width="120">
                 <template slot-scope="scope">
-                    <el-tag type="danger" v-if="scope.row.shopStatus == '0'"> {{ scope.row.statusName }}</el-tag>
-                    <el-tag type="success" v-if="scope.row.shopStatus == '1'"> {{ scope.row.statusName }}</el-tag>
+                    <el-tag type="danger" v-if="scope.row.status == '0'"> {{ scope.row.statusName }}</el-tag>
+                    <el-tag type="success" v-if="scope.row.status == '1'"> {{ scope.row.statusName }}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间" width="220"></el-table-column>
@@ -46,28 +47,25 @@
         <!--  dialog start  -->
         <el-dialog v-bind:title="buzaModalTitle" :visible.sync="isModalVisible" :close-on-click-modal="false">
             <!--:close-on-click-modal="false"-->
-            <input type="hidden" v-model="modifyItem.shopId"/>
+            <input type="hidden" v-model="modifyItem.postId"/>
             <el-form ref="form" label-width="130px">
-                <el-form-item label="ID" v-if="modifyItem.shopId != null">
-                    <el-input v-model="modifyItem.shopId" disabled></el-input>
+                <el-form-item label="ID" v-if="modifyItem.postId != null">
+                    <el-input v-model="modifyItem.postId" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="门店名">
-                    <el-input v-model="modifyItem.shopName"></el-input>
+                    <el-input v-model="modifyItem.postTitle"></el-input>
                 </el-form-item>
                 <el-form-item label="门店介绍">
-                    <el-input v-model="modifyItem.shopIntro"></el-input>
+                    <el-input v-model="modifyItem.postContent"></el-input>
                 </el-form-item>
                 <el-form-item label="门店电话号码">
-                    <el-input v-model="modifyItem.shopMobile"></el-input>
+                    <el-input v-model="modifyItem.eventStartTime"></el-input>
                 </el-form-item>
                 <el-form-item label="负责人">
-                    <el-input v-model="modifyItem.managerName"></el-input>
-                </el-form-item>
-                <el-form-item label="负责人手机">
-                    <el-input v-model="modifyItem.managerMobile"></el-input>
+                    <el-input v-model="modifyItem.eventEndTime"></el-input>
                 </el-form-item>
                 <el-form-item label="是否激活">
-                    <el-switch v-model="modifyItem.shopStatus"></el-switch>
+                    <el-switch v-model="modifyItem.status"></el-switch>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -112,7 +110,7 @@ export default {
         },
         tableList() {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + "/system/shop/list?page=" + _this.currentPage + "&limit=" + _this.pageSize).then((response) => {
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/post/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
                 _this.itemList = response.data.data;
                 _this.total = response.data.count;
                 _this.loading = false;
@@ -121,18 +119,18 @@ export default {
         handleAddNew() {
             let _this = this;
             _this.isModalVisible = true;
-            _this.buzaModalTitle = "新增门店";
+            _this.buzaModalTitle = "新增文章";
             _this.modifyItem = {};
         },
         handleItemModify(item) {
             let _this = this;
             _this.isModalVisible = true;
-            item.shopStatus = item.shopStatus == "1" ? true : false;
+            item.status = item.status == "1" ? true : false;
             _this.modifyItem = item;
         },
         saveItem(item) {
             let _this = this;
-            item.shopStatus = item.shopStatus === true ? "1" : "0";
+            item.status = item.status === true ? "1" : "0";
             _this.loading = true;
             _this.$request.post(process.env.VUE_APP_SERVER + "/system/shop/proc", item).then(response => {
                 if (response.data.code == 0) {

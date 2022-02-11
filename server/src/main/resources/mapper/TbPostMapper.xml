@@ -284,7 +284,8 @@
     </update>
 
     <select id="getAllTbPostListByTbPost" parameterType="com.buza.server.dto.TbPostDto" resultType="com.buza.server.dto.TbPostDto">
-        SELECT 	T1.POST_ID
+        SELECT 	ROW_NUMBER() OVER() AS RN
+                ,T1.POST_ID
                 ,T1.POST_TYPE
                 ,(
                 SELECT  A1.CODE_NAME
@@ -304,13 +305,14 @@
                 ,T1.IS_NEED_PAY
                 ,T1.POST_PRICE
                 ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
                 ,T1.OPTION01
                 ,T1.OPTION02
                 ,T1.OPTION03
                 ,T1.OPTION04
                 ,T1.OPTION05
-                ,T1.CREATE_TIME
-                ,T1.UPDATE_TIME
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
         FROM 	TB_POST T1
         <where>
             <if test="postTitle != null">
