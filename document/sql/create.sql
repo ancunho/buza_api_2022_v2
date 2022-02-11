@@ -88,22 +88,25 @@ CREATE TABLE `sys_user_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --공통코드테이블
-CREATE TABLE `tb_common_code` (
-                                  `CODE_ID` int NOT NULL AUTO_INCREMENT COMMENT '번호',
-                                  `CODE_TYPE` varchar(45) DEFAULT NULL,
-                                  `CODE_CD` varchar(45) DEFAULT NULL,
-                                  `CODE_NAME` varchar(45) DEFAULT NULL,
-                                  `USE_YN` varchar(2) DEFAULT NULL,
-                                  `REMARK` varchar(100) DEFAULT NULL,
-                                  `OPTION01` varchar(45) DEFAULT NULL,
-                                  `OPTION02` varchar(45) DEFAULT NULL,
-                                  `OPTION03` varchar(45) DEFAULT NULL,
-                                  `OPTION04` varchar(45) DEFAULT NULL,
-                                  `OPTION05` varchar(45) DEFAULT NULL,
-                                  `CREATE_TIME` datetime DEFAULT NULL,
-                                  `UPDATE_TIME` datetime DEFAULT NULL,
-                                  PRIMARY KEY (`CODE_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='공통코드테이블';
+
+CREATE TABLE IF NOT EXISTS `TB_COMMON_CODE` (
+                                `CODE_ID` INT NOT NULL AUTO_INCREMENT COMMENT '번호',
+                                `CODE_TYPE` VARCHAR(45) NULL,
+                                `CODE_CD` VARCHAR(45) NULL,
+                                `CODE_NAME` VARCHAR(45) NULL,
+                                `USE_YN` VARCHAR(2) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NULL,
+                                `REMARK` VARCHAR(100) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NULL,
+                                `SORT_ORDER` INT NULL,
+                                `OPTION01` VARCHAR(45) NULL,
+                                `OPTION02` VARCHAR(45) NULL,
+                                `OPTION03` VARCHAR(45) NULL,
+                                `OPTION04` VARCHAR(45) NULL,
+                                `OPTION05` VARCHAR(45) NULL,
+                                `CREATE_TIME` DATETIME NULL,
+                                `UPDATE_TIME` DATETIME NULL,
+    PRIMARY KEY (`CODE_ID`)
+) ENGINE = InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='공통코드테이블';
+
 
 --고객테이블 - 클라이언트정보
 CREATE TABLE `tb_customer` (
@@ -214,25 +217,31 @@ CREATE TABLE `tb_booking` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='예약정보(메인)';
 
 --포스트 테이블
-CREATE TABLE IF NOT EXISTS `tb_post` (
-                                    `POST_ID` INT NOT NULL AUTO_INCREMENT,
-                                    `POST_TYPE` VARCHAR(10) NOT NULL,
-                                    `POST_CATEGORY_ID` INT NULL,
-                                    `POST_TITLE` VARCHAR(100) NULL,
-                                    `POST_CONTENT` VARCHAR(1000) NULL,
-                                    `POST_THUMBNAIL_SMALL` VARCHAR(100) NULL,
-                                    `POST_THUMBNAIL_BIG` VARCHAR(100) NULL,
-                                    `POST_AUTHOR` VARCHAR(45) NULL,
-                                    `STATUS` VARCHAR(10) NULL,
-                                    `OPTION01` VARCHAR(45) NULL,
-                                    `OPTION02` VARCHAR(45) NULL,
-                                    `OPTION03` VARCHAR(45) NULL,
-                                    `OPTION04` VARCHAR(45) NULL,
-                                    `OPTION05` VARCHAR(45) NULL,
-                                    `CREATE_TIME` DATETIME NULL DEFAULT NOW(),
-                                    `UPDATE_TIME` DATETIME NULL,
-    PRIMARY KEY (`POST_ID`))
-    ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='포스트테이블';
+CREATE TABLE `tb_post` (
+                           `POST_ID` int NOT NULL AUTO_INCREMENT,
+                           `POST_TYPE` varchar(10) NOT NULL,
+                           `POST_CATEGORY_ID` int DEFAULT NULL,
+                           `POST_TITLE` varchar(100) DEFAULT NULL,
+                           `POST_CONTENT` varchar(1000) DEFAULT NULL,
+                           `EVENT_START_TIME` varchar(45) DEFAULT NULL,
+                           `EVENT_END_TIME` varchar(45) DEFAULT NULL,
+                           `POST_THUMBNAIL_SMALL` varchar(100) DEFAULT NULL,
+                           `POST_THUMBNAIL_BIG` varchar(100) DEFAULT NULL,
+                           `POST_AUTHOR` varchar(45) DEFAULT NULL,
+                           `IS_JOIN` varchar(10) DEFAULT NULL COMMENT '참여여부(0:불필요, 1: 필요), 회원이 참여하는 포스트 , 예: 레슨',
+                           `IS_NEED_PAY` varchar(10) DEFAULT NULL COMMENT '지불이 필요한 포스트인가?',
+                           `POST_PRICE` decimal(20,2) DEFAULT NULL,
+                           `STATUS` varchar(10) DEFAULT NULL,
+                           `OPTION01` varchar(45) DEFAULT NULL,
+                           `OPTION02` varchar(45) DEFAULT NULL,
+                           `OPTION03` varchar(45) DEFAULT NULL,
+                           `OPTION04` varchar(45) DEFAULT NULL,
+                           `OPTION05` varchar(45) DEFAULT NULL,
+                           `CREATE_TIME` datetime DEFAULT CURRENT_TIMESTAMP,
+                           `UPDATE_TIME` datetime DEFAULT NULL,
+                           PRIMARY KEY (`POST_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+;
 
 --포스트 태그 테이블
 CREATE TABLE `tb_post_tag` (
@@ -241,3 +250,23 @@ CREATE TABLE `tb_post_tag` (
                            `TAG_NAME` varchar(100) DEFAULT NULL,
                            PRIMARY KEY (`TAG_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='포스트 태그 테이블';
+
+
+--포스트 - 참여고객 테이블
+CREATE TABLE `tb_post_customer` (
+                                    `POST_CUSTOMER_ID` int NOT NULL AUTO_INCREMENT,
+                                    `POST_ID` int DEFAULT NULL,
+                                    `CUSTOMER_ID` int DEFAULT NULL,
+                                    `PAID_YN` varchar(10) DEFAULT NULL COMMENT '포스트테이블',
+                                    `JOINED_YN` varchar(10) DEFAULT NULL,
+                                    `JOINED_TIME` datetime DEFAULT NULL,
+                                    `PC_ORDER_NO` varchar(50) DEFAULT NULL,
+                                    `OPTION01` varchar(45) DEFAULT NULL,
+                                    `OPTION02` varchar(45) DEFAULT NULL,
+                                    `OPTION03` varchar(45) DEFAULT NULL,
+                                    `OPTION04` varchar(45) DEFAULT NULL,
+                                    `OPTION05` varchar(45) DEFAULT NULL,
+                                    `CREATE_TIME` datetime DEFAULT NULL,
+                                    `UPDATE_TIME` datetime DEFAULT NULL,
+                                    PRIMARY KEY (`POST_CUSTOMER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
