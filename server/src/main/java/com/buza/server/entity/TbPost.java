@@ -1,5 +1,6 @@
 package com.buza.server.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TbPost {
@@ -13,11 +14,21 @@ public class TbPost {
 
     private String postContent;
 
+    private String eventStartTime;
+
+    private String eventEndTime;
+
     private String postThumbnailSmall;
 
     private String postThumbnailBig;
 
     private String postAuthor;
+
+    private String isJoin;
+
+    private String isNeedPay;
+
+    private BigDecimal postPrice;
 
     private String status;
 
@@ -75,6 +86,22 @@ public class TbPost {
         this.postContent = postContent;
     }
 
+    public String getEventStartTime() {
+        return eventStartTime;
+    }
+
+    public void setEventStartTime(String eventStartTime) {
+        this.eventStartTime = eventStartTime;
+    }
+
+    public String getEventEndTime() {
+        return eventEndTime;
+    }
+
+    public void setEventEndTime(String eventEndTime) {
+        this.eventEndTime = eventEndTime;
+    }
+
     public String getPostThumbnailSmall() {
         return postThumbnailSmall;
     }
@@ -97,6 +124,30 @@ public class TbPost {
 
     public void setPostAuthor(String postAuthor) {
         this.postAuthor = postAuthor;
+    }
+
+    public String getIsJoin() {
+        return isJoin;
+    }
+
+    public void setIsJoin(String isJoin) {
+        this.isJoin = isJoin;
+    }
+
+    public String getIsNeedPay() {
+        return isNeedPay;
+    }
+
+    public void setIsNeedPay(String isNeedPay) {
+        this.isNeedPay = isNeedPay;
+    }
+
+    public BigDecimal getPostPrice() {
+        return postPrice;
+    }
+
+    public void setPostPrice(BigDecimal postPrice) {
+        this.postPrice = postPrice;
     }
 
     public String getStatus() {
@@ -174,9 +225,14 @@ public class TbPost {
         sb.append(", postCategoryId=").append(postCategoryId);
         sb.append(", postTitle=").append(postTitle);
         sb.append(", postContent=").append(postContent);
+        sb.append(", eventStartTime=").append(eventStartTime);
+        sb.append(", eventEndTime=").append(eventEndTime);
         sb.append(", postThumbnailSmall=").append(postThumbnailSmall);
         sb.append(", postThumbnailBig=").append(postThumbnailBig);
         sb.append(", postAuthor=").append(postAuthor);
+        sb.append(", isJoin=").append(isJoin);
+        sb.append(", isNeedPay=").append(isNeedPay);
+        sb.append(", postPrice=").append(postPrice);
         sb.append(", status=").append(status);
         sb.append(", option01=").append(option01);
         sb.append(", option02=").append(option02);

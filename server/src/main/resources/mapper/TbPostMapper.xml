@@ -7,9 +7,14 @@
     <result column="POST_CATEGORY_ID" jdbcType="INTEGER" property="postCategoryId" />
     <result column="POST_TITLE" jdbcType="VARCHAR" property="postTitle" />
     <result column="POST_CONTENT" jdbcType="VARCHAR" property="postContent" />
+    <result column="EVENT_START_TIME" jdbcType="VARCHAR" property="eventStartTime" />
+    <result column="EVENT_END_TIME" jdbcType="VARCHAR" property="eventEndTime" />
     <result column="POST_THUMBNAIL_SMALL" jdbcType="VARCHAR" property="postThumbnailSmall" />
     <result column="POST_THUMBNAIL_BIG" jdbcType="VARCHAR" property="postThumbnailBig" />
     <result column="POST_AUTHOR" jdbcType="VARCHAR" property="postAuthor" />
+    <result column="IS_JOIN" jdbcType="VARCHAR" property="isJoin" />
+    <result column="IS_NEED_PAY" jdbcType="VARCHAR" property="isNeedPay" />
+    <result column="POST_PRICE" jdbcType="DECIMAL" property="postPrice" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
     <result column="OPTION01" jdbcType="VARCHAR" property="option01" />
     <result column="OPTION02" jdbcType="VARCHAR" property="option02" />
@@ -20,9 +25,10 @@
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    POST_ID, POST_TYPE, POST_CATEGORY_ID, POST_TITLE, POST_CONTENT, POST_THUMBNAIL_SMALL, 
-    POST_THUMBNAIL_BIG, POST_AUTHOR, `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04, 
-    OPTION05, CREATE_TIME, UPDATE_TIME
+    POST_ID, POST_TYPE, POST_CATEGORY_ID, POST_TITLE, POST_CONTENT, EVENT_START_TIME, 
+    EVENT_END_TIME, POST_THUMBNAIL_SMALL, POST_THUMBNAIL_BIG, POST_AUTHOR, IS_JOIN, IS_NEED_PAY, 
+    POST_PRICE, `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05, CREATE_TIME, 
+    UPDATE_TIME
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -36,17 +42,21 @@
   </delete>
   <insert id="insert" parameterType="com.buza.server.entity.TbPost">
     insert into tb_post (POST_ID, POST_TYPE, POST_CATEGORY_ID, 
-      POST_TITLE, POST_CONTENT, POST_THUMBNAIL_SMALL, 
-      POST_THUMBNAIL_BIG, POST_AUTHOR, `STATUS`, 
-      OPTION01, OPTION02, OPTION03, 
-      OPTION04, OPTION05, CREATE_TIME, 
-      UPDATE_TIME)
+      POST_TITLE, POST_CONTENT, EVENT_START_TIME, 
+      EVENT_END_TIME, POST_THUMBNAIL_SMALL, POST_THUMBNAIL_BIG, 
+      POST_AUTHOR, IS_JOIN, IS_NEED_PAY, 
+      POST_PRICE, `STATUS`, OPTION01, 
+      OPTION02, OPTION03, OPTION04, 
+      OPTION05, CREATE_TIME, UPDATE_TIME
+      )
     values (#{postId,jdbcType=INTEGER}, #{postType,jdbcType=VARCHAR}, #{postCategoryId,jdbcType=INTEGER}, 
-      #{postTitle,jdbcType=VARCHAR}, #{postContent,jdbcType=VARCHAR}, #{postThumbnailSmall,jdbcType=VARCHAR}, 
-      #{postThumbnailBig,jdbcType=VARCHAR}, #{postAuthor,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{option01,jdbcType=VARCHAR}, #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR}, 
-      #{option04,jdbcType=VARCHAR}, #{option05,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{postTitle,jdbcType=VARCHAR}, #{postContent,jdbcType=VARCHAR}, #{eventStartTime,jdbcType=VARCHAR}, 
+      #{eventEndTime,jdbcType=VARCHAR}, #{postThumbnailSmall,jdbcType=VARCHAR}, #{postThumbnailBig,jdbcType=VARCHAR}, 
+      #{postAuthor,jdbcType=VARCHAR}, #{isJoin,jdbcType=VARCHAR}, #{isNeedPay,jdbcType=VARCHAR}, 
+      #{postPrice,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, #{option01,jdbcType=VARCHAR}, 
+      #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR}, #{option04,jdbcType=VARCHAR}, 
+      #{option05,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.buza.server.entity.TbPost">
     insert into tb_post
@@ -66,6 +76,12 @@
       <if test="postContent != null">
         POST_CONTENT,
       </if>
+      <if test="eventStartTime != null">
+        EVENT_START_TIME,
+      </if>
+      <if test="eventEndTime != null">
+        EVENT_END_TIME,
+      </if>
       <if test="postThumbnailSmall != null">
         POST_THUMBNAIL_SMALL,
       </if>
@@ -74,6 +90,15 @@
       </if>
       <if test="postAuthor != null">
         POST_AUTHOR,
+      </if>
+      <if test="isJoin != null">
+        IS_JOIN,
+      </if>
+      <if test="isNeedPay != null">
+        IS_NEED_PAY,
+      </if>
+      <if test="postPrice != null">
+        POST_PRICE,
       </if>
       <if test="status != null">
         `STATUS`,
@@ -116,6 +141,12 @@
       <if test="postContent != null">
         #{postContent,jdbcType=VARCHAR},
       </if>
+      <if test="eventStartTime != null">
+        #{eventStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="eventEndTime != null">
+        #{eventEndTime,jdbcType=VARCHAR},
+      </if>
       <if test="postThumbnailSmall != null">
         #{postThumbnailSmall,jdbcType=VARCHAR},
       </if>
@@ -124,6 +155,15 @@
       </if>
       <if test="postAuthor != null">
         #{postAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="isJoin != null">
+        #{isJoin,jdbcType=VARCHAR},
+      </if>
+      <if test="isNeedPay != null">
+        #{isNeedPay,jdbcType=VARCHAR},
+      </if>
+      <if test="postPrice != null">
+        #{postPrice,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
@@ -166,6 +206,12 @@
       <if test="postContent != null">
         POST_CONTENT = #{postContent,jdbcType=VARCHAR},
       </if>
+      <if test="eventStartTime != null">
+        EVENT_START_TIME = #{eventStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="eventEndTime != null">
+        EVENT_END_TIME = #{eventEndTime,jdbcType=VARCHAR},
+      </if>
       <if test="postThumbnailSmall != null">
         POST_THUMBNAIL_SMALL = #{postThumbnailSmall,jdbcType=VARCHAR},
       </if>
@@ -174,6 +220,15 @@
       </if>
       <if test="postAuthor != null">
         POST_AUTHOR = #{postAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="isJoin != null">
+        IS_JOIN = #{isJoin,jdbcType=VARCHAR},
+      </if>
+      <if test="isNeedPay != null">
+        IS_NEED_PAY = #{isNeedPay,jdbcType=VARCHAR},
+      </if>
+      <if test="postPrice != null">
+        POST_PRICE = #{postPrice,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
         `STATUS` = #{status,jdbcType=VARCHAR},
@@ -208,9 +263,14 @@
       POST_CATEGORY_ID = #{postCategoryId,jdbcType=INTEGER},
       POST_TITLE = #{postTitle,jdbcType=VARCHAR},
       POST_CONTENT = #{postContent,jdbcType=VARCHAR},
+      EVENT_START_TIME = #{eventStartTime,jdbcType=VARCHAR},
+      EVENT_END_TIME = #{eventEndTime,jdbcType=VARCHAR},
       POST_THUMBNAIL_SMALL = #{postThumbnailSmall,jdbcType=VARCHAR},
       POST_THUMBNAIL_BIG = #{postThumbnailBig,jdbcType=VARCHAR},
       POST_AUTHOR = #{postAuthor,jdbcType=VARCHAR},
+      IS_JOIN = #{isJoin,jdbcType=VARCHAR},
+      IS_NEED_PAY = #{isNeedPay,jdbcType=VARCHAR},
+      POST_PRICE = #{postPrice,jdbcType=DECIMAL},
       `STATUS` = #{status,jdbcType=VARCHAR},
       OPTION01 = #{option01,jdbcType=VARCHAR},
       OPTION02 = #{option02,jdbcType=VARCHAR},
