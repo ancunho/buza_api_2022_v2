@@ -53,5 +53,11 @@ public class CommonServiceImpl implements CommonService {
         return tbCommonCodeMapper.getTbCommonCodeInfoByCodeId(codeId);
     }
 
+    public List<TbCommonCodeDto> lstTbCommonCodeByCodeType(String codeType) {
+        return tbCommonCodeMapper.lstTbCommonCodeByCodeType(codeType);
+    }
+
+
+
 
 }

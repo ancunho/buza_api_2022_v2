@@ -146,4 +146,14 @@ public class CommonController {
         return BaseResponse.valueOfSuccess(tbCommonCodeDto);
     }
 
+    @GetMapping(value = "/code/type/list")
+    public BaseResponse lstTbCommonCodeByCodeType(@RequestParam("codeType") String codeType) {
+        if (codeType == null || StringUtils.isEmpty(codeType)) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        List<TbCommonCodeDto> lstTbCommonCodeByCodeType = commonService.lstTbCommonCodeByCodeType(codeType);
+        return BaseResponse.valueOfSuccess(lstTbCommonCodeByCodeType);
+    }
+
 }

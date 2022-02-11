@@ -21,4 +21,6 @@ public interface TbCommonCodeMapper {
     List<TbCommonCodeDto> getAllTbCommonCodeList();
 
     TbCommonCodeDto getTbCommonCodeInfoByCodeId(Integer codeId);
+
+    List<TbCommonCodeDto> lstTbCommonCodeByCodeType(String codeType);
 }

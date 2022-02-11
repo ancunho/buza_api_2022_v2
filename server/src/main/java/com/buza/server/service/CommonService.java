@@ -11,5 +11,6 @@ public interface CommonService {
     public Boolean updateTbCommonCode(TbCommonCode tbCommonCode);
     public List<TbCommonCodeDto> getAllTbCommonCodeList();
     public TbCommonCodeDto getTbCommonCodeInfoByCodeId(Integer codeId);
+    public List<TbCommonCodeDto> lstTbCommonCodeByCodeType(String codeType);
 
 }
