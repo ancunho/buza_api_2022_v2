@@ -31,6 +31,7 @@
             </el-radio-group>
         </el-form-item>
         <el-form-item label="文章内容">
+            <div id="demo1"></div>
             <el-input type="textarea" v-model="form.postContent"></el-input>
         </el-form-item>
         <el-form-item>
@@ -41,6 +42,7 @@
 </template>
 
 <script>
+import wangEditor from 'wangeditor'
 export default {
     name: "post-create",
     data() {
@@ -57,9 +59,41 @@ export default {
                 eventDateRange: ''
             },
             lstPostType: [],
+            editor: null,
+            editorData: ''
         }
     },
     mounted() {
+        const editor = new wangEditor(`#demo1`);
+        // 配置 onchange 回调函数，将数据同步到 vue 中
+        editor.config.onchange = (newHtml) => {
+            this.editorData = newHtml
+        };
+        editor.config.uploadImgServer = '/system/file/single/upload';
+        editor.config.uploadFileName = 'file';
+        editor.config.showLinkImg = false;
+        // editor.customConfig.uploadImgShowBase64 = true;
+        editor.config.uploadImgHooks = {
+            fail: function (xhr, editor, result) {
+                alert("哎哟,好像出了问题!");
+            },
+            error: function (xhr, editor) {
+                alert("哎哟,好像出了问题!");
+            },
+            timeout: function (xhr, editor) {
+                alert("哎哟,好像出了问题!");
+            },
+            customerInsert : function(insertImg, result, editor){
+                for (var i = 0; i < result.data.length; i++) {
+                    insertImg(result.data[i]);
+                }
+            }
+        };
+        // 创建编辑器
+        editor.create();
+
+        this.editor = editor;
+
         let _this = this;
         _this.getCommonCode("POST_TYPE");
     },
@@ -75,6 +109,7 @@ export default {
             this.form.eventStartTime = this.form.eventDateRange[0];
             this.form.eventEndTime = this.form.eventDateRange[1];
             console.log('submit!', this.form);
+            console.log('editor:', this.editorData);
         }
     }
 }

@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
@@ -155,5 +156,12 @@ public class CommonController {
         List<TbCommonCodeDto> lstTbCommonCodeByCodeType = commonService.lstTbCommonCodeByCodeType(codeType);
         return BaseResponse.valueOfSuccess(lstTbCommonCodeByCodeType);
     }
+
+    public Map<String, Object> file_upload_return_url(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile[] multipartFiles) {
+
+        return null;
+    }
+
+
 
 }
