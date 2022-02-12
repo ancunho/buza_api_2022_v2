@@ -9,6 +9,7 @@ import com.buza.server.common.ServerResponse;
 import com.buza.server.dto.BaseRequest;
 import com.buza.server.dto.TbCommonCodeDto;
 import com.buza.server.entity.TbCommonCode;
+import com.buza.server.service.AliyunService;
 import com.buza.server.service.CommonService;
 import com.buza.server.util.RedisUtil;
 import com.github.pagehelper.PageHelper;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,9 @@ public class CommonController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private AliyunService aliyunService;
 
     @GetMapping("/captcha")
     public ServerResponse captcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -157,9 +162,23 @@ public class CommonController {
         return BaseResponse.valueOfSuccess(lstTbCommonCodeByCodeType);
     }
 
-    public Map<String, Object> file_upload_return_url(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile[] multipartFiles) {
-
-        return null;
+    @PostMapping(value = "/file/upload")
+    public Map<String, Object> file_upload_return_url(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+        List<String> imgList = new ArrayList<>();
+//        for (MultipartFile file : multipartFiles) {
+        //Const.UPLOAD_IMAGE_MAX_SIZE : 2MB
+        if (file.getSize() > 0 && file.getSize() <= (Const.UPLOAD_IMAGE_MAX_SIZE * 20)) {
+            String file_path_url = aliyunService.uploadFileReturnURL(file);
+            imgList.add(file_path_url);
+            result.put("errno", 0);
+            result.put("data", imgList);
+        } else {
+            result.put("errno", 99);
+            result.put("data", imgList);
+        }
+//        }
+        return result;
     }
 
 

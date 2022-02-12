@@ -69,18 +69,25 @@ export default {
         editor.config.onchange = (newHtml) => {
             this.editorData = newHtml
         };
-        editor.config.uploadImgServer = '/system/file/single/upload';
+        editor.config.uploadImgServer = process.env.VUE_APP_SERVER + '/system/file/upload';
         editor.config.uploadFileName = 'file';
         editor.config.showLinkImg = false;
+        editor.config.uploadImgMaxLength = 1;
         // editor.customConfig.uploadImgShowBase64 = true;
         editor.config.uploadImgHooks = {
             fail: function (xhr, editor, result) {
+                console.log("fail");
+                console.log(xhr);
                 alert("哎哟,好像出了问题!");
             },
             error: function (xhr, editor) {
+                console.log("error");
+                console.log(xhr);
                 alert("哎哟,好像出了问题!");
             },
             timeout: function (xhr, editor) {
+                console.log("timeout");
+                console.log(xhr);
                 alert("哎哟,好像出了问题!");
             },
             customerInsert : function(insertImg, result, editor){

@@ -14,7 +14,4 @@ public interface CommonService {
     public TbCommonCodeDto getTbCommonCodeInfoByCodeId(Integer codeId);
     public List<TbCommonCodeDto> lstTbCommonCodeByCodeType(String codeType);
 
-    //File
-    public String saveSingleImage(MultipartFile multipartFile);
-
 }

@@ -100,23 +100,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //token的验证方式不需要开启csrf的防护
                 .csrf().disable()
-                // 自定义认证失败类
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                //                // 自定义权限不足处理类
-                .accessDeniedHandler(jwtAccessDeniedHandler)
-                .and()
-                //设置无状态的连接,即不创建session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/captcha").permitAll()
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/doc.html").permitAll()
-                .antMatchers("/api/mgt/**").permitAll()
+                .antMatchers("/file/upload").permitAll()
+                .antMatchers("/file/upload/**").permitAll()
                 //                .antMatchers("/doc.html").permitAll()
                 //配置允许匿名访问的路径
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                // 自定义认证失败类
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                //                // 自定义权限不足处理类
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .and()
+                //设置无状态的连接,即不创建session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // 解决跨域问题（重要）  只有在前端请求接口时才发现需要这个
         httpSecurity.cors().configurationSource(corsConfigurationSource()).and().csrf().disable();
 
@@ -140,6 +142,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ,"/v2/api-docs/**"
                 ,"/favicon.ico"
                 ,"/static/**"
+                ,"/system/file/upload"
 //                ,"/favicon.ico"
 //                ,"/webjars/**"
         );
