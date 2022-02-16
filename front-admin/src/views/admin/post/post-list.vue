@@ -8,7 +8,8 @@
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
             <el-table-column prop="postTitle" label="postTitle" ></el-table-column>
-            <el-table-column prop="postContent" label="postContent" ></el-table-column>
+<!--            <el-table-column prop="postContent" label="postContent" ></el-table-column>-->
+            <el-table-column prop="postAuthor" label="postAuthor" ></el-table-column>
             <el-table-column prop="eventStartTime" label="eventStartTime" width="250"></el-table-column>
             <el-table-column prop="eventEndTime" label="eventEndTime" width="250"></el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
@@ -21,7 +22,7 @@
             <el-table-column prop="updateTime" label="更新时间" width="220"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button @click="handleItemModify(scope.row)" type="primary" icon="el-icon-edit-outline">修改门店</el-button>
+                    <el-button @click="handleItemModify(scope.$index, scope.row)" type="primary" icon="el-icon-edit-outline">修改门店</el-button>
                     <!--          <el-button @click="getRoleHandler(scope.row)" type="danger" icon="el-icon-delete">删除</el-button>-->
                 </template>
             </el-table-column>
@@ -122,11 +123,18 @@ export default {
             _this.buzaModalTitle = "新增文章";
             _this.modifyItem = {};
         },
-        handleItemModify(item) {
+        handleItemModify(idx, item) {
             let _this = this;
-            _this.isModalVisible = true;
-            item.status = item.status == "1" ? true : false;
-            _this.modifyItem = item;
+            _this.$router.push({
+                name: 'post/create',
+                params: {
+                    postId: item.postId
+                }
+            });
+
+            // _this.isModalVisible = true;
+            // item.status = item.status == "1" ? true : false;
+            // _this.modifyItem = item;
         },
         saveItem(item) {
             let _this = this;

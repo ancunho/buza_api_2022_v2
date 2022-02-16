@@ -1,5 +1,6 @@
 <template>
     <el-form ref="form" :model="form" label-width="120px">
+        <input type="hidden" v-model="form.postId" />
         <el-form-item label="文章标题">
             <el-input v-model="form.postTitle"></el-input>
         </el-form-item>
@@ -24,15 +25,21 @@
                 </el-date-picker>
             </el-col>
         </el-form-item>
+        <el-form-item label="是否需要付款">
+            <el-switch v-model="form.isNeedPay"></el-switch>
+        </el-form-item>
+        <el-form-item label="价格" v-if="form.isNeedPay">
+            <el-input v-model="form.postPrice"></el-input>
+        </el-form-item>
         <el-form-item label="是否发布">
-            <el-radio-group v-model="form.resource">
+            <el-radio-group v-model="form.status">
                 <el-radio label="1">是</el-radio>
                 <el-radio label="0">否</el-radio>
             </el-radio-group>
         </el-form-item>
         <el-form-item label="文章内容">
-            <div id="demo1"></div>
-            <el-input type="textarea" v-model="form.postContent"></el-input>
+            <div id="post-content-div" style="z-index: 1!important;"></div>
+            <el-input type="hidden" v-model="form.postContent"></el-input>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -45,17 +52,22 @@
 import wangEditor from 'wangeditor'
 export default {
     name: "post-create",
+
     data() {
         return {
             form: {
+                postId: '',
                 postTitle: '',
                 postContent: '',
                 postType: '',
+                postAuthor: Tool.getLoginUser(),
                 eventStartTime: '',
                 eventEndTime: '',
                 isJoin: false,
+                isNeedPay: false,
+                postPrice: 0,
                 type: [],
-                resource: '1',
+                status: '1',
                 eventDateRange: ''
             },
             lstPostType: [],
@@ -64,7 +76,8 @@ export default {
         }
     },
     mounted() {
-        const editor = new wangEditor(`#demo1`);
+        this.form.postId = this.$route.params.postId;
+        const editor = new wangEditor(`#post-content-div`);
         // 配置 onchange 回调函数，将数据同步到 vue 中
         editor.config.onchange = (newHtml) => {
             this.editorData = newHtml
@@ -113,15 +126,27 @@ export default {
             })
         },
         onSubmit() {
-            this.form.eventStartTime = this.form.eventDateRange[0];
-            this.form.eventEndTime = this.form.eventDateRange[1];
-            console.log('submit!', this.form);
-            console.log('editor:', this.editorData);
+            let _this = this;
+            _this.form.eventStartTime = _this.form.eventDateRange[0];
+            _this.form.eventEndTime = _this.form.eventDateRange[1];
+            _this.form.postContent = _this.editorData;
+            _this.form.isJoin = _this.form.isJoin == true ? "1" : "0";
+            _this.form.isNeedPay = _this.form.isNeedPay == true ? "1" : "0";
+            console.log('submit!', _this.form);
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/post/proc", _this.form)
+            .then(response => {
+                console.log(response);
+            }).catch(respond => {
+                console.log(response);
+            });
+
         }
     }
 }
 </script>
 
-<style scoped>
-
+<style>
+#post-content-div > div {
+    z-index: 2000!important;
+}
 </style>

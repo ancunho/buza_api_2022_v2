@@ -90,7 +90,7 @@ export default new Router({
             name: "post/create",
             component: Post_Create,
             meta: {
-                title: "新建文章"
+                title: "新建/编辑文章"
             }
         }]
     }]

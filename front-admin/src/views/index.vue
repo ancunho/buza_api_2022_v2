@@ -104,7 +104,7 @@
                                     <router-link to="/post/create">
                                         <i class="el-icon-edit"
                                            style="font-size: 20px; margin-right: 0.5rem;"></i>
-                                        <span>新建文章</span>
+                                        <span>新建/编辑</span>
                                         <span class="las la-angle-right"></span>
                                     </router-link>
                                 </li>
