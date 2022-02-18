@@ -131,15 +131,22 @@ export default {
             let _this = this;
             item.status = item.status === true ? "1" : "0";
             _this.loading = true;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/code/proc", item).then(response => {
-                if (response.data.code == 0) {
-                    _this.$notify.success(response.data.msg);
-                    _this.tableList();
-                } else {
-                    _this.$notify.error(response.data.msg);
-                }
-                _this.isModalVisible = false;
-            });
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/code/proc", item)
+                .then(response => {
+
+                    if (response.data.code === 0) {
+                        _this.$notify.success(response.data.msg);
+                        _this.tableList();
+                    } else {
+                        _this.$notify.error(response.data.msg);
+                    }
+                    _this.isModalVisible = false;
+                    _this.loading = false;
+                })
+                .catch(response => {
+                    console.log(response);
+                })
+            ;
 
         }
     }

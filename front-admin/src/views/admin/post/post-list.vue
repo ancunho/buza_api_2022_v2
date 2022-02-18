@@ -8,7 +8,7 @@
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
             <el-table-column prop="postTitle" label="postTitle" ></el-table-column>
-<!--            <el-table-column prop="postContent" label="postContent" ></el-table-column>-->
+            <el-table-column prop="postTypeName" label="postTypeName" ></el-table-column>
             <el-table-column prop="postAuthor" label="postAuthor" ></el-table-column>
             <el-table-column prop="eventStartTime" label="eventStartTime" width="250"></el-table-column>
             <el-table-column prop="eventEndTime" label="eventEndTime" width="250"></el-table-column>
