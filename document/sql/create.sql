@@ -222,7 +222,7 @@ CREATE TABLE `tb_post` (
                            `POST_TYPE` varchar(10) NOT NULL,
                            `POST_CATEGORY_ID` int DEFAULT NULL,
                            `POST_TITLE` varchar(100) DEFAULT NULL,
-                           `POST_CONTENT` varchar(1000) DEFAULT NULL,
+                           `POST_CONTENT` varchar(2000) DEFAULT NULL,
                            `EVENT_START_TIME` varchar(45) DEFAULT NULL,
                            `EVENT_END_TIME` varchar(45) DEFAULT NULL,
                            `POST_THUMBNAIL_SMALL` varchar(100) DEFAULT NULL,

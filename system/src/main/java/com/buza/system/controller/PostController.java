@@ -12,10 +12,7 @@ import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -125,7 +122,16 @@ public class PostController {
         }
     }
 
+    @GetMapping(value = "/info")
+    public BaseResponse getTbPostByPostId(@RequestParam("postId") Integer postId) {
+        if (postId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
 
+        TbPostDto tbPostDto = postService.getTbPostByPostId(postId);
+        return BaseResponse.valueOfSuccess(tbPostDto);
+
+    }
 
 
 

@@ -19,4 +19,6 @@ public interface TbPostMapper {
     int updateByPrimaryKey(TbPost record);
 
     List<TbPostDto> getAllTbPostListByTbPost(TbPostDto tbPostDto);
+
+    TbPostDto getTbPostByPostId(Integer postId);
 }

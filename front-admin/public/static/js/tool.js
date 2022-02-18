@@ -17,6 +17,18 @@ Tool = {
         return !this.isEmpty(obj);
     },
 
+    isNull: function(val) {
+        if (val == null || typeof val == 'undefined' || val === '') {
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    isNotNull: function(val) {
+        return !this.isNull(val);
+    },
+
     /**
      * 长度校验
      */

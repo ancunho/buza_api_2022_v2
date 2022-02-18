@@ -103,11 +103,11 @@ export default {
         handleSizeChange(limit) {
             this.currentPage = 1;
             this.pageSize = limit;
-            this.listTable();
+            this.tableList();
         },
         handleCurrentChange(page) {
             this.currentPage = page;
-            this.listTable();
+            this.tableList();
         },
         tableList() {
             let _this = this;
@@ -131,17 +131,13 @@ export default {
                     postId: item.postId
                 }
             });
-
-            // _this.isModalVisible = true;
-            // item.status = item.status == "1" ? true : false;
-            // _this.modifyItem = item;
         },
         saveItem(item) {
             let _this = this;
             item.status = item.status === true ? "1" : "0";
             _this.loading = true;
             _this.$request.post(process.env.VUE_APP_SERVER + "/system/shop/proc", item).then(response => {
-                if (response.data.code == 0) {
+                if (response.data.code === 0) {
                     _this.$notify.success(response.data.msg);
                     _this.tableList();
                 } else {

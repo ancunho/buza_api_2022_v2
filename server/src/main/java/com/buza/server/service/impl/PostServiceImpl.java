@@ -46,5 +46,9 @@ public class PostServiceImpl implements PostService {
         return tbPostMapper.getAllTbPostListByTbPost(tbPostDto);
     }
 
+    public TbPostDto getTbPostByPostId(Integer postId) {
+        return tbPostMapper.getTbPostByPostId(postId);
+    }
+
 
 }
