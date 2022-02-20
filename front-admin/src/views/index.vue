@@ -100,6 +100,14 @@
                                 <span class="las la-angle-down"></span>
                             </router-link>
                             <ul class="sidebar-submenu">
+                                <li class="room-list-sidebar">
+                                    <router-link to="/room/list">
+                                        <i class="el-icon-location-information"
+                                           style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>Room列表</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
                                 <li class="booking-list-sidebar">
                                     <router-link to="/booking/list">
                                         <i class="el-icon-location-information"

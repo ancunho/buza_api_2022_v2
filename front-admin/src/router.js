@@ -12,6 +12,7 @@ import Shop_List from "./views/admin/shop/shop-list.vue"
 import Post_List from "./views/admin/post/post-list.vue"
 import Post_Create from "./views/admin/post/post-create.vue"
 import Booking_List from "./views/admin/booking/booking-list.vue"
+import Room_List from "./views/admin/booking/room-list.vue"
 
 Vue.use(Router);
 
@@ -99,6 +100,13 @@ export default new Router({
             component: Booking_List,
             meta: {
                 title: "预约列表"
+            }
+        }, {
+            path: "room/list",
+            name: "room/list",
+            component: Room_List,
+            meta: {
+                title: "Room列表"
             }
         }]
     }]
