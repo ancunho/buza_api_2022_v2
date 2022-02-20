@@ -222,4 +222,10 @@
             UPDATE_TIME    = #{updateTime,jdbcType=TIMESTAMP}
         where ROOM_ID = #{roomId,jdbcType=INTEGER}
     </update>
+
+    <select id="getAllRoomList" resultType="com.buza.server.dto.TbRoomDto">
+
+    </select>
+
+
 </mapper>
