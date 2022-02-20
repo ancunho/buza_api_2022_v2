@@ -1,10 +1,8 @@
 package com.buza.server.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class TbRoom implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class TbRoom {
     private Integer roomId;
 
     private Integer shopId;
@@ -18,6 +16,8 @@ public class TbRoom implements Serializable {
     private String roomIntro;
 
     private String roomCode;
+
+    private String roomCapacity;
 
     private String roomStatus;
 
@@ -89,6 +89,14 @@ public class TbRoom implements Serializable {
 
     public void setRoomCode(String roomCode) {
         this.roomCode = roomCode;
+    }
+
+    public String getRoomCapacity() {
+        return roomCapacity;
+    }
+
+    public void setRoomCapacity(String roomCapacity) {
+        this.roomCapacity = roomCapacity;
     }
 
     public String getRoomStatus() {
@@ -168,6 +176,7 @@ public class TbRoom implements Serializable {
         sb.append(", roomThumbnail=").append(roomThumbnail);
         sb.append(", roomIntro=").append(roomIntro);
         sb.append(", roomCode=").append(roomCode);
+        sb.append(", roomCapacity=").append(roomCapacity);
         sb.append(", roomStatus=").append(roomStatus);
         sb.append(", option01=").append(option01);
         sb.append(", option02=").append(option02);

@@ -9,6 +9,7 @@
         <result column="ROOM_THUMBNAIL" jdbcType="VARCHAR" property="roomThumbnail"/>
         <result column="ROOM_INTRO" jdbcType="VARCHAR" property="roomIntro"/>
         <result column="ROOM_CODE" jdbcType="VARCHAR" property="roomCode"/>
+        <result column="ROOM_CAPACITY" jdbcType="VARCHAR" property="roomCapacity"/>
         <result column="ROOM_STATUS" jdbcType="VARCHAR" property="roomStatus"/>
         <result column="OPTION01" jdbcType="VARCHAR" property="option01"/>
         <result column="OPTION02" jdbcType="VARCHAR" property="option02"/>
@@ -19,8 +20,9 @@
         <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-        ROOM_ID, SHOP_ID, ROOM_TYPE, ROOM_NAME, ROOM_THUMBNAIL, ROOM_INTRO, ROOM_CODE, ROOM_STATUS,
-        OPTION01, OPTION02, OPTION03, OPTION04, OPTION05, CREATE_TIME, UPDATE_TIME
+        ROOM_ID
+        , SHOP_ID, ROOM_TYPE, ROOM_NAME, ROOM_THUMBNAIL, ROOM_INTRO, ROOM_CODE, ROOM_CAPACITY,
+    ROOM_STATUS, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05, CREATE_TIME, UPDATE_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -36,14 +38,16 @@
     <insert id="insert" parameterType="com.buza.server.entity.TbRoom">
         insert into tb_room (ROOM_ID, SHOP_ID, ROOM_TYPE,
                              ROOM_NAME, ROOM_THUMBNAIL, ROOM_INTRO,
-                             ROOM_CODE, ROOM_STATUS, OPTION01,
-                             OPTION02, OPTION03, OPTION04,
-                             OPTION05, CREATE_TIME, UPDATE_TIME)
+                             ROOM_CODE, ROOM_CAPACITY, ROOM_STATUS,
+                             OPTION01, OPTION02, OPTION03,
+                             OPTION04, OPTION05, CREATE_TIME,
+                             UPDATE_TIME)
         values (#{roomId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{roomType,jdbcType=VARCHAR},
                 #{roomName,jdbcType=VARCHAR}, #{roomThumbnail,jdbcType=VARCHAR}, #{roomIntro,jdbcType=VARCHAR},
-                #{roomCode,jdbcType=VARCHAR}, #{roomStatus,jdbcType=VARCHAR}, #{option01,jdbcType=VARCHAR},
-                #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR}, #{option04,jdbcType=VARCHAR},
-                #{option05,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+                #{roomCode,jdbcType=VARCHAR}, #{roomCapacity,jdbcType=VARCHAR}, #{roomStatus,jdbcType=VARCHAR},
+                #{option01,jdbcType=VARCHAR}, #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR},
+                #{option04,jdbcType=VARCHAR}, #{option05,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.buza.server.entity.TbRoom">
         insert into tb_room
@@ -68,6 +72,9 @@
             </if>
             <if test="roomCode != null">
                 ROOM_CODE,
+            </if>
+            <if test="roomCapacity != null">
+                ROOM_CAPACITY,
             </if>
             <if test="roomStatus != null">
                 ROOM_STATUS,
@@ -116,6 +123,9 @@
             <if test="roomCode != null">
                 #{roomCode,jdbcType=VARCHAR},
             </if>
+            <if test="roomCapacity != null">
+                #{roomCapacity,jdbcType=VARCHAR},
+            </if>
             <if test="roomStatus != null">
                 #{roomStatus,jdbcType=VARCHAR},
             </if>
@@ -163,6 +173,9 @@
             <if test="roomCode != null">
                 ROOM_CODE = #{roomCode,jdbcType=VARCHAR},
             </if>
+            <if test="roomCapacity != null">
+                ROOM_CAPACITY = #{roomCapacity,jdbcType=VARCHAR},
+            </if>
             <if test="roomStatus != null">
                 ROOM_STATUS = #{roomStatus,jdbcType=VARCHAR},
             </if>
@@ -198,6 +211,7 @@
             ROOM_THUMBNAIL = #{roomThumbnail,jdbcType=VARCHAR},
             ROOM_INTRO     = #{roomIntro,jdbcType=VARCHAR},
             ROOM_CODE      = #{roomCode,jdbcType=VARCHAR},
+            ROOM_CAPACITY  = #{roomCapacity,jdbcType=VARCHAR},
             ROOM_STATUS    = #{roomStatus,jdbcType=VARCHAR},
             OPTION01       = #{option01,jdbcType=VARCHAR},
             OPTION02       = #{option02,jdbcType=VARCHAR},
