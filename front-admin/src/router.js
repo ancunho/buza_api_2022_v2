@@ -11,6 +11,7 @@ import Customer_List from "./views/admin/customer/customer-list.vue"
 import Shop_List from "./views/admin/shop/shop-list.vue"
 import Post_List from "./views/admin/post/post-list.vue"
 import Post_Create from "./views/admin/post/post-create.vue"
+import Booking_List from "./views/admin/booking/booking-list.vue"
 
 Vue.use(Router);
 
@@ -91,6 +92,13 @@ export default new Router({
             component: Post_Create,
             meta: {
                 title: "新建/编辑文章"
+            }
+        }, {
+            path: "booking/list",
+            name: "booking/list",
+            component: Booking_List,
+            meta: {
+                title: "预约列表"
             }
         }]
     }]

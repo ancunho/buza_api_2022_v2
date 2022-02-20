@@ -92,6 +92,26 @@
                         </li>
                         <!-- // 门店管理 end -->
 
+                        <!-- 预约管理 start -->
+                        <li class="booking-list-sidebar">
+                            <router-link to="/booking/list">
+                                <i class="el-icon-place" style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                <span>预约管理</span>
+                                <span class="las la-angle-down"></span>
+                            </router-link>
+                            <ul class="sidebar-submenu">
+                                <li class="booking-list-sidebar">
+                                    <router-link to="/booking/list">
+                                        <i class="el-icon-location-information"
+                                           style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>预约列表</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- // 预约管理 end -->
+
                         <!-- 文章管理 start -->
                         <li class="shop-list-sidebar">
                             <router-link to="/post/list">
