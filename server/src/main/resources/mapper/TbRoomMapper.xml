@@ -224,7 +224,59 @@
     </update>
 
     <select id="getAllRoomList" resultType="com.buza.server.dto.TbRoomDto">
+        SELECT 	T1.ROOM_ID
+                ,T1.SHOP_ID
+                ,T1.ROOM_TYPE
+                ,(
+                SELECT  A1.CODE_NAME
+                FROM    TB_COMMON_CODE A1
+                WHERE   A1.CODE_CD = T1.ROOM_TYPE
+                AND     A1.CODE_TYPE = 'ROOM_TYPE'
+                ) AS ROOM_TYPE_NAME
+                ,T1.ROOM_NAME
+                ,T1.ROOM_THUMBNAIL
+                ,T1.ROOM_INTRO
+                ,T1.ROOM_CODE
+                ,T1.ROOM_CAPACITY
+                ,T1.ROOM_STATUS
+                ,CASE WHEN T1.ROOM_STATUS = 1 THEN '使用中' WHEN T1.ROOM_STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_TIME
+        FROM 	TB_ROOM T1
+        ORDER BY T1.CREATE_TIME DESC
+    </select>
 
+    <select id="getTbRoomInfoByRoomId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbRoomDto">
+        SELECT 	T1.ROOM_ID
+                ,T1.SHOP_ID
+                ,T1.ROOM_TYPE
+                ,(
+                SELECT  A1.CODE_NAME
+                FROM    TB_COMMON_CODE A1
+                WHERE   A1.CODE_CD = T1.ROOM_TYPE
+                AND     A1.CODE_TYPE = 'ROOM_TYPE'
+                ) AS ROOM_TYPE_NAME
+                ,T1.ROOM_NAME
+                ,T1.ROOM_THUMBNAIL
+                ,T1.ROOM_INTRO
+                ,T1.ROOM_CODE
+                ,T1.ROOM_CAPACITY
+                ,T1.ROOM_STATUS
+                ,CASE WHEN T1.ROOM_STATUS = 1 THEN '使用中' WHEN T1.ROOM_STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_TIME
+        FROM 	TB_ROOM T1
+        WHERE   T1.ROOM_ID = #{roomId}
     </select>
 
 

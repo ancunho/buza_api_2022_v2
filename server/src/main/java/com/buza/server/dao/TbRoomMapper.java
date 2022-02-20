@@ -1,6 +1,9 @@
 package com.buza.server.dao;
 
+import com.buza.server.dto.TbRoomDto;
 import com.buza.server.entity.TbRoom;
+
+import java.util.List;
 
 public interface TbRoomMapper {
     int deleteByPrimaryKey(Integer roomId);
@@ -14,4 +17,8 @@ public interface TbRoomMapper {
     int updateByPrimaryKeySelective(TbRoom record);
 
     int updateByPrimaryKey(TbRoom record);
+
+    List<TbRoomDto> getAllRoomList(TbRoomDto tbRoomDto);
+
+    TbRoomDto getTbRoomInfoByRoomId(Integer roomId);
 }
