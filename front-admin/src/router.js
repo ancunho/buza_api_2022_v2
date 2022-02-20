@@ -33,81 +33,18 @@ export default new Router({
         meta: {
             requireAuth: true
         },
-        children: [{
-            path: "welcome",
-            name: "welcome",
-            component: Welcome,
-            meta: {
-                title: "Dashboard"
-            }
-        }, {
-            path: "system/user",
-            name: "system/user",
-            component: System_User,
-            meta: {
-                title: "用户管理"
-            }
-        }, {
-            path: "system/menu",
-            name: "system/menu",
-            component: System_Menu,
-            meta: {
-                title: "菜单管理"
-            }
-        }, {
-            path: "system/role",
-            name: "system/role",
-            component: System_Role,
-            meta: {
-                title: "权限管理"
-            }
-        }, {
-            path: "customer/list",
-            name: "customer/list",
-            component: Customer_List,
-            title: "客户管理"
-        }, {
-            path: "common/dict",
-            name: "common/dict",
-            component: Common_Dict,
-            meta: {
-                title: "数据字典"
-            }
-        }, {
-            path: "shop/list",
-            name: "shop/list",
-            component: Shop_List,
-            meta: {
-                title: "门店列表"
-            }
-        }, {
-            path: "post/list",
-            name: "post/list",
-            component: Post_List,
-            meta: {
-                title: "文章列表"
-            }
-        }, {
-            path: "post/create",
-            name: "post/create",
-            component: Post_Create,
-            meta: {
-                title: "新建/编辑文章"
-            }
-        }, {
-            path: "booking/list",
-            name: "booking/list",
-            component: Booking_List,
-            meta: {
-                title: "预约列表"
-            }
-        }, {
-            path: "room/list",
-            name: "room/list",
-            component: Room_List,
-            meta: {
-                title: "Room列表"
-            }
-        }]
+        children: [
+             { path: "welcome", name: "welcome", component: Welcome, meta: { title: "Dashboard" }}
+            ,{ path: "system/user", name: "system/user", component: System_User, meta: { title: "用户管理" }}
+            ,{ path: "system/menu", name: "system/menu", component: System_Menu, meta: { title: "菜单管理" }}
+            ,{ path: "system/role", name: "system/role", component: System_Role, meta: { title: "权限管理" }}
+            ,{ path: "customer/list", name: "customer/list", component: Customer_List, title: "客户管理"}
+            ,{ path: "common/dict", name: "common/dict", component: Common_Dict, meta: { title: "数据字典" }}
+            ,{ path: "shop/list", name: "shop/list", component: Shop_List, meta: { title: "门店列表" }}
+            ,{ path: "post/list", name: "post/list", component: Post_List, meta: { title: "文章列表" }}
+            ,{ path: "post/create", name: "post/create", component: Post_Create, meta: {title: "新建/编辑文章" }}
+            ,{ path: "booking/list", name: "booking/list", component: Booking_List, meta: {title: "预约列表"}}
+            ,{ path: "room/list", name: "room/list", component: Room_List, meta: {title: "Room列表" }}
+        ]
     }]
 })
