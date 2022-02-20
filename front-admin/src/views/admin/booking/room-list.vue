@@ -1,21 +1,19 @@
 <template>
     <div v-loading="loading">
 
-<!--        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增文章</el-button>-->
-        <router-link to="/post/create"><el-button type="primary" icon="el-icon-plus">新增Room</el-button></router-link>
+        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增文章</el-button>
+<!--        <router-link to="/post/create"><el-button type="primary" icon="el-icon-plus">新增Room</el-button></router-link>-->
 
         <!--  table list start  -->
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
-            <el-table-column prop="postTitle" label="postTitle" width="150" ></el-table-column>
-            <el-table-column prop="postTypeName" label="postTypeName" ></el-table-column>
-            <el-table-column prop="postAuthor" label="postAuthor" ></el-table-column>
-            <el-table-column prop="eventStartTime" label="eventStartTime" width="130"></el-table-column>
-            <el-table-column prop="eventEndTime" label="eventEndTime" width="130"></el-table-column>
-            <el-table-column prop="status" label="状态" align="center" width="120">
+            <el-table-column prop="roomName" label="roomName" width="150" ></el-table-column>
+            <el-table-column prop="roomIntro" label="roomIntro" ></el-table-column>
+            <el-table-column prop="roomCapacity" label="roomCapacity" ></el-table-column>
+            <el-table-column prop="roomStatus" label="状态" align="center" width="120">
                 <template slot-scope="scope">
-                    <el-tag type="danger" v-if="scope.row.status == '0'"> {{ scope.row.statusName }}</el-tag>
-                    <el-tag type="success" v-if="scope.row.status == '1'"> {{ scope.row.statusName }}</el-tag>
+                    <el-tag type="danger" v-if="scope.row.roomStatus == '0'"> {{ scope.row.statusName }}</el-tag>
+                    <el-tag type="success" v-if="scope.row.roomStatus == '1'"> {{ scope.row.statusName }}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
@@ -48,25 +46,27 @@
         <!--  dialog start  -->
         <el-dialog v-bind:title="buzaModalTitle" :visible.sync="isModalVisible" :close-on-click-modal="false">
             <!--:close-on-click-modal="false"-->
-            <input type="hidden" v-model="modifyItem.postId"/>
+            <input type="hidden" v-model="modifyItem.roomId"/>
             <el-form ref="form" label-width="130px">
-                <el-form-item label="ID" v-if="modifyItem.postId != null">
-                    <el-input v-model="modifyItem.postId" disabled></el-input>
+                <el-form-item label="ID" v-if="modifyItem.roomId != null">
+                    <el-input v-model="modifyItem.roomId" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="门店名">
-                    <el-input v-model="modifyItem.postTitle"></el-input>
+                <el-form-item label="门店">
+                    <el-select v-model="shopId" placeholder="请选择门店">
+                        <el-option v-for="item in shopList" :label="item.shopName" :key="item.shopId" :value="item.shopId"></el-option>
+                    </el-select>
                 </el-form-item>
-                <el-form-item label="门店介绍">
-                    <el-input v-model="modifyItem.postContent"></el-input>
+                <el-form-item label="Room名">
+                    <el-input v-model="modifyItem.roomName"></el-input>
                 </el-form-item>
-                <el-form-item label="门店电话号码">
-                    <el-input v-model="modifyItem.eventStartTime"></el-input>
+                <el-form-item label="Room介绍">
+                    <el-input v-model="modifyItem.roomIntro"></el-input>
                 </el-form-item>
-                <el-form-item label="负责人">
-                    <el-input v-model="modifyItem.eventEndTime"></el-input>
+                <el-form-item label="Room Capacity">
+                    <el-input v-model="modifyItem.roomCapacity"></el-input>
                 </el-form-item>
                 <el-form-item label="是否激活">
-                    <el-switch v-model="modifyItem.status"></el-switch>
+                    <el-switch v-model="modifyItem.roomStatus"></el-switch>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -93,11 +93,14 @@ export default {
             total: 100,
             isModalVisible: false,
             buzaModalTitle: 'Modal',
+            shopList: [],
+            shopId: '',
         }
     },
     mounted: function () {
         let _this = this;
         _this.tableList();
+        _this.getShopList();
     },
     methods: {
         handleSizeChange(limit) {
@@ -109,9 +112,22 @@ export default {
             this.currentPage = page;
             this.tableList();
         },
+        getShopList() {
+            let _this = this;
+            _this.$request.get(process.env.VUE_APP_SERVER + "/system/shop/list?page=1&limit=10")
+            .then(response => {
+                console.log("shop_list:", response);
+                if (response.data.code === 0) {
+                    _this.shopList = response.data.data;
+                }
+            })
+            .catch(response => {
+                console.log("shop_list catch:", response);
+            });
+        },
         tableList() {
             let _this = this;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/post/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/room/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
                 _this.itemList = response.data.data;
                 _this.total = response.data.count;
                 _this.loading = false;
@@ -120,7 +136,7 @@ export default {
         handleAddNew() {
             let _this = this;
             _this.isModalVisible = true;
-            _this.buzaModalTitle = "新增文章";
+            _this.buzaModalTitle = "新增Room";
             _this.modifyItem = {};
         },
         handleItemModify(idx, item) {
@@ -134,9 +150,11 @@ export default {
         },
         saveItem(item) {
             let _this = this;
-            item.status = item.status === true ? "1" : "0";
+            item.roomStatus = item.roomStatus === true ? "1" : "0";
+            item.shopId = _this.shopId;
+            console.log("save Room Item: ", item);
             _this.loading = true;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/shop/proc", item).then(response => {
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/room/proc", item).then(response => {
                 if (response.data.code === 0) {
                     _this.$notify.success(response.data.msg);
                     _this.tableList();

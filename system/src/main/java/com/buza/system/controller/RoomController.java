@@ -22,7 +22,7 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
-    @GetMapping(value = "/list")
+    @PostMapping(value = "/list")
     public BaseResponse getAllRoomList(BaseRequest baseRequest, @RequestBody TbRoomDto tbRoomDto) {
         PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
         List<TbRoomDto> returnData = roomService.getAllRoomList(tbRoomDto);
