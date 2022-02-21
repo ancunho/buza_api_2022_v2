@@ -8,7 +8,11 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -570,6 +574,22 @@ public class Util {
      */
     public static long diffDays(Date one, Date two) {
         return (long) Math.ceil(Double.parseDouble(Long.toString(one.getTime() - two.getTime())) / (24 * 60 * 60 * 1000));
+    }
+
+    /**
+     * 주문번호생성
+     * @return
+     */
+    private static final AtomicInteger SEQ = new AtomicInteger(1000);
+    private static final DateTimeFormatter DF_FMT_PREFIX = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS");
+    private static ZoneId ZONE_ID = ZoneId.of("Asia/Shanghai");
+
+    public static String generateOrderNo() {
+        LocalDateTime dataTime = LocalDateTime.now(ZONE_ID);
+        if(SEQ.intValue() > 9990){
+            SEQ.getAndSet(1000);
+        }
+        return  dataTime.format(DF_FMT_PREFIX) + SEQ.getAndIncrement();
     }
 
 }
