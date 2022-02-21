@@ -272,3 +272,27 @@ CREATE TABLE `tb_post_customer` (
                                     `UPDATE_TIME` datetime DEFAULT NULL,
                                     PRIMARY KEY (`POST_CUSTOMER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- TB_BASE_DATE
+
+CREATE TABLE `tb_base_date` (
+                                `BASE_YMD` varchar(10) NOT NULL,
+                                `BASE_YYYY` varchar(10) DEFAULT NULL,
+                                `BASE_MM` varchar(45) DEFAULT NULL,
+                                `BASE_DD` varchar(45) DEFAULT NULL,
+                                `BASE_WEEKDAY` varchar(45) DEFAULT NULL,
+                                `BASE_WEEKDAY_NAME` varchar(45) DEFAULT NULL,
+                                `BASE_WW` varchar(45) DEFAULT NULL,
+                                `LUNAR_YMD` varchar(45) DEFAULT NULL,
+                                `HOLIDAY_YN` varchar(45) DEFAULT NULL,
+                                `HOLIDAY_NAME` varchar(45) DEFAULT NULL,
+                                `USE_YN` varchar(45) DEFAULT NULL,
+                                `MEMO` varchar(45) DEFAULT NULL,
+                                `OPTION01` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'TB_BASE_DATE',
+                                `OPTION02` varchar(45) DEFAULT NULL,
+                                `OPTION03` varchar(45) DEFAULT NULL,
+                                `OPTION04` varchar(45) DEFAULT NULL,
+                                `OPTION05` varchar(45) DEFAULT NULL,
+                                PRIMARY KEY (`BASE_YMD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
