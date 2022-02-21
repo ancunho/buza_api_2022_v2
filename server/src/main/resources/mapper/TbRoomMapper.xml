@@ -211,6 +211,7 @@
         SELECT 	ROW_NUMBER() OVER() AS RN
                 ,T1.ROOM_ID
                 ,T1.SHOP_ID
+                ,(SELECT A1.SHOP_NAME FROM TB_SHOP A1 WHERE A1.SHOP_ID = T1.SHOP_ID) AS SHOP_NAME
                 ,T1.ROOM_TYPE
                 ,(
                 SELECT  A1.CODE_NAME
@@ -230,8 +231,8 @@
                 ,T1.OPTION03
                 ,T1.OPTION04
                 ,T1.OPTION05
-                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS CREATE_TIME
-                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_TIME
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d') AS UPDATE_TIME
         FROM 	TB_ROOM T1
         ORDER BY T1.CREATE_TIME DESC
     </select>

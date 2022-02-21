@@ -1,26 +1,27 @@
 <template>
     <div v-loading="loading">
 
-        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增文章</el-button>
+        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增Room</el-button>
 <!--        <router-link to="/post/create"><el-button type="primary" icon="el-icon-plus">新增Room</el-button></router-link>-->
 
         <!--  table list start  -->
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
+            <el-table-column prop="shopName" label="shopName" width="150" ></el-table-column>
             <el-table-column prop="roomName" label="roomName" width="150" ></el-table-column>
-            <el-table-column prop="roomIntro" label="roomIntro" ></el-table-column>
-            <el-table-column prop="roomCapacity" label="roomCapacity" ></el-table-column>
+            <el-table-column prop="roomIntro" label="roomIntro" width="200"></el-table-column>
+            <el-table-column prop="roomCapacity" label="roomCapacity" width="130"></el-table-column>
             <el-table-column prop="roomStatus" label="状态" align="center" width="120">
                 <template slot-scope="scope">
                     <el-tag type="danger" v-if="scope.row.roomStatus == '0'"> {{ scope.row.statusName }}</el-tag>
                     <el-tag type="success" v-if="scope.row.roomStatus == '1'"> {{ scope.row.statusName }}</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
-            <el-table-column prop="updateTime" label="更新时间" width="150"></el-table-column>
+            <el-table-column prop="createTime" label="创建时间" width="160"></el-table-column>
+            <el-table-column prop="updateTime" label="更新时间" width="160"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button @click="handleItemModify(scope.$index, scope.row)" type="primary" icon="el-icon-edit-outline">修改门店</el-button>
+                    <el-button @click="handleItemModify(scope.$index, scope.row)" type="primary" icon="el-icon-edit-outline">修改Room</el-button>
                     <!--          <el-button @click="getRoleHandler(scope.row)" type="danger" icon="el-icon-delete">删除</el-button>-->
                 </template>
             </el-table-column>
@@ -81,7 +82,7 @@
 
 <script>
 export default {
-    name: "post-list",
+    name: "room-list",
     data: function () {
         return {
             itemList: [],
@@ -116,7 +117,6 @@ export default {
             let _this = this;
             _this.$request.get(process.env.VUE_APP_SERVER + "/system/shop/list?page=1&limit=10")
             .then(response => {
-                console.log("shop_list:", response);
                 if (response.data.code === 0) {
                     _this.shopList = response.data.data;
                 }
@@ -141,12 +141,11 @@ export default {
         },
         handleItemModify(idx, item) {
             let _this = this;
-            _this.$router.push({
-                name: 'post/create',
-                params: {
-                    postId: item.postId
-                }
-            });
+            _this.isModalVisible = true;
+            _this.buzaModalTitle = "修改Room";
+            _this.modifyItem = item;
+            _this.modifyItem.roomStatus = item.roomStatus === "1";
+            _this.shopId = item.shopId;
         },
         saveItem(item) {
             let _this = this;

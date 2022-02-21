@@ -30,6 +30,7 @@ public class TbRoomDto extends BaseRequest implements Serializable {
     private String createTime;
     private String updateTime;
 
+    private String shopName;
     private String statusName;
     private String roomTypeName;
 
