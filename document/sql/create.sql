@@ -186,7 +186,7 @@ CREATE TABLE `tb_room` (
 --예약정보
 
 CREATE TABLE `tb_booking` (
-                              `BOOKING_ID` bigint NOT NULL,
+                              `BOOKING_ID` bigint NOT NULL AUTO_INCREMENT,
                               `BOOKING_ORDER_NO` varchar(50) DEFAULT NULL,
                               `BOOKING_ORDER_STATUS` varchar(20) DEFAULT NULL,
                               `BOOKING_TYPE` varchar(2) DEFAULT NULL,
