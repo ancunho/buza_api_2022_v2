@@ -105,7 +105,7 @@ export default {
                     _this.form = response.data.data;
                     _this.form.isJoin = _this.form.isJoin === "1";
                     _this.form.isNeedPay = _this.form.isNeedPay === "1";
-                    _this.form.eventDateRange = [_this.form.eventStartTime, _this.form.eventEndTime];
+                    _this.form.eventDateRange = [_this.form.eventStartTime || '', _this.form.eventEndTime || ''];
                     _this.editor.txt.html(_this.form.postContent);
                 } else {
                     _this.$notify.error(response.data.msg);
