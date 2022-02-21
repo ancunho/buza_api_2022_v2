@@ -207,7 +207,7 @@
         where ROOM_ID = #{roomId,jdbcType=INTEGER}
     </update>
 
-    <select id="getAllRoomList" resultType="com.buza.server.dto.TbRoomDto">
+    <select id="getAllRoomList" parameterType="com.buza.server.dto.TbRoomDto" resultType="com.buza.server.dto.TbRoomDto">
         SELECT 	ROW_NUMBER() OVER() AS RN
                 ,T1.ROOM_ID
                 ,T1.SHOP_ID
@@ -234,6 +234,11 @@
                 ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d') AS CREATE_TIME
                 ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d') AS UPDATE_TIME
         FROM 	TB_ROOM T1
+        <where>
+            <if test="shopId != null">
+                AND T1.SHOP_ID = #{shopId}
+            </if>
+        </where>
         ORDER BY T1.CREATE_TIME DESC
     </select>
 

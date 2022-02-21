@@ -399,4 +399,41 @@
       ORDER BY T1.CREATE_TIME DESC
     </select>
 
+    <select id="getBookingInfoByBookingId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbBookingDto">
+        SELECT    T1.BOOKING_ID
+                 ,T1.BOOKING_ORDER_NO
+                 ,T1.BOOKING_ORDER_STATUS
+                 ,T1.BOOKING_TYPE
+                 ,T1.SHOP_ID
+                 ,(SELECT A1.SHOP_NAME FROM TB_SHOP A1 WHERE A1.SHOP_ID = T1.SHOP_ID) AS SHOP_NAME
+                 ,T1.ROOM_ID
+                 ,(SELECT A1.ROOM_NAME FROM TB_ROOM A1 WHERE A1.ROOM_ID = T1.ROOM_ID) AS ROOM_NAME
+                 ,T1.CUSTOMER_ID
+                 ,T1.BOOKING_PERSON_COUNT
+                 ,T1.BOOKING_STARTDAY
+                 ,T1.BOOKING_ENDDAY
+                 ,T1.BOOKING_STARTTIME
+                 ,T1.BOOKING_ENDTIME
+                 ,T1.BOOKING_STATUS
+                 ,(SELECT A1.CODE_NAME FROM TB_COMMON_CODE A1 WHERE A1.CODE_CD = T1.BOOKING_STATUS AND A1.CODE_TYPE = 'BOOKING_STATUS') AS BOOKING_STATUS_NAME
+                 ,T1.BOOKING_MOBILE
+                 ,T1.BOOKING_PERSON_NAME
+                 ,T1.PAY_STATUS
+                 ,T1.REMARK
+                 ,T1.COMMENT
+                 ,T1.CHANGE_USER_ID
+                 ,T1.CHANGE_TIME
+                 ,T1.CUSTOMER_CHANGE_TIME
+                 ,T1.BOOKING_TIME
+                 ,T1.OPTION01
+                 ,T1.OPTION02
+                 ,T1.OPTION03
+                 ,T1.OPTION04
+                 ,T1.OPTION05
+                 ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS CREATE_TIME
+                 ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_TIME
+        FROM 	 TB_BOOKING T1
+        WHERE    T1.BOOKING_ID = #{bookingId}
+    </select>
+
 </mapper>

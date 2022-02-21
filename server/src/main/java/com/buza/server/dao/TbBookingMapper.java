@@ -19,4 +19,6 @@ public interface TbBookingMapper {
     int updateByPrimaryKey(TbBooking record);
 
     List<TbBookingDto> getAllBookingList(TbBookingDto tbBookingDto);
+
+    TbBookingDto getBookingInfoByBookingId(Integer bookingId);
 }

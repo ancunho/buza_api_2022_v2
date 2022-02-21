@@ -11,10 +11,7 @@ import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -113,4 +110,13 @@ public class BookingController {
         }
     }
 
+    @GetMapping(value = "/info")
+    public BaseResponse getBookingInfoByBookingId(BaseRequest baseRequest, @RequestParam("bookingId") Integer bookingId) {
+        if (bookingId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        TbBookingDto tbBookingDto = bookingService.getBookingInfoByBookingId(bookingId);
+        return BaseResponse.valueOfSuccess(tbBookingDto);
+    }
 }

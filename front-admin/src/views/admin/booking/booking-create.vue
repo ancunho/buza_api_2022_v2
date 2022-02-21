@@ -1,46 +1,56 @@
 <template>
     <div v-loading="loading">
-        <el-form ref="form" :model="form" label-width="120px">
+        <el-form ref="form" :model="form" label-width="220px">
             <input type="hidden" v-model="form.postId" />
-            <el-form-item label="文章标题">
-                <el-input v-model="form.postTitle"></el-input>
+            <input type="hidden" v-model="form.bookingId" />
+            <el-form-item label="预约人姓名">
+                <el-input disabled v-model="form.bookingPersonName"></el-input>
             </el-form-item>
-            <el-form-item label="文章类别">
-                <el-select v-model="form.postType" placeholder="请选择文章分类">
-                    <el-option v-for="item in lstPostType" :label="item.codeName" :key="item.codeId" :value="item.codeCd"></el-option>
+            <el-form-item label="预约人手机号">
+                <el-input v-model="form.bookingMobile"></el-input>
+            </el-form-item>
+            <el-form-item label="门店">
+                <el-select placeholder="请选择门店" v-model="form.shopId" @change="handleSelectShopItem(form.shopId)">
+                    <el-option v-for="item in lstShopList" :label="item.shopName" :key="item.shopId" :value="item.shopId"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="是否参与">
-                <el-switch v-model="form.isJoin"></el-switch>
+            <el-form-item label="Room">
+                <el-select v-model="form.roomId" placeholder="请选择Room">
+                    <el-option v-for="item in lstRoomList" :label="item.roomName" :key="item.roomId" :value="item.roomId"></el-option>
+                </el-select>
             </el-form-item>
-            <el-form-item label="活动时间" v-if="form.isJoin">
-                <el-col :span="10">
-                    <el-date-picker
-                        v-model="form.eventDateRange"
-                        type="daterange"
-                        format="yyyy-MM-dd"
-                        value-format="yyyy-MM-dd"
-                        range-separator="至"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期">
-                    </el-date-picker>
-                </el-col>
+            <el-form-item label="预约人数">
+                <el-input-number v-model="form.bookingPersonCount" :min="1" label="请输入预约人数"></el-input-number>
             </el-form-item>
-            <el-form-item label="是否需要付款">
-                <el-switch v-model="form.isNeedPay"></el-switch>
+            <el-form-item label="预约时间">
+                <el-date-picker
+                    style="width: 150px"
+                    format="yyyy-MM-dd"
+                    value-format="yyyy-MM-dd"
+                    v-model="form.bookingStartday"
+                    type="date"
+                    placeholder="选择日期">
+                </el-date-picker>&nbsp;
+                <el-time-select placeholder="起始时间" style="width:150px" v-model="form.bookingStarttime" :picker-options="{ start: '08:30', step: '00:15', end: '22:30'}">
+                </el-time-select>&nbsp;
+                <el-time-select placeholder="结束时间" style="width:150px" v-model="form.bookingEndtime" :picker-options="{ start: '08:30', step: '00:15', end: '22:30', minTime: form.bookingStarttime }">
+                </el-time-select>
             </el-form-item>
-            <el-form-item label="价格" v-if="form.isNeedPay">
-                <el-input v-model="form.postPrice"></el-input>
+            <el-form-item label="支付状态">
+                <el-radio v-model="form.payStatus" label="01" border size="medium">已支付</el-radio>
+                <el-radio v-model="form.payStatus" label="02" border size="medium">未支付</el-radio>
             </el-form-item>
-            <el-form-item label="是否发布">
-                <el-radio-group v-model="form.status">
+            <el-form-item label="Remark">
+                <el-input v-model="form.remark" placeholder="Remark"></el-input>
+            </el-form-item>
+            <el-form-item label="Comment">
+                <el-input v-model="form.comment" placeholder="Comment"></el-input>
+            </el-form-item>
+            <el-form-item label="是否预约">
+                <el-radio-group v-model="form.bookingStatus">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                 </el-radio-group>
-            </el-form-item>
-            <el-form-item label="文章内容">
-                <div id="post-content-div" style="z-index: 1!important;"></div>
-                <el-input type="hidden" v-model="form.postContent"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="handleOnSubmit">立即创建</el-button>
@@ -52,61 +62,84 @@
 </template>
 
 <script>
-import wangEditor from 'wangeditor'
 export default {
     name: "booking-create",
-
+    //Tool.getLoginUser()
     data() {
         return {
             form: {
-                postId: '',
-                postTitle: '',
-                postContent: '',
-                postType: '',
-                postAuthor: Tool.getLoginUser(),
-                eventStartTime: '',
-                eventEndTime: '',
-                isJoin: false,
-                isNeedPay: false,
-                postPrice: 0,
-                type: [],
-                status: '1',
-                eventDateRange: ''
+                bookingId: '',
+                bookingMobile: '',
+                bookingType: '02', //01:miniapp, 02:management system
+                shopId: '',
+                roomId: '',
+                customerId: '',
+                bookingPersonCount: '',
+                bookingStartday: '',
+                bookingEndday: '',
+                bookingStarttime: '',
+                bookingEndtime: '',
+                bookingStatus: '1',
+                bookingPersonName: Tool.getStorageParam("username"), //백앤드에서 등록할때에는 관리자이름으로
+                payStatus: '01',
+                remark: '',
+                comment: '',
+                option01: '',
+                option02: '',
+                option03: '',
+                option04: '',
+                option05: '',
             },
             lstPostType: [],
-            editor: null,
-            editorData: '',
+            lstShopList: [],
+            lstRoomList: [],
             loading: true,
         }
     },
     mounted() {
         let _this = this;
-
-        _this.setListCommonCode("POST_TYPE");
-        _this.form.postId = _this.$route.params.postId;
-        if (Tool.isNotNull(_this.form.postId)) {
-            _this.getPostInfoByPostId(_this.form.postId);
+        _this.form.bookingId = _this.$route.params.bookingId;
+        if (Tool.isNotNull(_this.form.bookingId)) {
+            _this.getBookingInfoByBookingId(_this.form.bookingId);
         }
-        _this.initWangEditor();
+        _this.getShopList();
         _this.loading = false;
     },
     methods: {
-        setListCommonCode(codeType) {
+        handleSelectShopItem(shopId) {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + "/system/code/type/list?codeType=" + codeType).then((response) => {
-                _this.lstPostType = response.data.data;
-            })
+            _this.lstRoomList = {};
+            _this.form.roomId = '';
+            let params = {};
+            params.shopId = shopId;
+            _this.getRoomList(params);
         },
-        getPostInfoByPostId(postId) {
+        getShopList() {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + '/system/post/info?postId=' + postId)
+            _this.$request.get(process.env.VUE_APP_SERVER + '/system/shop/list?page=1&limit=100')
+            .then(response => {
+                _this.lstShopList = response.data.data;
+            })
+            .catch(response => {
+                alert("getShopList Fail");
+            });
+        },
+        getRoomList(params) {
+            let _this = this;
+            _this.$request.post(process.env.VUE_APP_SERVER + '/system/room/list?page=1&limit=100', params)
+                .then(response => {
+                    _this.lstRoomList = response.data.data;
+                })
+                .catch(response => {
+                    alert("getShopList Fail");
+                });
+        },
+        getBookingInfoByBookingId(bookingId) {
+            let _this = this;
+            _this.$request.get(process.env.VUE_APP_SERVER + '/system/booking/info?bookingId=' + bookingId)
             .then(response => {
                 if (response.data.code === 0) {
-                    _this.form = response.data.data;
-                    _this.form.isJoin = _this.form.isJoin === "1";
-                    _this.form.isNeedPay = _this.form.isNeedPay === "1";
-                    _this.form.eventDateRange = [_this.form.eventStartTime || '', _this.form.eventEndTime || ''];
-                    _this.editor.txt.html(_this.form.postContent);
+                    alert("OK");
                 } else {
                     _this.$notify.error(response.data.msg);
                 }
@@ -118,16 +151,13 @@ export default {
         },
         handleOnSubmit() {
             let _this = this;
-            _this.form.eventStartTime = _this.form.eventDateRange[0];
-            _this.form.eventEndTime = _this.form.eventDateRange[1];
-            _this.form.postContent = _this.editorData;
-            _this.form.isJoin = _this.form.isJoin == true ? "1" : "0";
-            _this.form.isNeedPay = _this.form.isNeedPay == true ? "1" : "0";
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/post/proc", _this.form)
+            console.log("handleOnSubmit:", _this.form);
+            _this.form.bookingEndday = _this.form.bookingStartday;
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/booking/proc", _this.form)
                 .then(response => {
                     if (response.data.code === 0) {
                         _this.$notify.success(response.data.msg);
-                        _this.$router.push({name: 'post/list'});
+                        _this.$router.push({name: 'booking/list'});
                     } else {
                         _this.$notify.error(response.data.msg);
                     }
@@ -135,44 +165,7 @@ export default {
                     _this.$notify.error(response.data.msg);
                 });
         },
-        initWangEditor() {
-            const editor = new wangEditor(`#post-content-div`);
-            // 配置 onchange 回调函数，将数据同步到 vue 中
-            editor.config.onchange = (newHtml) => {
-                this.editorData = newHtml
-            };
-            editor.config.uploadImgServer = process.env.VUE_APP_SERVER + '/system/file/upload';
-            editor.config.uploadFileName = 'file';
-            editor.config.showLinkImg = false;
-            editor.config.uploadImgMaxLength = 1;
-            // editor.customConfig.uploadImgShowBase64 = true;
-            editor.config.uploadImgHooks = {
-                fail: function (xhr, editor, result) {
-                    console.log("fail");
-                    console.log(xhr);
-                    alert("哎哟,好像出了问题!");
-                },
-                error: function (xhr, editor) {
-                    console.log("error");
-                    console.log(xhr);
-                    alert("哎哟,好像出了问题!");
-                },
-                timeout: function (xhr, editor) {
-                    console.log("timeout");
-                    console.log(xhr);
-                    alert("哎哟,好像出了问题!");
-                },
-                customerInsert : function(insertImg, result, editor){
-                    for (var i = 0; i < result.data.length; i++) {
-                        insertImg(result.data[i]);
-                    }
-                }
-            };
-            // 创建编辑器
-            editor.create();
 
-            this.editor = editor;
-        }
     }
 }
 </script>

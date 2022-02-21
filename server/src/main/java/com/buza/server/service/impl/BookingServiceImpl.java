@@ -46,5 +46,9 @@ public class BookingServiceImpl implements BookingService {
         return tbBookingMapper.getAllBookingList(tbBookingDto);
     }
 
+    public TbBookingDto getBookingInfoByBookingId(Integer bookingId) {
+        return tbBookingMapper.getBookingInfoByBookingId(bookingId);
+    }
+
 
 }
