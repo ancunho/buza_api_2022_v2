@@ -31,6 +31,7 @@ public class TbBookingDto extends BaseRequest implements Serializable {
     private String bookingPersonName;
     private String payStatus;
     private String remark;
+    private String comment;
     private Integer changeUserId;
     private String changeTime;
     private String customerChangeTime;
@@ -43,6 +44,8 @@ public class TbBookingDto extends BaseRequest implements Serializable {
     private String createTime;
     private String updateTime;
 
+    private String roomName;
+    private String shopName;
     private String bookingStatusName;
     private String payStatusName;
     private String bookingTypeName;

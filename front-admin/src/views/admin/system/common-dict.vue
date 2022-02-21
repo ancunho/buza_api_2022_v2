@@ -6,10 +6,10 @@
         <!--  table list start  -->
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
-            <el-table-column prop="codeType" label="CODE TYPE" ></el-table-column>
-            <el-table-column prop="remark" label="REMARK" width="250"></el-table-column>
+            <el-table-column prop="codeType" label="CODE TYPE" width="200" ></el-table-column>
+            <el-table-column prop="remark" label="REMARK" width="200"></el-table-column>
             <el-table-column prop="codeCd" label="CODE CD" ></el-table-column>
-            <el-table-column prop="codeName" label="CODE NAME" width="250"></el-table-column>
+            <el-table-column prop="codeName" label="CODE NAME" width="200"></el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
                 <template slot-scope="scope">
                     <el-tag type="danger" v-if="scope.row.status == '0'"> {{ scope.row.statusName }}</el-tag>

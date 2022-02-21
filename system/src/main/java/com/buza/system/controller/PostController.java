@@ -64,60 +64,65 @@ public class PostController {
         String authToken = request.getHeader(jwtProperties.getHeader());
         String username = jwtTokenUtil.getUsernameFromToken(authToken);
 
-        if (tbPostDto.getPostId() == null || "".equals(tbPostDto.getPostId())) {
-            // insert new
-            TbPost tbPost = new TbPost();
-            tbPost.setPostTitle(tbPostDto.getPostTitle());
-            tbPost.setPostType(tbPostDto.getPostType());
-            tbPost.setPostCategoryId(tbPostDto.getPostCategoryId());
-            tbPost.setPostContent(tbPostDto.getPostContent());
-            tbPost.setEventStartTime(tbPostDto.getEventStartTime());
-            tbPost.setEventEndTime(tbPostDto.getEventEndTime());
-            tbPost.setPostThumbnailBig(tbPostDto.getPostThumbnailBig());
-            tbPost.setPostThumbnailSmall(tbPostDto.getPostThumbnailSmall());
-            tbPost.setPostAuthor(username);
-            tbPost.setIsJoin(tbPostDto.getIsJoin());
-            tbPost.setIsNeedPay(tbPostDto.getIsNeedPay());
-            tbPost.setPostPrice(tbPostDto.getPostPrice());
-            tbPost.setStatus(tbPostDto.getStatus());
-            tbPost.setOption01(tbPostDto.getOption01());
-            tbPost.setOption02(tbPostDto.getOption02());
-            tbPost.setOption03(tbPostDto.getOption03());
-            tbPost.setOption04(tbPostDto.getOption04());
-            tbPost.setOption05(tbPostDto.getOption05());
+        try {
+            if (tbPostDto.getPostId() == null || "".equals(tbPostDto.getPostId())) {
+                // insert new
+                TbPost tbPost = new TbPost();
+                tbPost.setPostTitle(tbPostDto.getPostTitle());
+                tbPost.setPostType(tbPostDto.getPostType());
+                tbPost.setPostCategoryId(tbPostDto.getPostCategoryId());
+                tbPost.setPostContent(tbPostDto.getPostContent());
+                tbPost.setEventStartTime(tbPostDto.getEventStartTime());
+                tbPost.setEventEndTime(tbPostDto.getEventEndTime());
+                tbPost.setPostThumbnailBig(tbPostDto.getPostThumbnailBig());
+                tbPost.setPostThumbnailSmall(tbPostDto.getPostThumbnailSmall());
+                tbPost.setPostAuthor(username);
+                tbPost.setIsJoin(tbPostDto.getIsJoin());
+                tbPost.setIsNeedPay(tbPostDto.getIsNeedPay());
+                tbPost.setPostPrice(tbPostDto.getPostPrice());
+                tbPost.setStatus(tbPostDto.getStatus());
+                tbPost.setOption01(tbPostDto.getOption01());
+                tbPost.setOption02(tbPostDto.getOption02());
+                tbPost.setOption03(tbPostDto.getOption03());
+                tbPost.setOption04(tbPostDto.getOption04());
+                tbPost.setOption05(tbPostDto.getOption05());
 
-            boolean isSuccessInsert = postService.insertTbPost(tbPost);
-            if (isSuccessInsert) {
-                return BaseResponse.valueOfSuccessMessage(ResponseCode.INSERT_SUCCESS.getDesc());
-            }
-            return BaseResponse.valueOfFailureMessage(ResponseCode.INSERT_ERROR.getDesc());
-        } else {
-            // update
-            TbPost tbPost = new TbPost();
-            tbPost.setPostId(tbPostDto.getPostId());
-            tbPost.setPostTitle(tbPostDto.getPostTitle());
-            tbPost.setPostType(tbPostDto.getPostType());
-            tbPost.setPostCategoryId(tbPostDto.getPostCategoryId());
-            tbPost.setPostContent(tbPostDto.getPostContent());
-            tbPost.setEventStartTime(tbPostDto.getEventStartTime());
-            tbPost.setEventEndTime(tbPostDto.getEventEndTime());
-            tbPost.setPostThumbnailBig(tbPostDto.getPostThumbnailBig());
-            tbPost.setPostThumbnailSmall(tbPostDto.getPostThumbnailSmall());
-            tbPost.setPostAuthor(tbPostDto.getPostAuthor());
-            tbPost.setIsJoin(tbPostDto.getIsJoin());
-            tbPost.setIsNeedPay(tbPostDto.getIsNeedPay());
-            tbPost.setPostPrice(tbPostDto.getPostPrice());
-            tbPost.setStatus(tbPostDto.getStatus());
-            tbPost.setOption01(tbPostDto.getOption01());
-            tbPost.setOption02(tbPostDto.getOption02());
-            tbPost.setOption03(tbPostDto.getOption03());
-            tbPost.setOption04(tbPostDto.getOption04());
-            tbPost.setOption05(tbPostDto.getOption05());
+                boolean isSuccessInsert = postService.insertTbPost(tbPost);
+                if (isSuccessInsert) {
+                    return BaseResponse.valueOfSuccessMessage(ResponseCode.INSERT_SUCCESS.getDesc());
+                }
+                return BaseResponse.valueOfFailureMessage(ResponseCode.INSERT_ERROR.getDesc());
+            } else {
+                // update
+                TbPost tbPost = new TbPost();
+                tbPost.setPostId(tbPostDto.getPostId());
+                tbPost.setPostTitle(tbPostDto.getPostTitle());
+                tbPost.setPostType(tbPostDto.getPostType());
+                tbPost.setPostCategoryId(tbPostDto.getPostCategoryId());
+                tbPost.setPostContent(tbPostDto.getPostContent());
+                tbPost.setEventStartTime(tbPostDto.getEventStartTime());
+                tbPost.setEventEndTime(tbPostDto.getEventEndTime());
+                tbPost.setPostThumbnailBig(tbPostDto.getPostThumbnailBig());
+                tbPost.setPostThumbnailSmall(tbPostDto.getPostThumbnailSmall());
+                tbPost.setPostAuthor(tbPostDto.getPostAuthor());
+                tbPost.setIsJoin(tbPostDto.getIsJoin());
+                tbPost.setIsNeedPay(tbPostDto.getIsNeedPay());
+                tbPost.setPostPrice(tbPostDto.getPostPrice());
+                tbPost.setStatus(tbPostDto.getStatus());
+                tbPost.setOption01(tbPostDto.getOption01());
+                tbPost.setOption02(tbPostDto.getOption02());
+                tbPost.setOption03(tbPostDto.getOption03());
+                tbPost.setOption04(tbPostDto.getOption04());
+                tbPost.setOption05(tbPostDto.getOption05());
 
-            boolean isSuccessUpdate = postService.updateTbPost(tbPost);
-            if (isSuccessUpdate) {
-                return BaseResponse.valueOfSuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
+                boolean isSuccessUpdate = postService.updateTbPost(tbPost);
+                if (isSuccessUpdate) {
+                    return BaseResponse.valueOfSuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
+                }
+                return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
             return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
         }
     }

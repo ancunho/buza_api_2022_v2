@@ -37,6 +37,8 @@ public class TbBooking {
 
     private String remark;
 
+    private String comment;
+
     private Integer changeUserId;
 
     private Date changeTime;
@@ -195,6 +197,14 @@ public class TbBooking {
         this.remark = remark;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public Integer getChangeUserId() {
         return changeUserId;
     }
@@ -306,6 +316,7 @@ public class TbBooking {
         sb.append(", bookingPersonName=").append(bookingPersonName);
         sb.append(", payStatus=").append(payStatus);
         sb.append(", remark=").append(remark);
+        sb.append(", comment=").append(comment);
         sb.append(", changeUserId=").append(changeUserId);
         sb.append(", changeTime=").append(changeTime);
         sb.append(", customerChangeTime=").append(customerChangeTime);
