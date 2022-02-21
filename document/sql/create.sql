@@ -184,6 +184,7 @@ CREATE TABLE `tb_room` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='방/타석정보';
 
 --예약정보
+
 CREATE TABLE `tb_booking` (
                               `BOOKING_ID` bigint NOT NULL,
                               `BOOKING_ORDER_NO` varchar(50) DEFAULT NULL,
@@ -202,6 +203,7 @@ CREATE TABLE `tb_booking` (
                               `BOOKING_PERSON_NAME` varchar(45) DEFAULT NULL,
                               `PAY_STATUS` varchar(2) DEFAULT NULL,
                               `REMARK` varchar(100) DEFAULT NULL,
+                              `COMMENT` varchar(100) DEFAULT NULL,
                               `CHANGE_USER_ID` int DEFAULT NULL,
                               `CHANGE_TIME` datetime DEFAULT NULL,
                               `CUSTOMER_CHANGE_TIME` datetime DEFAULT NULL,
