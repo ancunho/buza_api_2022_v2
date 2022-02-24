@@ -17,23 +17,23 @@ import javax.annotation.Resource;
 @Service
 public class SkuServiceImpl implements SkuService {
 
-//    @Resource
-//    private TbSpuMapper tbSpuMapper;
-//
-//    @Resource
-//    private TbSpuSpecMapper tbSpuSpecMapper;
+    @Resource
+    private TbSpuMapper tbSpuMapper;
 
-//    @Resource
-//    private TbSpecMapper tbSpecMapper;
+    @Resource
+    private TbSpuAttributeMapper tbSpuAttributeMapper;
 
-//    @Resource
-//    private TbSpecValueMapper tbSpecValueMapper;
-//
-//    @Resource
-//    private TbSkuMapper tbSkuMapper;
-//
-//    @Resource
-//    private TbSkuSpecMapper tbSkuSpecMapper;
+    @Resource
+    private TbAttributeMapper tbAttributeMapper;
+
+    @Resource
+    private TbAttributeValueMapper tbAttributeValueMapper;
+
+    @Resource
+    private TbSkuMapper tbSkuMapper;
+
+    @Resource
+    private TbSkuAttributeMapper tbSkuAttributeMapper;
 
     @Resource
     private TbCategoryMapper tbCategoryMapper;
