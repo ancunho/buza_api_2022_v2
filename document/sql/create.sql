@@ -275,7 +275,6 @@ CREATE TABLE `tb_post_customer` (
 
 
 -- TB_BASE_DATE
-
 CREATE TABLE `tb_base_date` (
                                 `BASE_YMD` varchar(10) NOT NULL,
                                 `BASE_YYYY` varchar(10) DEFAULT NULL,
@@ -296,3 +295,113 @@ CREATE TABLE `tb_base_date` (
                                 `OPTION05` varchar(45) DEFAULT NULL,
                                 PRIMARY KEY (`BASE_YMD`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- TB_SPU
+CREATE TABLE `tb_spu` (
+                          `SPU_ID` int NOT NULL AUTO_INCREMENT,
+                          `CATEGORY_ID` int DEFAULT NULL,
+                          `BRAND_ID` int DEFAULT NULL,
+                          `SPU_NAME` varchar(100) DEFAULT NULL,
+                          `SPU_TYPE` varchar(45) DEFAULT NULL,
+                          `STATUS` varchar(2) DEFAULT NULL,
+                          `OPTION01` varchar(45) DEFAULT NULL,
+                          `OPTION02` varchar(45) DEFAULT NULL,
+                          `OPTION03` varchar(45) DEFAULT NULL,
+                          `OPTION04` varchar(45) DEFAULT NULL,
+                          `OPTION05` varchar(45) DEFAULT NULL,
+                          `CREATE_TIME` datetime DEFAULT NULL,
+                          `UPDATE_TIME` datetime DEFAULT NULL,
+                          PRIMARY KEY (`SPU_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--TB_SPU_ATTRIBUTE
+CREATE TABLE `tb_spu_attribute` (
+                                    `SPU_ATTR_ID` int NOT NULL AUTO_INCREMENT,
+                                    `SPU_ID` int NOT NULL,
+                                    `ATTR_ID` int NOT NULL,
+                                    `STATUS` varchar(2) DEFAULT NULL,
+                                    `OPTION01` varchar(45) DEFAULT NULL,
+                                    `OPTION02` varchar(45) DEFAULT NULL,
+                                    `OPTION03` varchar(45) DEFAULT NULL,
+                                    `OPTION04` varchar(45) DEFAULT NULL,
+                                    `OPTION05` varchar(45) DEFAULT NULL,
+                                    `CREATE_TIME` datetime DEFAULT NULL,
+                                    `UPDATE_TIME` datetime DEFAULT NULL,
+                                    PRIMARY KEY (`SPU_ATTR_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--TB_SKU
+CREATE TABLE `tb_sku` (
+                          `SKU_ID` int NOT NULL AUTO_INCREMENT,
+                          `SPU_ID` int NOT NULL,
+                          `SKU_NAME` varchar(100) DEFAULT NULL,
+                          `SKU_INTRO` varchar(200) DEFAULT NULL,
+                          `STATUS` varchar(10) DEFAULT NULL,
+                          `OPTION01` varchar(45) DEFAULT NULL,
+                          `OPTION02` varchar(45) DEFAULT NULL,
+                          `OPTION03` varchar(45) DEFAULT NULL,
+                          `OPTION04` varchar(45) DEFAULT NULL,
+                          `OPTION05` varchar(45) DEFAULT NULL,
+                          `CREATE_TIME` datetime DEFAULT NULL,
+                          `UPDATE_TIME` datetime DEFAULT NULL,
+                          PRIMARY KEY (`SKU_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--TB_SKU_ATTRIBUTE
+CREATE TABLE `tb_sku_attribute` (
+                                    `SKU_ATTR_ID` int NOT NULL AUTO_INCREMENT,
+                                    `SKU_ID` int NOT NULL,
+                                    `ATTR_VALUE_ID` int NOT NULL,
+                                    `STATUS` varchar(10) DEFAULT NULL,
+                                    `OPTION01` varchar(45) DEFAULT NULL,
+                                    `OPTION02` varchar(45) DEFAULT NULL,
+                                    `OPTION03` varchar(45) DEFAULT NULL,
+                                    `OPTION04` varchar(45) DEFAULT NULL,
+                                    `OPTION05` varchar(45) DEFAULT NULL,
+                                    `CREATE_TIME` datetime DEFAULT NULL,
+                                    `UPDATE_TIME` datetime DEFAULT NULL,
+                                    PRIMARY KEY (`SKU_ATTR_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--TB_ATTRIBUTE
+CREATE TABLE `tb_attribute` (
+                                `ATTR_ID` int NOT NULL AUTO_INCREMENT,
+                                `ATTR_NAME` varchar(45) DEFAULT NULL,
+                                `ATTR_TYPE` varchar(45) DEFAULT NULL,
+                                `STATUS` varchar(2) DEFAULT NULL,
+                                `OPTION01` varchar(45) DEFAULT NULL,
+                                `OPTION02` varchar(45) DEFAULT NULL,
+                                `OPTION03` varchar(45) DEFAULT NULL,
+                                `OPTION04` varchar(45) DEFAULT NULL,
+                                `OPTION05` varchar(45) DEFAULT NULL,
+                                `CREATE_TIME` datetime DEFAULT NULL,
+                                `UPDATE_TIME` datetime DEFAULT NULL,
+                                PRIMARY KEY (`ATTR_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--TB_ATTRIBUTE_VALUE
+CREATE TABLE `tb_attribute_value` (
+                                      `ATTR_VALUE_ID` int NOT NULL AUTO_INCREMENT,
+                                      `ATTR_ID` int NOT NULL,
+                                      `ATTR_VALUE` varchar(45) DEFAULT NULL,
+                                      `PRICE` decimal(20,2) DEFAULT NULL,
+                                      `VIP_PRICE` decimal(20,2) DEFAULT NULL,
+                                      `DELIVERY_PRICE` decimal(20,2) DEFAULT NULL,
+                                      `DELIVERY_TYPE` varchar(45) DEFAULT NULL,
+                                      `STATUS` varchar(10) DEFAULT NULL,
+                                      `OPTION01` varchar(45) DEFAULT NULL,
+                                      `OPTION02` varchar(45) DEFAULT NULL,
+                                      `OPTION03` varchar(45) DEFAULT NULL,
+                                      `OPTION04` varchar(45) DEFAULT NULL,
+                                      `OPTION05` varchar(45) DEFAULT NULL,
+                                      `CREATE_TIME` datetime DEFAULT NULL,
+                                      `UPDATE_TIME` datetime DEFAULT NULL,
+                                      PRIMARY KEY (`ATTR_VALUE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+
+
+
+
