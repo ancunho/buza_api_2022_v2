@@ -180,7 +180,7 @@
         FROM    TB_SKU_ATTRIBUTE T1
     </select>
 
-    <select id="getTbSkuAttributeBySkuAttrId" resultType="com.buza.server.dto.TbSkuAttributeDto">
+    <select id="getTbSkuAttributeBySkuAttrId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSkuAttributeDto">
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
                 ,T1.ATTR_VALUE_ID
@@ -197,7 +197,7 @@
         WHERE   T1.SKU_ATTR_ID = #{skuAttrId}
     </select>
 
-    <select id="getTbSkuAttributeBySkuId" resultType="com.buza.server.dto.TbSkuAttributeDto">
+    <select id="lstTbSkuAttributeBySkuId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSkuAttributeDto">
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
                 ,T1.ATTR_VALUE_ID
@@ -214,7 +214,7 @@
         WHERE   T1.SKU_ID = #{skuId}
     </select>
 
-    <select id="getTbSkuAttributeByAttrValueId" resultType="com.buza.server.dto.TbSkuAttributeDto">
+    <select id="lstTbSkuAttributeByAttrValueId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSkuAttributeDto">
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
                 ,T1.ATTR_VALUE_ID

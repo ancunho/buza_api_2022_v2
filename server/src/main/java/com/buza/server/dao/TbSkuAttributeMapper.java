@@ -1,6 +1,9 @@
 package com.buza.server.dao;
 
+import com.buza.server.dto.TbSkuAttributeDto;
 import com.buza.server.entity.TbSkuAttribute;
+
+import java.util.List;
 
 public interface TbSkuAttributeMapper {
     int deleteByPrimaryKey(Integer skuAttrId);
@@ -14,4 +17,12 @@ public interface TbSkuAttributeMapper {
     int updateByPrimaryKeySelective(TbSkuAttribute record);
 
     int updateByPrimaryKey(TbSkuAttribute record);
+
+    List<TbSkuAttributeDto> lstTbSkuAttribute(TbSkuAttributeDto tbSkuAttributeDto);
+
+    TbSkuAttributeDto getTbSkuAttributeBySkuAttrId(Integer skuAttrId);
+
+    List<TbSkuAttributeDto> lstTbSkuAttributeBySkuId(Integer skuId);
+
+    List<TbSkuAttributeDto> lstTbSkuAttributeByAttrValueId(Integer attrValueId);
 }
