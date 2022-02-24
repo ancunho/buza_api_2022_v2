@@ -2,12 +2,12 @@ package com.buza.server.entity;
 
 import java.util.Date;
 
-public class TbSpuSpec {
-    private Integer spuSpecId;
+public class TbAttribute {
+    private Integer attrId;
 
-    private Integer spuId;
+    private String attrName;
 
-    private Integer specId;
+    private String attrType;
 
     private String status;
 
@@ -25,28 +25,28 @@ public class TbSpuSpec {
 
     private Date updateTime;
 
-    public Integer getSpuSpecId() {
-        return spuSpecId;
+    public Integer getAttrId() {
+        return attrId;
     }
 
-    public void setSpuSpecId(Integer spuSpecId) {
-        this.spuSpecId = spuSpecId;
+    public void setAttrId(Integer attrId) {
+        this.attrId = attrId;
     }
 
-    public Integer getSpuId() {
-        return spuId;
+    public String getAttrName() {
+        return attrName;
     }
 
-    public void setSpuId(Integer spuId) {
-        this.spuId = spuId;
+    public void setAttrName(String attrName) {
+        this.attrName = attrName;
     }
 
-    public Integer getSpecId() {
-        return specId;
+    public String getAttrType() {
+        return attrType;
     }
 
-    public void setSpecId(Integer specId) {
-        this.specId = specId;
+    public void setAttrType(String attrType) {
+        this.attrType = attrType;
     }
 
     public String getStatus() {
@@ -119,9 +119,9 @@ public class TbSpuSpec {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", spuSpecId=").append(spuSpecId);
-        sb.append(", spuId=").append(spuId);
-        sb.append(", specId=").append(specId);
+        sb.append(", attrId=").append(attrId);
+        sb.append(", attrName=").append(attrName);
+        sb.append(", attrType=").append(attrType);
         sb.append(", status=").append(status);
         sb.append(", option01=").append(option01);
         sb.append(", option02=").append(option02);

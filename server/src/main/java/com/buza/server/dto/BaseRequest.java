@@ -2,6 +2,7 @@ package com.buza.server.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Slf4j
+@ToString
 public class BaseRequest implements Serializable {
 
     private Long rn;
@@ -22,6 +24,7 @@ public class BaseRequest implements Serializable {
     private String ipAddr;
     private String userAgent;
     private String referer;
+    private String statusName;
 
     public int getPage() {
         if (this.page == 0 || "".equals(String.valueOf(this.page))) {

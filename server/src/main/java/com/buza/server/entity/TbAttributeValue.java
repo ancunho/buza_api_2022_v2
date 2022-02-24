@@ -3,34 +3,22 @@ package com.buza.server.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class TbSpec {
-    private Integer specSeq;
+public class TbAttributeValue {
+    private Integer attrValueId;
 
-    private Integer productSeq;
+    private Integer attrId;
 
-    private String productName;
+    private String attrValue;
 
     private BigDecimal price;
 
     private BigDecimal vipPrice;
 
-    private String weight;
-
-    private String stock;
-
     private BigDecimal deliveryPrice;
 
     private String deliveryType;
 
-    private String packageCode;
-
-    private String useYn;
-
-    private Integer status;
-
-    private String area;
-
-    private String country;
+    private String status;
 
     private String option01;
 
@@ -42,32 +30,32 @@ public class TbSpec {
 
     private String option05;
 
-    private Date createtime;
+    private Date createTime;
 
-    private Date updatetime;
+    private Date updateTime;
 
-    public Integer getSpecSeq() {
-        return specSeq;
+    public Integer getAttrValueId() {
+        return attrValueId;
     }
 
-    public void setSpecSeq(Integer specSeq) {
-        this.specSeq = specSeq;
+    public void setAttrValueId(Integer attrValueId) {
+        this.attrValueId = attrValueId;
     }
 
-    public Integer getProductSeq() {
-        return productSeq;
+    public Integer getAttrId() {
+        return attrId;
     }
 
-    public void setProductSeq(Integer productSeq) {
-        this.productSeq = productSeq;
+    public void setAttrId(Integer attrId) {
+        this.attrId = attrId;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getAttrValue() {
+        return attrValue;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setAttrValue(String attrValue) {
+        this.attrValue = attrValue;
     }
 
     public BigDecimal getPrice() {
@@ -86,22 +74,6 @@ public class TbSpec {
         this.vipPrice = vipPrice;
     }
 
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
-
-    public String getStock() {
-        return stock;
-    }
-
-    public void setStock(String stock) {
-        this.stock = stock;
-    }
-
     public BigDecimal getDeliveryPrice() {
         return deliveryPrice;
     }
@@ -118,44 +90,12 @@ public class TbSpec {
         this.deliveryType = deliveryType;
     }
 
-    public String getPackageCode() {
-        return packageCode;
-    }
-
-    public void setPackageCode(String packageCode) {
-        this.packageCode = packageCode;
-    }
-
-    public String getUseYn() {
-        return useYn;
-    }
-
-    public void setUseYn(String useYn) {
-        this.useYn = useYn;
-    }
-
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public String getOption01() {
@@ -198,20 +138,20 @@ public class TbSpec {
         this.option05 = option05;
     }
 
-    public Date getCreatetime() {
-        return createtime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public Date getUpdatetime() {
-        return updatetime;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override
@@ -220,27 +160,21 @@ public class TbSpec {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", specSeq=").append(specSeq);
-        sb.append(", productSeq=").append(productSeq);
-        sb.append(", productName=").append(productName);
+        sb.append(", attrValueId=").append(attrValueId);
+        sb.append(", attrId=").append(attrId);
+        sb.append(", attrValue=").append(attrValue);
         sb.append(", price=").append(price);
         sb.append(", vipPrice=").append(vipPrice);
-        sb.append(", weight=").append(weight);
-        sb.append(", stock=").append(stock);
         sb.append(", deliveryPrice=").append(deliveryPrice);
         sb.append(", deliveryType=").append(deliveryType);
-        sb.append(", packageCode=").append(packageCode);
-        sb.append(", useYn=").append(useYn);
         sb.append(", status=").append(status);
-        sb.append(", area=").append(area);
-        sb.append(", country=").append(country);
         sb.append(", option01=").append(option01);
         sb.append(", option02=").append(option02);
         sb.append(", option03=").append(option03);
         sb.append(", option04=").append(option04);
         sb.append(", option05=").append(option05);
-        sb.append(", createtime=").append(createtime);
-        sb.append(", updatetime=").append(updatetime);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateTime=").append(updateTime);
         sb.append("]");
         return sb.toString();
     }

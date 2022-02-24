@@ -1,24 +1,13 @@
 package com.buza.server.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class TbSpecValue {
-    private Integer specValueId;
+public class TbSkuAttribute {
+    private Integer skuAttrId;
 
-    private Integer specId;
+    private Integer skuId;
 
-    private String specValue;
-
-    private BigDecimal price;
-
-    private BigDecimal vipPrice;
-
-    private BigDecimal deliveryPrice;
-
-    private String deliveryType;
-
-    private String status;
+    private Integer attrValueId;
 
     private String option01;
 
@@ -34,68 +23,28 @@ public class TbSpecValue {
 
     private Date updateTime;
 
-    public Integer getSpecValueId() {
-        return specValueId;
+    public Integer getSkuAttrId() {
+        return skuAttrId;
     }
 
-    public void setSpecValueId(Integer specValueId) {
-        this.specValueId = specValueId;
+    public void setSkuAttrId(Integer skuAttrId) {
+        this.skuAttrId = skuAttrId;
     }
 
-    public Integer getSpecId() {
-        return specId;
+    public Integer getSkuId() {
+        return skuId;
     }
 
-    public void setSpecId(Integer specId) {
-        this.specId = specId;
+    public void setSkuId(Integer skuId) {
+        this.skuId = skuId;
     }
 
-    public String getSpecValue() {
-        return specValue;
+    public Integer getAttrValueId() {
+        return attrValueId;
     }
 
-    public void setSpecValue(String specValue) {
-        this.specValue = specValue;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getVipPrice() {
-        return vipPrice;
-    }
-
-    public void setVipPrice(BigDecimal vipPrice) {
-        this.vipPrice = vipPrice;
-    }
-
-    public BigDecimal getDeliveryPrice() {
-        return deliveryPrice;
-    }
-
-    public void setDeliveryPrice(BigDecimal deliveryPrice) {
-        this.deliveryPrice = deliveryPrice;
-    }
-
-    public String getDeliveryType() {
-        return deliveryType;
-    }
-
-    public void setDeliveryType(String deliveryType) {
-        this.deliveryType = deliveryType;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setAttrValueId(Integer attrValueId) {
+        this.attrValueId = attrValueId;
     }
 
     public String getOption01() {
@@ -160,14 +109,9 @@ public class TbSpecValue {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", specValueId=").append(specValueId);
-        sb.append(", specId=").append(specId);
-        sb.append(", specValue=").append(specValue);
-        sb.append(", price=").append(price);
-        sb.append(", vipPrice=").append(vipPrice);
-        sb.append(", deliveryPrice=").append(deliveryPrice);
-        sb.append(", deliveryType=").append(deliveryType);
-        sb.append(", status=").append(status);
+        sb.append(", skuAttrId=").append(skuAttrId);
+        sb.append(", skuId=").append(skuId);
+        sb.append(", attrValueId=").append(attrValueId);
         sb.append(", option01=").append(option01);
         sb.append(", option02=").append(option02);
         sb.append(", option03=").append(option03);

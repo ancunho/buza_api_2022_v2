@@ -2,12 +2,14 @@ package com.buza.server.entity;
 
 import java.util.Date;
 
-public class TbSkuSpec {
-    private Integer skuSpecId;
+public class TbSpuAttribute {
+    private Integer spuAttrId;
 
-    private Integer skuId;
+    private Integer spuId;
 
-    private Integer specValueId;
+    private Integer attrId;
+
+    private String status;
 
     private String option01;
 
@@ -23,28 +25,36 @@ public class TbSkuSpec {
 
     private Date updateTime;
 
-    public Integer getSkuSpecId() {
-        return skuSpecId;
+    public Integer getSpuAttrId() {
+        return spuAttrId;
     }
 
-    public void setSkuSpecId(Integer skuSpecId) {
-        this.skuSpecId = skuSpecId;
+    public void setSpuAttrId(Integer spuAttrId) {
+        this.spuAttrId = spuAttrId;
     }
 
-    public Integer getSkuId() {
-        return skuId;
+    public Integer getSpuId() {
+        return spuId;
     }
 
-    public void setSkuId(Integer skuId) {
-        this.skuId = skuId;
+    public void setSpuId(Integer spuId) {
+        this.spuId = spuId;
     }
 
-    public Integer getSpecValueId() {
-        return specValueId;
+    public Integer getAttrId() {
+        return attrId;
     }
 
-    public void setSpecValueId(Integer specValueId) {
-        this.specValueId = specValueId;
+    public void setAttrId(Integer attrId) {
+        this.attrId = attrId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getOption01() {
@@ -109,9 +119,10 @@ public class TbSkuSpec {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", skuSpecId=").append(skuSpecId);
-        sb.append(", skuId=").append(skuId);
-        sb.append(", specValueId=").append(specValueId);
+        sb.append(", spuAttrId=").append(spuAttrId);
+        sb.append(", spuId=").append(spuId);
+        sb.append(", attrId=").append(attrId);
+        sb.append(", status=").append(status);
         sb.append(", option01=").append(option01);
         sb.append(", option02=").append(option02);
         sb.append(", option03=").append(option03);
