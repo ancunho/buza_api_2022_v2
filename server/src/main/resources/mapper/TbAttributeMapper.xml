@@ -164,7 +164,7 @@
         where ATTR_ID = #{attrId,jdbcType=INTEGER}
     </update>
 
-    <select id="lstTbAttribute" resultType="com.buza.server.dto.TbAttributeDto">
+    <select id="lstTbAttribute" parameterType="com.buza.server.dto.TbAttributeDto" resultType="com.buza.server.dto.TbAttributeDto">
         SELECT  T1.ATTR_ID
                 ,T1.ATTR_NAME
                 ,T1.ATTR_TYPE

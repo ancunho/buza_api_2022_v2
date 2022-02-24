@@ -164,7 +164,7 @@
         where SPU_ATTR_ID = #{spuAttrId,jdbcType=INTEGER}
     </update>
 
-    <select id="lstTbSpuAttribute" resultType="com.buza.server.dto.TbSpuAttributeDto">
+    <select id="lstTbSpuAttribute" parameterType="com.buza.server.dto.TbSpuAttributeDto" resultType="com.buza.server.dto.TbSpuAttributeDto">
         SELECT  T1.SPU_ATTR_ID
                 ,T1.SPU_ID
                 ,T1.ATTR_ID

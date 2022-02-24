@@ -175,7 +175,7 @@
         where SKU_ID = #{skuId,jdbcType=INTEGER}
     </update>
 
-    <select id="lstTbSku" resultType="com.buza.server.dto.TbSkuDto">
+    <select id="lstTbSku" parameterType="com.buza.server.dto.TbSkuDto" resultType="com.buza.server.dto.TbSkuDto">
         SELECT T1.SKU_ID
                 ,T1.SPU_ID
                 ,T1.SKU_NAME

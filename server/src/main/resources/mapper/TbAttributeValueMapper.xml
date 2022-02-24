@@ -210,7 +210,7 @@
         where ATTR_VALUE_ID = #{attrValueId,jdbcType=INTEGER}
     </update>
 
-    <select id="lstTbAttributeValue" resultType="com.buza.server.dto.TbAttributeValueDto">
+    <select id="lstTbAttributeValue" parameterType="com.buza.server.dto.TbAttributeValueDto" resultType="com.buza.server.dto.TbAttributeValueDto">
         SELECT  T1.ATTR_VALUE_ID
                 ,T1.ATTR_ID
                 ,T1.ATTR_VALUE

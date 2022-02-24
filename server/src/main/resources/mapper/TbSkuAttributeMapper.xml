@@ -164,7 +164,7 @@
         where SKU_ATTR_ID = #{skuAttrId,jdbcType=INTEGER}
     </update>
 
-    <select id="lstTbSkuAttribute" resultType="com.buza.server.dto.TbSkuAttributeDto">
+    <select id="lstTbSkuAttribute" parameterType="com.buza.server.dto.TbSkuAttributeDto" resultType="com.buza.server.dto.TbSkuAttributeDto">
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
                 ,T1.ATTR_VALUE_ID
