@@ -174,4 +174,56 @@
             UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
         where SKU_ID = #{skuId,jdbcType=INTEGER}
     </update>
+
+    <select id="lstTbSku" resultType="com.buza.server.dto.TbSkuDto">
+                ,T1.SPU_ID
+                ,T1.SKU_NAME
+                ,T1.SKU_INTRO
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_SKU T1
+    </select>
+
+    <select id="getTbSkuInfoBySkuId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSkuDto">
+        SELECT T1.SKU_ID
+                ,T1.SPU_ID
+                ,T1.SKU_NAME
+                ,T1.SKU_INTRO
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_SKU T1
+        WHERE   T1.SKU_ID = #{skuId}
+    </select>
+
+    <select id="lstTbSkuBySpuId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSkuDto">
+        SELECT T1.SKU_ID
+             ,T1.SPU_ID
+             ,T1.SKU_NAME
+             ,T1.SKU_INTRO
+             ,T1.STATUS
+             ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+             ,T1.OPTION01
+             ,T1.OPTION02
+             ,T1.OPTION03
+             ,T1.OPTION04
+             ,T1.OPTION05
+             ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+             ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_SKU T1
+        WHERE   T1.SPU_ID = #{spuId}
+    </select>
 </mapper>

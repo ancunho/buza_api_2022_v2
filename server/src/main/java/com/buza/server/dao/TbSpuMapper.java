@@ -14,4 +14,6 @@ public interface TbSpuMapper {
     int updateByPrimaryKeySelective(TbSpu record);
 
     int updateByPrimaryKey(TbSpu record);
+
+
 }

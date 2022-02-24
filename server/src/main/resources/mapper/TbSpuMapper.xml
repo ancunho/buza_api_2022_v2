@@ -187,4 +187,41 @@
             UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
         where SPU_ID = #{spuId,jdbcType=INTEGER}
     </update>
+
+    <select id="lstTbSpu" resultType="com.buza.server.dto.TbSpuDto">
+        SELECT 	T1.SPU_ID
+                ,T1.CATEGORY_ID
+                ,T1.BRAND_ID
+                ,T1.SPU_NAME
+                ,T1.SPU_TYPE
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM 	TB_SPU T1
+    </select>
+
+    <select id="getTbSpuInfoBySpuId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSpuDto">
+        SELECT 	T1.SPU_ID
+                ,T1.CATEGORY_ID
+                ,T1.BRAND_ID
+                ,T1.SPU_NAME
+                ,T1.SPU_TYPE
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM 	TB_SPU T1
+        WHERE   T1.SPU_ID = #{spuId}
+    </select>
 </mapper>

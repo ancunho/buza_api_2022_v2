@@ -163,4 +163,71 @@
             UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
         where SPU_ATTR_ID = #{spuAttrId,jdbcType=INTEGER}
     </update>
+
+    <select id="lstTbSpuAttribute" resultType="com.buza.server.dto.TbSpuAttributeDto">
+        SELECT  T1.SPU_ATTR_ID
+                ,T1.SPU_ID
+                ,T1.ATTR_ID
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_SPU_ATTRIBUTE T1
+    </select>
+
+    <select id="getTbSpuAttributeInfoBySpuAttrId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSpuAttributeDto">
+        SELECT  T1.SPU_ATTR_ID
+                ,T1.SPU_ID
+                ,T1.ATTR_ID
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_SPU_ATTRIBUTE T1
+        WHERE   T1.SPU_ATTR_ID = #{spuAttrId}
+    </select>
+
+    <select id="lstTbSpuAttributeBySpuId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSpuAttributeDto">
+        SELECT  T1.SPU_ATTR_ID
+                 ,T1.SPU_ID
+                 ,T1.ATTR_ID
+                 ,T1.STATUS
+                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                 ,T1.OPTION01
+                 ,T1.OPTION02
+                 ,T1.OPTION03
+                 ,T1.OPTION04
+                 ,T1.OPTION05
+                 ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                 ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_SPU_ATTRIBUTE T1
+        WHERE   T1.SPU_ID = #{spuId}
+    </select>
+
+    <select id="lstTbSpuAttributeByAttrId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSpuAttributeDto">
+        SELECT  T1.SPU_ATTR_ID
+                ,T1.SPU_ID
+                ,T1.ATTR_ID
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_SPU_ATTRIBUTE T1
+        WHERE   T1.ATTR_ID = #{attrId}
+    </select>
 </mapper>

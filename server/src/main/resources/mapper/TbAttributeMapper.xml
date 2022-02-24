@@ -163,4 +163,37 @@
             UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
         where ATTR_ID = #{attrId,jdbcType=INTEGER}
     </update>
+
+    <select id="lstTbAttribute" resultType="com.buza.server.dto.TbAttributeDto">
+        SELECT  T1.ATTR_ID
+                ,T1.ATTR_NAME
+                ,T1.ATTR_TYPE
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_ATTRIBUTE T1
+    </select>
+
+    <select id="getTbAttributeInfoByAttrId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbAttributeDto">
+        SELECT  T1.ATTR_ID
+                ,T1.ATTR_NAME
+                ,T1.ATTR_TYPE
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_ATTRIBUTE T1
+        WHERE   T1.ATTR_ID = #{attrId}
+    </select>
 </mapper>

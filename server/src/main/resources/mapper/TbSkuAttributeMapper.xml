@@ -5,6 +5,7 @@
         <id column="SKU_ATTR_ID" jdbcType="INTEGER" property="skuAttrId"/>
         <result column="SKU_ID" jdbcType="INTEGER" property="skuId"/>
         <result column="ATTR_VALUE_ID" jdbcType="INTEGER" property="attrValueId"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
         <result column="OPTION01" jdbcType="VARCHAR" property="option01"/>
         <result column="OPTION02" jdbcType="VARCHAR" property="option02"/>
         <result column="OPTION03" jdbcType="VARCHAR" property="option03"/>
@@ -15,7 +16,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         SKU_ATTR_ID
-        , SKU_ID, ATTR_VALUE_ID, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05,
+        , SKU_ID, ATTR_VALUE_ID, `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05,
     CREATE_TIME, UPDATE_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -30,11 +31,11 @@
         where SKU_ATTR_ID = #{skuAttrId,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.buza.server.entity.TbSkuAttribute">
-        insert into tb_sku_attribute (SKU_ATTR_ID, SKU_ID, ATTR_VALUE_ID,
+        insert into tb_sku_attribute (SKU_ATTR_ID, SKU_ID, ATTR_VALUE_ID,`STATUS`,
                                       OPTION01, OPTION02, OPTION03,
                                       OPTION04, OPTION05, CREATE_TIME,
                                       UPDATE_TIME)
-        values (#{skuAttrId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{attrValueId,jdbcType=INTEGER},
+        values (#{skuAttrId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{attrValueId,jdbcType=INTEGER},#{status,jdbcType=VARCHAR},
                 #{option01,jdbcType=VARCHAR}, #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR},
                 #{option04,jdbcType=VARCHAR}, #{option05,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
                 #{updateTime,jdbcType=TIMESTAMP})
@@ -50,6 +51,9 @@
             </if>
             <if test="attrValueId != null">
                 ATTR_VALUE_ID,
+            </if>
+            <if test="status != null">
+                `STATUS`,
             </if>
             <if test="option01 != null">
                 OPTION01,
@@ -83,6 +87,9 @@
             <if test="attrValueId != null">
                 #{attrValueId,jdbcType=INTEGER},
             </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 #{option01,jdbcType=VARCHAR},
             </if>
@@ -115,6 +122,9 @@
             <if test="attrValueId != null">
                 ATTR_VALUE_ID = #{attrValueId,jdbcType=INTEGER},
             </if>
+            <if test="status != null">
+                `STATUS` = #{status,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 OPTION01 = #{option01,jdbcType=VARCHAR},
             </if>
@@ -143,6 +153,7 @@
         update tb_sku_attribute
         set SKU_ID        = #{skuId,jdbcType=INTEGER},
             ATTR_VALUE_ID = #{attrValueId,jdbcType=INTEGER},
+            `STATUS` = #{status,jdbcType=VARCHAR},
             OPTION01      = #{option01,jdbcType=VARCHAR},
             OPTION02      = #{option02,jdbcType=VARCHAR},
             OPTION03      = #{option03,jdbcType=VARCHAR},
@@ -152,4 +163,71 @@
             UPDATE_TIME   = #{updateTime,jdbcType=TIMESTAMP}
         where SKU_ATTR_ID = #{skuAttrId,jdbcType=INTEGER}
     </update>
+
+    <select id="lstTbSkuAttribute" resultType="com.buza.server.dto.TbSkuAttributeDto">
+        SELECT  T1.SKU_ATTR_ID
+                ,T1.SKU_ID
+                ,T1.ATTR_VALUE_ID
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_SKU_ATTRIBUTE T1
+    </select>
+
+    <select id="getTbSkuAttributeBySkuAttrId" resultType="com.buza.server.dto.TbSkuAttributeDto">
+        SELECT  T1.SKU_ATTR_ID
+                ,T1.SKU_ID
+                ,T1.ATTR_VALUE_ID
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_SKU_ATTRIBUTE T1
+        WHERE   T1.SKU_ATTR_ID = #{skuAttrId}
+    </select>
+
+    <select id="getTbSkuAttributeBySkuId" resultType="com.buza.server.dto.TbSkuAttributeDto">
+        SELECT  T1.SKU_ATTR_ID
+                ,T1.SKU_ID
+                ,T1.ATTR_VALUE_ID
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        FROM    TB_SKU_ATTRIBUTE T1
+        WHERE   T1.SKU_ID = #{skuId}
+    </select>
+
+    <select id="getTbSkuAttributeByAttrValueId" resultType="com.buza.server.dto.TbSkuAttributeDto">
+        SELECT  T1.SKU_ATTR_ID
+                ,T1.SKU_ID
+                ,T1.ATTR_VALUE_ID
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,T1.CREATE_TIME
+                ,T1.UPDATE_TIME
+        FROM    TB_SKU_ATTRIBUTE T1
+        WHERE   T1.ATTR_VALUE_ID = #{attrValueId}
+    </select>
 </mapper>

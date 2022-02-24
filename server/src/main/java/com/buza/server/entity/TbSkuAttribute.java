@@ -9,6 +9,8 @@ public class TbSkuAttribute {
 
     private Integer attrValueId;
 
+    private String status;
+
     private String option01;
 
     private String option02;
@@ -45,6 +47,14 @@ public class TbSkuAttribute {
 
     public void setAttrValueId(Integer attrValueId) {
         this.attrValueId = attrValueId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getOption01() {
@@ -112,6 +122,7 @@ public class TbSkuAttribute {
         sb.append(", skuAttrId=").append(skuAttrId);
         sb.append(", skuId=").append(skuId);
         sb.append(", attrValueId=").append(attrValueId);
+        sb.append(", status=").append(status);
         sb.append(", option01=").append(option01);
         sb.append(", option02=").append(option02);
         sb.append(", option03=").append(option03);
