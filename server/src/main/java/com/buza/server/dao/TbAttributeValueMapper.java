@@ -19,7 +19,7 @@ public interface TbAttributeValueMapper {
 
     int updateByPrimaryKey(TbAttributeValue record);
 
-    List<TbAttributeValueDto> lstTbAttributeValue(TbAttributeDto tbAttributeDto);
+    List<TbAttributeValueDto> lstTbAttributeValue(TbAttributeValueDto tbAttributeValueDto);
 
     TbAttributeValueDto getTbAttributeValueInfoByAttrValueId(Integer attrValueId);
 }
