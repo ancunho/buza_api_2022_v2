@@ -17,6 +17,7 @@ public class TbAttributeDto extends BaseRequest implements Serializable {
     private String attrName;
     private String attrType;
     private String status;
+    private String attrImage;
     private String option01;
     private String option02;
     private String option03;

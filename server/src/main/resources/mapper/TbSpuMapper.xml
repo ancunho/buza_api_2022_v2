@@ -8,6 +8,14 @@
         <result column="SPU_NAME" jdbcType="VARCHAR" property="spuName"/>
         <result column="SPU_TYPE" jdbcType="VARCHAR" property="spuType"/>
         <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="MAIN_IMAGE_01" jdbcType="VARCHAR" property="mainImage01"/>
+        <result column="MAIN_IMAGE_02" jdbcType="VARCHAR" property="mainImage02"/>
+        <result column="MAIN_IMAGE_03" jdbcType="VARCHAR" property="mainImage03"/>
+        <result column="SUB_IMAGE_01" jdbcType="VARCHAR" property="subImage01"/>
+        <result column="SUB_IMAGE_02" jdbcType="VARCHAR" property="subImage02"/>
+        <result column="SUB_IMAGE_03" jdbcType="VARCHAR" property="subImage03"/>
+        <result column="SUB_IMAGE_04" jdbcType="VARCHAR" property="subImage04"/>
+        <result column="SUB_IMAGE_05" jdbcType="VARCHAR" property="subImage05"/>
         <result column="OPTION01" jdbcType="VARCHAR" property="option01"/>
         <result column="OPTION02" jdbcType="VARCHAR" property="option02"/>
         <result column="OPTION03" jdbcType="VARCHAR" property="option03"/>
@@ -17,9 +25,10 @@
         <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-        SPU_ID
-        , CATEGORY_ID, BRAND_ID, SPU_NAME, SPU_TYPE, `STATUS`, OPTION01, OPTION02,
-    OPTION03, OPTION04, OPTION05, CREATE_TIME, UPDATE_TIME
+        SPU_ID, CATEGORY_ID, BRAND_ID, SPU_NAME, SPU_TYPE,
+        `STATUS`, MAIN_IMAGE_01, MAIN_IMAGE_02, MAIN_IMAGE_03, SUB_IMAGE_01,
+        SUB_IMAGE_02, SUB_IMAGE_03, SUB_IMAGE_04, SUB_IMAGE_05, OPTION01, OPTION02,
+        OPTION03, OPTION04, OPTION05, CREATE_TIME, UPDATE_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -34,12 +43,15 @@
     </delete>
     <insert id="insert" parameterType="com.buza.server.entity.TbSpu">
         insert into tb_spu (SPU_ID, CATEGORY_ID, BRAND_ID,
-                            SPU_NAME, SPU_TYPE, `STATUS`,
+                            SPU_NAME, SPU_TYPE, `STATUS`,MAIN_IMAGE_01, MAIN_IMAGE_02, MAIN_IMAGE_03, SUB_IMAGE_01,
+                            SUB_IMAGE_02, SUB_IMAGE_03, SUB_IMAGE_04, SUB_IMAGE_05,
                             OPTION01, OPTION02, OPTION03,
                             OPTION04, OPTION05, CREATE_TIME,
                             UPDATE_TIME)
         values (#{spuId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER},
                 #{spuName,jdbcType=VARCHAR}, #{spuType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+                #{mainImage01,jdbcType=VARCHAR}, #{mainImage02,jdbcType=VARCHAR}, #{mainImage03,jdbcType=VARCHAR},
+                #{subImage01,jdbcType=VARCHAR}, #{subImage02,jdbcType=VARCHAR}, #{subImage03,jdbcType=VARCHAR}, #{subImage04,jdbcType=VARCHAR}, #{subImage05,jdbcType=VARCHAR},
                 #{option01,jdbcType=VARCHAR}, #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR},
                 #{option04,jdbcType=VARCHAR}, #{option05,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
                 #{updateTime,jdbcType=TIMESTAMP})
@@ -64,6 +76,30 @@
             </if>
             <if test="status != null">
                 `STATUS`,
+            </if>
+            <if test="mainImage01 != null">
+                MAIN_IMAGE_01,
+            </if>
+            <if test="mainImage02 != null">
+                MAIN_IMAGE_02,
+            </if>
+            <if test="mainImage03 != null">
+                MAIN_IMAGE_03,
+            </if>
+            <if test="subImage01 != null">
+                SUB_IMAGE_01,
+            </if>
+            <if test="subImage02 != null">
+                SUB_IMAGE_02,
+            </if>
+            <if test="subImage03 != null">
+                SUB_IMAGE_03,
+            </if>
+            <if test="subImage04 != null">
+                SUB_IMAGE_04,
+            </if>
+            <if test="subImage05 != null">
+                SUB_IMAGE_05,
             </if>
             <if test="option01 != null">
                 OPTION01,
@@ -106,6 +142,30 @@
             <if test="status != null">
                 #{status,jdbcType=VARCHAR},
             </if>
+            <if test="mainImage01 != null">
+                #{mainImage01,jdbcType=VARCHAR},
+            </if>
+            <if test="mainImage02 != null">
+                #{mainImage02,jdbcType=VARCHAR},
+            </if>
+            <if test="mainImage03 != null">
+                #{mainImage03,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage01 != null">
+                #{subImage01,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage02 != null">
+                #{subImage02,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage03 != null">
+                #{subImage03,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage04 != null">
+                #{subImage04,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage05 != null">
+                #{subImage05,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 #{option01,jdbcType=VARCHAR},
             </if>
@@ -147,6 +207,30 @@
             <if test="status != null">
                 `STATUS` = #{status,jdbcType=VARCHAR},
             </if>
+            <if test="mainImage01 != null">
+                MAIN_IMAGE_01 = #{mainImage01,jdbcType=VARCHAR},
+            </if>
+            <if test="mainImage02 != null">
+                MAIN_IMAGE_02 = #{mainImage02,jdbcType=VARCHAR},
+            </if>
+            <if test="mainImage03 != null">
+                MAIN_IMAGE_03 = #{mainImage03,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage01 != null">
+                SUB_IMAGE_01 = #{subImage01,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage02 != null">
+                SUB_IMAGE_02 = #{subImage02,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage03 != null">
+                SUB_IMAGE_03 = #{subImage03,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage04 != null">
+                SUB_IMAGE_04 = #{subImage04,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage05 != null">
+                SUB_IMAGE_05 = #{subImage05,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 OPTION01 = #{option01,jdbcType=VARCHAR},
             </if>
@@ -178,6 +262,14 @@
             SPU_NAME    = #{spuName,jdbcType=VARCHAR},
             SPU_TYPE    = #{spuType,jdbcType=VARCHAR},
             `STATUS`    = #{status,jdbcType=VARCHAR},
+            MAIN_IMAGE_01    = #{mainImage01,jdbcType=VARCHAR},
+            MAIN_IMAGE_02    = #{mainImage02,jdbcType=VARCHAR},
+            MAIN_IMAGE_03    = #{mainImage03,jdbcType=VARCHAR},
+            SUB_IMAGE_01    = #{subImage01,jdbcType=VARCHAR},
+            SUB_IMAGE_02    = #{subImage02,jdbcType=VARCHAR},
+            SUB_IMAGE_03    = #{subImage03,jdbcType=VARCHAR},
+            SUB_IMAGE_04    = #{subImage04,jdbcType=VARCHAR},
+            SUB_IMAGE_05    = #{subImage05,jdbcType=VARCHAR},
             OPTION01    = #{option01,jdbcType=VARCHAR},
             OPTION02    = #{option02,jdbcType=VARCHAR},
             OPTION03    = #{option03,jdbcType=VARCHAR},
@@ -196,6 +288,14 @@
                 ,T1.SPU_TYPE
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.MAIN_IMAGE_01
+                ,T1.MAIN_IMAGE_02
+                ,T1.MAIN_IMAGE_03
+                ,T1.SUB_IMAGE_01
+                ,T1.SUB_IMAGE_02
+                ,T1.SUB_IMAGE_03
+                ,T1.SUB_IMAGE_04
+                ,T1.SUB_IMAGE_05
                 ,T1.OPTION01
                 ,T1.OPTION02
                 ,T1.OPTION03
@@ -214,6 +314,14 @@
                 ,T1.SPU_TYPE
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.MAIN_IMAGE_01
+                ,T1.MAIN_IMAGE_02
+                ,T1.MAIN_IMAGE_03
+                ,T1.SUB_IMAGE_01
+                ,T1.SUB_IMAGE_02
+                ,T1.SUB_IMAGE_03
+                ,T1.SUB_IMAGE_04
+                ,T1.SUB_IMAGE_05
                 ,T1.OPTION01
                 ,T1.OPTION02
                 ,T1.OPTION03

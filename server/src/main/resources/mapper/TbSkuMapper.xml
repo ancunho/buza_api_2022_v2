@@ -7,6 +7,14 @@
         <result column="SKU_NAME" jdbcType="VARCHAR" property="skuName"/>
         <result column="SKU_INTRO" jdbcType="VARCHAR" property="skuIntro"/>
         <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="MAIN_IMAGE_01" jdbcType="VARCHAR" property="mainImage01"/>
+        <result column="MAIN_IMAGE_02" jdbcType="VARCHAR" property="mainImage02"/>
+        <result column="MAIN_IMAGE_03" jdbcType="VARCHAR" property="mainImage03"/>
+        <result column="SUB_IMAGE_01" jdbcType="VARCHAR" property="subImage01"/>
+        <result column="SUB_IMAGE_02" jdbcType="VARCHAR" property="subImage02"/>
+        <result column="SUB_IMAGE_03" jdbcType="VARCHAR" property="subImage03"/>
+        <result column="SUB_IMAGE_04" jdbcType="VARCHAR" property="subImage04"/>
+        <result column="SUB_IMAGE_05" jdbcType="VARCHAR" property="subImage05"/>
         <result column="OPTION01" jdbcType="VARCHAR" property="option01"/>
         <result column="OPTION02" jdbcType="VARCHAR" property="option02"/>
         <result column="OPTION03" jdbcType="VARCHAR" property="option03"/>
@@ -17,7 +25,8 @@
     </resultMap>
     <sql id="Base_Column_List">
         SKU_ID
-        , SPU_ID, SKU_NAME, SKU_INTRO, `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04,
+        , SPU_ID, SKU_NAME, SKU_INTRO, `STATUS`, MAIN_IMAGE_01, MAIN_IMAGE_02, MAIN_IMAGE_03, SUB_IMAGE_01,
+        SUB_IMAGE_02, SUB_IMAGE_03, SUB_IMAGE_04, SUB_IMAGE_05, OPTION01, OPTION02, OPTION03, OPTION04,
     OPTION05, CREATE_TIME, UPDATE_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -33,12 +42,14 @@
     </delete>
     <insert id="insert" parameterType="com.buza.server.entity.TbSku">
         insert into tb_sku (SKU_ID, SPU_ID, SKU_NAME,
-                            SKU_INTRO, `STATUS`, OPTION01,
+                            SKU_INTRO, `STATUS`, MAIN_IMAGE_01, MAIN_IMAGE_02, MAIN_IMAGE_03, SUB_IMAGE_01,
+                            SUB_IMAGE_02, SUB_IMAGE_03, SUB_IMAGE_04, SUB_IMAGE_05, OPTION01,
                             OPTION02, OPTION03, OPTION04,
                             OPTION05, CREATE_TIME, UPDATE_TIME)
         values (#{skuId,jdbcType=INTEGER}, #{spuId,jdbcType=INTEGER}, #{skuName,jdbcType=VARCHAR},
-                #{skuIntro,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{option01,jdbcType=VARCHAR},
-                #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR}, #{option04,jdbcType=VARCHAR},
+                #{skuIntro,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{mainImage01,jdbcType=VARCHAR}, #{mainImage02,jdbcType=VARCHAR}, #{mainImage03,jdbcType=VARCHAR},
+                #{subImage01,jdbcType=VARCHAR}, #{subImage02,jdbcType=VARCHAR}, #{subImage03,jdbcType=VARCHAR}, #{subImage04,jdbcType=VARCHAR}, #{subImage05,jdbcType=VARCHAR},
+                #{option01,jdbcType=VARCHAR}, #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR}, #{option04,jdbcType=VARCHAR},
                 #{option05,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.buza.server.entity.TbSku">
@@ -58,6 +69,30 @@
             </if>
             <if test="status != null">
                 `STATUS`,
+            </if>
+            <if test="mainImage01 != null">
+                MAIN_IMAGE_01,
+            </if>
+            <if test="mainImage02 != null">
+                MAIN_IMAGE_02,
+            </if>
+            <if test="mainImage03 != null">
+                MAIN_IMAGE_03,
+            </if>
+            <if test="subImage01 != null">
+                SUB_IMAGE_01,
+            </if>
+            <if test="subImage02 != null">
+                SUB_IMAGE_02,
+            </if>
+            <if test="subImage03 != null">
+                SUB_IMAGE_03,
+            </if>
+            <if test="subImage04 != null">
+                SUB_IMAGE_04,
+            </if>
+            <if test="subImage05 != null">
+                SUB_IMAGE_05,
             </if>
             <if test="option01 != null">
                 OPTION01,
@@ -97,6 +132,30 @@
             <if test="status != null">
                 #{status,jdbcType=VARCHAR},
             </if>
+            <if test="mainImage01 != null">
+                #{mainImage01,jdbcType=VARCHAR},
+            </if>
+            <if test="mainImage02 != null">
+                #{mainImage02,jdbcType=VARCHAR},
+            </if>
+            <if test="mainImage03 != null">
+                #{mainImage03,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage01 != null">
+                #{subImage01,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage02 != null">
+                #{subImage02,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage03 != null">
+                #{subImage03,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage04 != null">
+                #{subImage04,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage05 != null">
+                #{subImage05,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 #{option01,jdbcType=VARCHAR},
             </if>
@@ -135,6 +194,30 @@
             <if test="status != null">
                 `STATUS` = #{status,jdbcType=VARCHAR},
             </if>
+            <if test="mainImage01 != null">
+                MAIN_IMAGE_01 = #{mainImage01,jdbcType=VARCHAR},
+            </if>
+            <if test="mainImage02 != null">
+                MAIN_IMAGE_02 = #{mainImage02,jdbcType=VARCHAR},
+            </if>
+            <if test="mainImage03 != null">
+                MAIN_IMAGE_03 = #{mainImage03,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage01 != null">
+                SUB_IMAGE_01 = #{subImage01,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage02 != null">
+                SUB_IMAGE_02 = #{subImage02,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage03 != null">
+                SUB_IMAGE_03 = #{subImage03,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage04 != null">
+                SUB_IMAGE_04 = #{subImage04,jdbcType=VARCHAR},
+            </if>
+            <if test="subImage05 != null">
+                SUB_IMAGE_05 = #{subImage05,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 OPTION01 = #{option01,jdbcType=VARCHAR},
             </if>
@@ -165,6 +248,14 @@
             SKU_NAME    = #{skuName,jdbcType=VARCHAR},
             SKU_INTRO   = #{skuIntro,jdbcType=VARCHAR},
             `STATUS`    = #{status,jdbcType=VARCHAR},
+            MAIN_IMAGE_01    = #{mainImage01,jdbcType=VARCHAR},
+            MAIN_IMAGE_02    = #{mainImage02,jdbcType=VARCHAR},
+            MAIN_IMAGE_03    = #{mainImage03,jdbcType=VARCHAR},
+            SUB_IMAGE_01    = #{subImage01,jdbcType=VARCHAR},
+            SUB_IMAGE_02    = #{subImage02,jdbcType=VARCHAR},
+            SUB_IMAGE_03    = #{subImage03,jdbcType=VARCHAR},
+            SUB_IMAGE_04    = #{subImage04,jdbcType=VARCHAR},
+            SUB_IMAGE_05    = #{subImage05,jdbcType=VARCHAR},
             OPTION01    = #{option01,jdbcType=VARCHAR},
             OPTION02    = #{option02,jdbcType=VARCHAR},
             OPTION03    = #{option03,jdbcType=VARCHAR},
@@ -182,6 +273,14 @@
                 ,T1.SKU_INTRO
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.MAIN_IMAGE_01
+                ,T1.MAIN_IMAGE_02
+                ,T1.MAIN_IMAGE_03
+                ,T1.SUB_IMAGE_01
+                ,T1.SUB_IMAGE_02
+                ,T1.SUB_IMAGE_03
+                ,T1.SUB_IMAGE_04
+                ,T1.SUB_IMAGE_05
                 ,T1.OPTION01
                 ,T1.OPTION02
                 ,T1.OPTION03
@@ -199,6 +298,14 @@
                 ,T1.SKU_INTRO
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.MAIN_IMAGE_01
+                ,T1.MAIN_IMAGE_02
+                ,T1.MAIN_IMAGE_03
+                ,T1.SUB_IMAGE_01
+                ,T1.SUB_IMAGE_02
+                ,T1.SUB_IMAGE_03
+                ,T1.SUB_IMAGE_04
+                ,T1.SUB_IMAGE_05
                 ,T1.OPTION01
                 ,T1.OPTION02
                 ,T1.OPTION03
@@ -217,6 +324,14 @@
              ,T1.SKU_INTRO
              ,T1.STATUS
              ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+             ,T1.MAIN_IMAGE_01
+             ,T1.MAIN_IMAGE_02
+             ,T1.MAIN_IMAGE_03
+             ,T1.SUB_IMAGE_01
+             ,T1.SUB_IMAGE_02
+             ,T1.SUB_IMAGE_03
+             ,T1.SUB_IMAGE_04
+             ,T1.SUB_IMAGE_05
              ,T1.OPTION01
              ,T1.OPTION02
              ,T1.OPTION03

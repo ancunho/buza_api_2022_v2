@@ -10,6 +10,7 @@
         <result column="DELIVERY_PRICE" jdbcType="DECIMAL" property="deliveryPrice"/>
         <result column="DELIVERY_TYPE" jdbcType="VARCHAR" property="deliveryType"/>
         <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="ATTR_VALUE_IMAGE" jdbcType="VARCHAR" property="attrValueImage"/>
         <result column="OPTION01" jdbcType="VARCHAR" property="option01"/>
         <result column="OPTION02" jdbcType="VARCHAR" property="option02"/>
         <result column="OPTION03" jdbcType="VARCHAR" property="option03"/>
@@ -21,7 +22,7 @@
     <sql id="Base_Column_List">
         ATTR_VALUE_ID
         , ATTR_ID, ATTR_VALUE, PRICE, VIP_PRICE, DELIVERY_PRICE, DELIVERY_TYPE,
-    `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05, CREATE_TIME, UPDATE_TIME
+    `STATUS`, ATTR_VALUE_IMAGE, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05, CREATE_TIME, UPDATE_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -37,12 +38,12 @@
     <insert id="insert" parameterType="com.buza.server.entity.TbAttributeValue">
         insert into tb_attribute_value (ATTR_VALUE_ID, ATTR_ID, ATTR_VALUE,
                                         PRICE, VIP_PRICE, DELIVERY_PRICE,
-                                        DELIVERY_TYPE, `STATUS`, OPTION01,
+                                        DELIVERY_TYPE, `STATUS`, ATTR_VALUE_IMAGE,OPTION01,
                                         OPTION02, OPTION03, OPTION04,
                                         OPTION05, CREATE_TIME, UPDATE_TIME)
         values (#{attrValueId,jdbcType=INTEGER}, #{attrId,jdbcType=INTEGER}, #{attrValue,jdbcType=VARCHAR},
                 #{price,jdbcType=DECIMAL}, #{vipPrice,jdbcType=DECIMAL}, #{deliveryPrice,jdbcType=DECIMAL},
-                #{deliveryType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{option01,jdbcType=VARCHAR},
+                #{deliveryType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{attrValueImage,jdbcType=VARCHAR}, #{option01,jdbcType=VARCHAR},
                 #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR}, #{option04,jdbcType=VARCHAR},
                 #{option05,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
     </insert>
@@ -72,6 +73,9 @@
             </if>
             <if test="status != null">
                 `STATUS`,
+            </if>
+            <if test="attrValueImage != null">
+                ATTR_VALUE_IMAGE,
             </if>
             <if test="option01 != null">
                 OPTION01,
@@ -120,6 +124,9 @@
             <if test="status != null">
                 #{status,jdbcType=VARCHAR},
             </if>
+            <if test="attrValueImage != null">
+                #{attrValueImage,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 #{option01,jdbcType=VARCHAR},
             </if>
@@ -167,6 +174,9 @@
             <if test="status != null">
                 `STATUS` = #{status,jdbcType=VARCHAR},
             </if>
+            <if test="attrValueImage != null">
+                ATTR_VALUE_IMAGE = #{attrValueImage,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 OPTION01 = #{option01,jdbcType=VARCHAR},
             </if>
@@ -200,6 +210,7 @@
             DELIVERY_PRICE = #{deliveryPrice,jdbcType=DECIMAL},
             DELIVERY_TYPE  = #{deliveryType,jdbcType=VARCHAR},
             `STATUS`       = #{status,jdbcType=VARCHAR},
+            ATTR_VALUE_IAMGE       = #{attrValueImage,jdbcType=VARCHAR},
             OPTION01       = #{option01,jdbcType=VARCHAR},
             OPTION02       = #{option02,jdbcType=VARCHAR},
             OPTION03       = #{option03,jdbcType=VARCHAR},
@@ -220,6 +231,7 @@
                 ,T1.DELIVERY_TYPE
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.ATTR_VALUE_IMAGE
                 ,T1.OPTION01
                 ,T1.OPTION02
                 ,T1.OPTION03
@@ -240,6 +252,7 @@
                 ,T1.DELIVERY_TYPE
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.ATTR_VALUE_IMAGE
                 ,T1.OPTION01
                 ,T1.OPTION02
                 ,T1.OPTION03

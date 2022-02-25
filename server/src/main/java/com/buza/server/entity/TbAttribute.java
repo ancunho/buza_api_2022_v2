@@ -11,6 +11,8 @@ public class TbAttribute {
 
     private String status;
 
+    private String attrImage;
+
     private String option01;
 
     private String option02;
@@ -55,6 +57,14 @@ public class TbAttribute {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getAttrImage() {
+        return attrImage;
+    }
+
+    public void setAttrImage(String attrImage) {
+        this.attrImage = attrImage;
     }
 
     public String getOption01() {
@@ -123,6 +133,7 @@ public class TbAttribute {
         sb.append(", attrName=").append(attrName);
         sb.append(", attrType=").append(attrType);
         sb.append(", status=").append(status);
+        sb.append(", attrImage=").append(attrImage);
         sb.append(", option01=").append(option01);
         sb.append(", option02=").append(option02);
         sb.append(", option03=").append(option03);

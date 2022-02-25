@@ -19,6 +19,14 @@ public class TbSkuDto extends BaseRequest implements Serializable {
     private String skuName;
     private String skuIntro;
     private String status;
+    private String mainImage01;
+    private String mainImage02;
+    private String mainImage03;
+    private String subImage01;
+    private String subImage02;
+    private String subImage03;
+    private String subImage04;
+    private String subImage05;
     private String option01;
     private String option02;
     private String option03;

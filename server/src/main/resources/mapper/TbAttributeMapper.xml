@@ -6,6 +6,7 @@
         <result column="ATTR_NAME" jdbcType="VARCHAR" property="attrName"/>
         <result column="ATTR_TYPE" jdbcType="VARCHAR" property="attrType"/>
         <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="ATTR_IMAGE" jdbcType="VARCHAR" property="attrImage"/>
         <result column="OPTION01" jdbcType="VARCHAR" property="option01"/>
         <result column="OPTION02" jdbcType="VARCHAR" property="option02"/>
         <result column="OPTION03" jdbcType="VARCHAR" property="option03"/>
@@ -16,7 +17,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         ATTR_ID
-        , ATTR_NAME, ATTR_TYPE, `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04,
+        , ATTR_NAME, ATTR_TYPE, `STATUS`,ATTR_IMAGE, OPTION01, OPTION02, OPTION03, OPTION04,
     OPTION05, CREATE_TIME, UPDATE_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -32,11 +33,11 @@
     </delete>
     <insert id="insert" parameterType="com.buza.server.entity.TbAttribute">
         insert into tb_attribute (ATTR_ID, ATTR_NAME, ATTR_TYPE,
-                                  `STATUS`, OPTION01, OPTION02,
+                                  `STATUS`, ATTR_IMAGE, OPTION01, OPTION02,
                                   OPTION03, OPTION04, OPTION05,
                                   CREATE_TIME, UPDATE_TIME)
         values (#{attrId,jdbcType=INTEGER}, #{attrName,jdbcType=VARCHAR}, #{attrType,jdbcType=VARCHAR},
-                #{status,jdbcType=VARCHAR}, #{option01,jdbcType=VARCHAR}, #{option02,jdbcType=VARCHAR},
+                #{status,jdbcType=VARCHAR}, #{attrImage,jdbcType=VARCHAR}, #{option01,jdbcType=VARCHAR}, #{option02,jdbcType=VARCHAR},
                 #{option03,jdbcType=VARCHAR}, #{option04,jdbcType=VARCHAR}, #{option05,jdbcType=VARCHAR},
                 #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
     </insert>
@@ -54,6 +55,9 @@
             </if>
             <if test="status != null">
                 `STATUS`,
+            </if>
+            <if test="attrImage != null">
+                ATTR_IMAGE,
             </if>
             <if test="option01 != null">
                 OPTION01,
@@ -90,6 +94,9 @@
             <if test="status != null">
                 #{status,jdbcType=VARCHAR},
             </if>
+            <if test="attrImage != null">
+                #{attrImage,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 #{option01,jdbcType=VARCHAR},
             </if>
@@ -125,6 +132,9 @@
             <if test="status != null">
                 `STATUS` = #{status,jdbcType=VARCHAR},
             </if>
+            <if test="attrImage != null">
+                ATTR_IMAGE = #{attrImage,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 OPTION01 = #{option01,jdbcType=VARCHAR},
             </if>
@@ -154,6 +164,7 @@
         set ATTR_NAME   = #{attrName,jdbcType=VARCHAR},
             ATTR_TYPE   = #{attrType,jdbcType=VARCHAR},
             `STATUS`    = #{status,jdbcType=VARCHAR},
+            ATTR_IMAGE    = #{attrImage,jdbcType=VARCHAR},
             OPTION01    = #{option01,jdbcType=VARCHAR},
             OPTION02    = #{option02,jdbcType=VARCHAR},
             OPTION03    = #{option03,jdbcType=VARCHAR},
@@ -170,6 +181,7 @@
                 ,T1.ATTR_TYPE
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.ATTR_IMAGE
                 ,T1.OPTION01
                 ,T1.OPTION02
                 ,T1.OPTION03
@@ -186,6 +198,7 @@
                 ,T1.ATTR_TYPE
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.ATTR_IMAGE
                 ,T1.OPTION01
                 ,T1.OPTION02
                 ,T1.OPTION03

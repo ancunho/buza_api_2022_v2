@@ -20,6 +20,8 @@ public class TbAttributeValue {
 
     private String status;
 
+    private String attrValueImage;
+
     private String option01;
 
     private String option02;
@@ -98,6 +100,14 @@ public class TbAttributeValue {
         this.status = status;
     }
 
+    public String getAttrValueImage() {
+        return attrValueImage;
+    }
+
+    public void setAttrValueImage(String attrValueImage) {
+        this.attrValueImage = attrValueImage;
+    }
+
     public String getOption01() {
         return option01;
     }
@@ -168,6 +178,7 @@ public class TbAttributeValue {
         sb.append(", deliveryPrice=").append(deliveryPrice);
         sb.append(", deliveryType=").append(deliveryType);
         sb.append(", status=").append(status);
+        sb.append(", attrValueImage=").append(attrValueImage);
         sb.append(", option01=").append(option01);
         sb.append(", option02=").append(option02);
         sb.append(", option03=").append(option03);

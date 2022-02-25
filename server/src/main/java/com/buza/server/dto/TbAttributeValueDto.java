@@ -22,6 +22,7 @@ public class TbAttributeValueDto extends BaseRequest implements Serializable {
     private BigDecimal deliveryPrice;
     private String deliveryType;
     private String status;
+    private String attrValueImage;
     private String option01;
     private String option02;
     private String option03;
