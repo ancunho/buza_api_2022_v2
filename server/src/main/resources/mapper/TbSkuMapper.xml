@@ -267,7 +267,8 @@
     </update>
 
     <select id="lstTbSku" parameterType="com.buza.server.dto.TbSkuDto" resultType="com.buza.server.dto.TbSkuDto">
-        SELECT T1.SKU_ID
+        SELECT  ROW_NUMBER() OVER() AS RN
+                ,T1.SKU_ID
                 ,T1.SPU_ID
                 ,T1.SKU_NAME
                 ,T1.SKU_INTRO
@@ -318,27 +319,28 @@
     </select>
 
     <select id="lstTbSkuBySpuId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSkuDto">
-        SELECT T1.SKU_ID
-             ,T1.SPU_ID
-             ,T1.SKU_NAME
-             ,T1.SKU_INTRO
-             ,T1.STATUS
-             ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
-             ,T1.MAIN_IMAGE_01
-             ,T1.MAIN_IMAGE_02
-             ,T1.MAIN_IMAGE_03
-             ,T1.SUB_IMAGE_01
-             ,T1.SUB_IMAGE_02
-             ,T1.SUB_IMAGE_03
-             ,T1.SUB_IMAGE_04
-             ,T1.SUB_IMAGE_05
-             ,T1.OPTION01
-             ,T1.OPTION02
-             ,T1.OPTION03
-             ,T1.OPTION04
-             ,T1.OPTION05
-             ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
-             ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+        SELECT ROW_NUMBER() OVER() AS RN
+                ,T1.SKU_ID
+                ,T1.SPU_ID
+                ,T1.SKU_NAME
+                ,T1.SKU_INTRO
+                ,T1.STATUS
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.MAIN_IMAGE_01
+                ,T1.MAIN_IMAGE_02
+                ,T1.MAIN_IMAGE_03
+                ,T1.SUB_IMAGE_01
+                ,T1.SUB_IMAGE_02
+                ,T1.SUB_IMAGE_03
+                ,T1.SUB_IMAGE_04
+                ,T1.SUB_IMAGE_05
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
         FROM    TB_SKU T1
         WHERE   T1.SPU_ID = #{spuId}
     </select>

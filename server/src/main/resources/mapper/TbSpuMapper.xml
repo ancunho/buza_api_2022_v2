@@ -281,7 +281,8 @@
     </update>
 
     <select id="lstTbSpu" parameterType="com.buza.server.dto.TbSpuDto" resultType="com.buza.server.dto.TbSpuDto">
-        SELECT 	T1.SPU_ID
+        SELECT 	ROW_NUMBER() OVER() AS RN
+                ,T1.SPU_ID
                 ,T1.CATEGORY_ID
                 ,T1.BRAND_ID
                 ,T1.SPU_NAME
