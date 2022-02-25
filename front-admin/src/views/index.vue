@@ -72,6 +72,26 @@
                         </li>
                         <!-- // 系统管理 end -->
 
+                        <!-- 规格管理 start -->
+                        <li class="spu-list-sidebar">
+                            <router-link to="/spu/list">
+                                <i class="el-icon-s-tools" style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                <span>规格管理</span>
+                                <span class="las la-angle-down"></span>
+                            </router-link>
+                            <ul class="sidebar-submenu">
+                                <li class="spu-list-sidebar">
+                                    <router-link to="/spu/list">
+                                        <i class="el-icon-user-solid"
+                                           style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>SPU</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- // 规格管理 end -->
+
                         <!-- 门店管理 start -->
                         <li class="shop-list-sidebar">
                             <router-link to="/shop/list">
