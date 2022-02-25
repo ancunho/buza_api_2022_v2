@@ -1,17 +1,16 @@
 <template>
     <div v-loading="loading">
 
-<!--        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增文章</el-button>-->
-        <router-link to="/post/create"><el-button type="primary" icon="el-icon-plus">新增文章</el-button></router-link>
+        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增文章</el-button>
+<!--        <router-link to="/post/create"><el-button type="primary" icon="el-icon-plus">新增文章</el-button></router-link>-->
 
         <!--  table list start  -->
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
-            <el-table-column prop="postTitle" label="postTitle" width="150" ></el-table-column>
-            <el-table-column prop="postTypeName" lab el="postTypeName" ></el-table-column>
-            <el-table-column prop="postAuthor" label="postAuthor" ></el-table-column>
-            <el-table-column prop="eventStartTime" label="eventStartTime" width="130"></el-table-column>
-            <el-table-column prop="eventEndTime" label="eventEndTime" width="130"></el-table-column>
+            <el-table-column prop="categoryId" label="CATEGORY_ID" width="150" ></el-table-column>
+            <el-table-column prop="brandId" label="BRAND_ID" ></el-table-column>
+            <el-table-column prop="spuName" label="SPU_NAME" ></el-table-column>
+            <el-table-column prop="spuType" label="SPU_TYPE" width="130"></el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
                 <template slot-scope="scope">
                     <el-tag type="danger" v-if="scope.row.status == '0'"> {{ scope.row.statusName }}</el-tag>
@@ -48,25 +47,44 @@
         <!--  dialog start  -->
         <el-dialog v-bind:title="buzaModalTitle" :visible.sync="isModalVisible" :close-on-click-modal="false">
             <!--:close-on-click-modal="false"-->
-            <input type="hidden" v-model="modifyItem.postId"/>
+            <input type="hidden" v-model="modifyItem.spuId"/>
             <el-form ref="form" label-width="130px">
-                <el-form-item label="ID" v-if="modifyItem.postId != null">
-                    <el-input v-model="modifyItem.postId" disabled></el-input>
+                <el-form-item label="spuId" v-if="modifyItem.spuId != null">
+                    <el-input v-model="modifyItem.spuId" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="门店名">
-                    <el-input v-model="modifyItem.postTitle"></el-input>
+                <el-form-item label="categoryId">
+                    <el-input v-model="modifyItem.categoryId"></el-input>
                 </el-form-item>
-                <el-form-item label="门店介绍">
-                    <el-input v-model="modifyItem.postContent"></el-input>
+                <el-form-item label="brandId">
+                    <el-input v-model="modifyItem.brandId"></el-input>
                 </el-form-item>
-                <el-form-item label="门店电话号码">
-                    <el-input v-model="modifyItem.eventStartTime"></el-input>
+                <el-form-item label="SPU_NAME">
+                    <el-input v-model="modifyItem.spuName"></el-input>
                 </el-form-item>
-                <el-form-item label="负责人">
-                    <el-input v-model="modifyItem.eventEndTime"></el-input>
+                <el-form-item label="SPU_TYPE">
+                    <el-input v-model="modifyItem.spuType"></el-input>
                 </el-form-item>
                 <el-form-item label="是否激活">
                     <el-switch v-model="modifyItem.status"></el-switch>
+                </el-form-item>
+                <el-form-item label="主图片">
+                    <el-upload
+                        :action="imgUploadURL"
+                        multiple
+                        :limit="2"
+                        list-type="picture-card"
+                        :on-success="handleImageSubmitSuccess"
+                        :auto-upload="true">
+                        <i slot="default" class="el-icon-plus"></i>
+                        <div slot="file" slot-scope="{file}">
+                            <el-image :src="file.url" alt="" style="width: 148px; height: 148px"></el-image>
+                            <span class="el-upload-list__item-actions">
+                                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
+                                  <i class="el-icon-zoom-in"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </el-upload>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -75,6 +93,10 @@
             </div>
         </el-dialog>
         <!--  // dialog end  -->
+
+        <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
 
     </div>
 </template>
@@ -93,6 +115,11 @@ export default {
             total: 100,
             isModalVisible: false,
             buzaModalTitle: 'Modal',
+
+            imgUploadURL: process.env.VUE_APP_SERVER + '/system/upload/image',
+            imgDeleteURL: process.env.VUE_APP_SERVER + '/system/upload/image/delete',
+            dialogImageUrl: '',
+            dialogVisible: false,
         }
     },
     mounted: function () {
@@ -100,6 +127,16 @@ export default {
         _this.tableList();
     },
     methods: {
+        handleImageSubmitSuccess(res, file) {
+            console.log("handleImageSubmitSuccess start");
+            console.log(res);
+            console.log(file);
+            console.log("handleImageSubmitSuccess end");
+        },
+        handlePictureCardPreview(file) {
+            this.dialogImageUrl = file.url;
+            this.dialogVisible = true;
+        },
         handleSizeChange(limit) {
             this.currentPage = 1;
             this.pageSize = limit;
@@ -111,7 +148,7 @@ export default {
         },
         tableList() {
             let _this = this;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/post/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/spu/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
                 _this.itemList = response.data.data;
                 _this.total = response.data.count;
                 _this.loading = false;
@@ -120,23 +157,20 @@ export default {
         handleAddNew() {
             let _this = this;
             _this.isModalVisible = true;
-            _this.buzaModalTitle = "新增文章";
+            _this.buzaModalTitle = "新增SPU";
             _this.modifyItem = {};
         },
         handleItemModify(idx, item) {
             let _this = this;
-            _this.$router.push({
-                name: 'post/create',
-                params: {
-                    postId: item.postId
-                }
-            });
+            _this.isModalVisible = true;
+            item.status = item.status == "1" ? true : false;
+            _this.modifyItem = item;
         },
         saveItem(item) {
             let _this = this;
             item.status = item.status === true ? "1" : "0";
             _this.loading = true;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/shop/proc", item).then(response => {
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/spu/proc", item).then(response => {
                 if (response.data.code === 0) {
                     _this.$notify.success(response.data.msg);
                     _this.tableList();

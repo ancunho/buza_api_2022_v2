@@ -106,8 +106,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/captcha").permitAll()
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/doc.html").permitAll()
-                .antMatchers("/file/upload").permitAll()
-                .antMatchers("/file/upload/**").permitAll()
+                .antMatchers("/upload").permitAll()
+                .antMatchers("/upload/**").permitAll()
                 //                .antMatchers("/doc.html").permitAll()
                 //配置允许匿名访问的路径
                 .anyRequest().authenticated()
@@ -142,7 +142,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ,"/v2/api-docs/**"
                 ,"/favicon.ico"
                 ,"/static/**"
-                ,"/system/file/upload"
+                ,"/system/upload"
+                ,"/system/upload/**"
 //                ,"/favicon.ico"
 //                ,"/webjars/**"
         );

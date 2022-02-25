@@ -141,7 +141,7 @@ export default {
             editor.config.onchange = (newHtml) => {
                 this.editorData = newHtml
             };
-            editor.config.uploadImgServer = process.env.VUE_APP_SERVER + '/system/file/upload';
+            editor.config.uploadImgServer = process.env.VUE_APP_SERVER + '/system/upload/file';
             editor.config.uploadFileName = 'file';
             editor.config.showLinkImg = false;
             editor.config.uploadImgMaxLength = 1;

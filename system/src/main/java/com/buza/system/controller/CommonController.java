@@ -162,7 +162,7 @@ public class CommonController {
         return BaseResponse.valueOfSuccess(lstTbCommonCodeByCodeType);
     }
 
-    @PostMapping(value = "/file/upload")
+    @PostMapping(value = "/upload/file")
     public Map<String, Object> file_upload_return_url(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
         Map<String, Object> result = new HashMap<>();
         List<String> imgList = new ArrayList<>();
@@ -179,6 +179,34 @@ public class CommonController {
         }
 //        }
         return result;
+    }
+
+    @PostMapping(value = "/upload/image")
+    public Map<String, Object> image_upload_return_url(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+        //Const.UPLOAD_IMAGE_MAX_SIZE : 2MB
+        Map<String, Object> imageMap = new HashMap<>();
+        if (file.getSize() > 0 && file.getSize() <= (Const.UPLOAD_IMAGE_MAX_SIZE * 20)) {
+            imageMap = aliyunService.uploadImageReturnURL(file);
+            result.put("errno", 0);
+            result.put("data", imageMap);
+        } else {
+            result.put("errno", 99);
+            result.put("data", imageMap);
+        }
+        return result;
+    }
+
+    @PostMapping(value = "/upload/image/delete")
+    public BaseResponse image_delete(HttpServletRequest request) throws Exception {
+        if (request.getAttribute("imageUrl") == null || "".equals(request.getAttribute("imageUrl"))) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        Map<String, Object> mapParams = new HashMap<>();
+        mapParams.put("imageUrl", request.getAttribute("imageUrl"));
+        aliyunService.deleteImage(mapParams);
+        return BaseResponse.valueOfSuccessMessage("删除成功");
     }
 
 
