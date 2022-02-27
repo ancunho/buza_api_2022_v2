@@ -70,8 +70,6 @@
                 <el-form-item label="主图片">
                     <el-upload
                         :action="imgUploadURL"
-                        multiple
-                        :limit="2"
                         list-type="picture-card"
                         :on-success="handleImageSubmitSuccess"
                         :auto-upload="true">
@@ -80,7 +78,10 @@
                             <el-image :src="file.url" alt="" style="width: 148px; height: 148px"></el-image>
                             <span class="el-upload-list__item-actions">
                                 <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                                  <i class="el-icon-zoom-in"></i>
+                                    <i class="el-icon-zoom-in"></i>
+                                </span>
+                                <span v-if="!disable" class="el-upload-list__item-delete" @click="handlePictureRemove(file)">
+                                    <i class="el-icon-delete"></i>
                                 </span>
                             </span>
                         </div>
@@ -115,11 +116,13 @@ export default {
             total: 100,
             isModalVisible: false,
             buzaModalTitle: 'Modal',
+            disable: false,
 
             imgUploadURL: process.env.VUE_APP_SERVER + '/system/upload/image',
             imgDeleteURL: process.env.VUE_APP_SERVER + '/system/upload/image/delete',
             dialogImageUrl: '',
             dialogVisible: false,
+            fileList: [],
         }
     },
     mounted: function () {
@@ -132,10 +135,26 @@ export default {
             console.log(res);
             console.log(file);
             console.log("handleImageSubmitSuccess end");
+            // if (res.errno === 0) {
+            //     this.fileList.push(res.data.)
+            // }
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
             this.dialogVisible = true;
+        },
+        handlePictureRemove(data) {
+            let _this = this;
+            console.log(data.response.data.imageObject);
+            var params = {};
+            params.imageObject = data.response.data.imageObject;
+            _this.$request.post(_this.imgDeleteURL + '?imageUrl=' + params.imageObject)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(response => {
+                console.log(response);
+            })
         },
         handleSizeChange(limit) {
             this.currentPage = 1;

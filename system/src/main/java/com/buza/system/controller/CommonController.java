@@ -198,13 +198,13 @@ public class CommonController {
     }
 
     @PostMapping(value = "/upload/image/delete")
-    public BaseResponse image_delete(HttpServletRequest request) throws Exception {
-        if (request.getAttribute("imageUrl") == null || "".equals(request.getAttribute("imageUrl"))) {
+    public BaseResponse image_delete(HttpServletRequest request, @RequestParam("imageUrl") String imageUrl) throws Exception {
+        if (imageUrl == null || "".equals(imageUrl)) {
             return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
 
         Map<String, Object> mapParams = new HashMap<>();
-        mapParams.put("imageUrl", request.getAttribute("imageUrl"));
+        mapParams.put("imageUrl", imageUrl);
         aliyunService.deleteImage(mapParams);
         return BaseResponse.valueOfSuccessMessage("删除成功");
     }

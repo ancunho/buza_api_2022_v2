@@ -83,6 +83,7 @@ public class AliyunServiceImpl implements AliyunService {
         returnMap.put("imageName", uploadFileName);
         returnMap.put("imagePath", year + "/" + month + "/" + date);
         returnMap.put("imageExt", fileExtensionName);
+        returnMap.put("imageObject", year + "/" + month + "/" + date + "/" + uploadFileName);
         return returnMap;
     }
 
