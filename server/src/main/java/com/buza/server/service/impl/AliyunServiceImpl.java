@@ -25,13 +25,13 @@ import java.util.Map;
 @Service
 public class AliyunServiceImpl implements AliyunService {
 
-    public String uploadFileReturnURL(MultipartFile file) throws Exception {
-        String aliyunOssBucketName = PropertiesUtils.getAliyunOssFileBucketName();
-        String aliyunOssEndPoint = PropertiesUtils.getAliyunOssFileEndpoint();
-        String aliyunOssAccessKeyId = PropertiesUtils.getAliyunOssFileAccessKeyId();
-        String aliyunOssAccessKeySecret = PropertiesUtils.getAliyunOssFileAccessKeySecret();
+    private static final String ALIYUN_OSS_BUCKET_NAME = PropertiesUtils.getAliyunOssFileBucketName();
+    private static final String ALIYUN_OSS_END_POINT = PropertiesUtils.getAliyunOssFileEndpoint();
+    private static final String ALIYUN_OSS_ACCESS_KEY_ID = PropertiesUtils.getAliyunOssFileAccessKeyId();
+    private static final String ALIYUN_OSS_ACCESS_KEY_SECRET = PropertiesUtils.getAliyunOssFileAccessKeySecret();
 
-        OSS ossClient = new OSSClientBuilder().build(aliyunOssEndPoint, aliyunOssAccessKeyId, aliyunOssAccessKeySecret);
+    public String uploadFileReturnURL(MultipartFile file) throws Exception {
+        OSS ossClient = new OSSClientBuilder().build(ALIYUN_OSS_END_POINT, ALIYUN_OSS_ACCESS_KEY_ID, ALIYUN_OSS_ACCESS_KEY_SECRET);
         InputStream inputStream = file.getInputStream();
 
         //기존파일명
@@ -43,22 +43,17 @@ public class AliyunServiceImpl implements AliyunService {
 
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int date = calendar.get(Calendar.DATE);
 
         String file_path_url = year + "/" + month + "/" + date + "/" + uploadFileName;
-        ossClient.putObject(aliyunOssBucketName, file_path_url, inputStream);
+        ossClient.putObject(ALIYUN_OSS_BUCKET_NAME, file_path_url, inputStream);
         ossClient.shutdown();
         return "https://" + PropertiesUtils.getAliyunOssFileBucketEndpoint() + "/" + file_path_url;
     }
 
     public Map<String, Object> uploadImageReturnURL(MultipartFile file) throws Exception {
-        String aliyunOssBucketName = PropertiesUtils.getAliyunOssFileBucketName();
-        String aliyunOssEndPoint = PropertiesUtils.getAliyunOssFileEndpoint();
-        String aliyunOssAccessKeyId = PropertiesUtils.getAliyunOssFileAccessKeyId();
-        String aliyunOssAccessKeySecret = PropertiesUtils.getAliyunOssFileAccessKeySecret();
-
-        OSS ossClient = new OSSClientBuilder().build(aliyunOssEndPoint, aliyunOssAccessKeyId, aliyunOssAccessKeySecret);
+        OSS ossClient = new OSSClientBuilder().build(ALIYUN_OSS_END_POINT, ALIYUN_OSS_ACCESS_KEY_ID, ALIYUN_OSS_ACCESS_KEY_SECRET);
         InputStream inputStream = file.getInputStream();
 
         //기존파일명
@@ -70,11 +65,11 @@ public class AliyunServiceImpl implements AliyunService {
 
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int date = calendar.get(Calendar.DATE);
 
         String file_path_url = year + "/" + month + "/" + date + "/" + uploadFileName;
-        ossClient.putObject(aliyunOssBucketName, file_path_url, inputStream);
+        ossClient.putObject(ALIYUN_OSS_BUCKET_NAME, file_path_url, inputStream);
         ossClient.shutdown();
 
         Map<String, Object> returnMap = new HashMap<>();
@@ -84,17 +79,14 @@ public class AliyunServiceImpl implements AliyunService {
         returnMap.put("imagePath", year + "/" + month + "/" + date);
         returnMap.put("imageExt", fileExtensionName);
         returnMap.put("imageObject", year + "/" + month + "/" + date + "/" + uploadFileName);
+        returnMap.put("imageSize", file.getSize());
+        returnMap.put("success", true);
         return returnMap;
     }
 
     public void deleteImage(Map<String, Object> mapParams) {
-        String aliyunOssBucketName = PropertiesUtils.getAliyunOssFileBucketName();
-        String aliyunOssEndPoint = PropertiesUtils.getAliyunOssFileEndpoint();
-        String aliyunOssAccessKeyId = PropertiesUtils.getAliyunOssFileAccessKeyId();
-        String aliyunOssAccessKeySecret = PropertiesUtils.getAliyunOssFileAccessKeySecret();
-
-        OSS ossClient = new OSSClientBuilder().build(aliyunOssEndPoint, aliyunOssAccessKeyId, aliyunOssAccessKeySecret);
-        ossClient.deleteObject(aliyunOssBucketName, String.valueOf(mapParams.get("imageUrl")));
+        OSS ossClient = new OSSClientBuilder().build(ALIYUN_OSS_END_POINT, ALIYUN_OSS_ACCESS_KEY_ID, ALIYUN_OSS_ACCESS_KEY_SECRET);
+        ossClient.deleteObject(ALIYUN_OSS_BUCKET_NAME, String.valueOf(mapParams.get("imageUrl")));
         ossClient.shutdown();
     }
 

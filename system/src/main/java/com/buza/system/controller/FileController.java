@@ -8,6 +8,7 @@ import com.buza.server.dto.TbFileListDto;
 import com.buza.server.entity.TbFileList;
 import com.buza.server.service.AliyunService;
 import com.buza.server.service.FileService;
+import com.buza.server.util.PropertiesUtils;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,66 @@ public class FileController {
             result.put("data", imageMap);
         }
         return result;
+    }
+
+    @PostMapping(value = "/multie/image/upload")
+    public BaseResponse image_multie_upload_return_url(HttpServletRequest request, @RequestParam("imageFiles") List<MultipartFile> multipartFileList, @RequestParam("authors") String username) {
+        try {
+            if (multipartFileList.size() > 0) {
+                Map<String, Object> returnFileMap;
+                boolean resultFlag = false;
+                String resultMessage = "Fail";
+                for (MultipartFile file : multipartFileList) {
+                    // 1. aliyun oss save
+                    returnFileMap = aliyunService.uploadImageReturnURL(file);
+
+                    boolean isOSSSuccess = (boolean) returnFileMap.get("success");
+                    if (isOSSSuccess) {
+                        // 2. file info save in DB
+                        TbFileList tbFileList = new TbFileList();
+                        tbFileList.setFileType("01"); // 01: image, 02: audio, 03: video
+                        tbFileList.setFileOriginName(returnFileMap.get("imageOriginName").toString());
+                        tbFileList.setFileName(returnFileMap.get("imageName").toString());
+                        tbFileList.setFilePath(returnFileMap.get("imagePath").toString());
+                        tbFileList.setFileBucketName(PropertiesUtils.getAliyunOssFileBucketName());
+                        tbFileList.setFileBucketObject(returnFileMap.get("imageObject").toString());
+                        tbFileList.setFileSize(String.valueOf(file.getSize()));
+                        tbFileList.setFileExtention(returnFileMap.get("imageExt").toString());
+                        tbFileList.setFileUrl(returnFileMap.get("imageUrl").toString());
+                        tbFileList.setFileSort(null);
+                        tbFileList.setFileIsMain(null);
+                        tbFileList.setFileRemark(null);
+                        tbFileList.setStatus("1");
+                        tbFileList.setOption01(username);
+                        tbFileList.setOption02(null);
+                        tbFileList.setOption03(null);
+                        tbFileList.setOption04(null);
+                        tbFileList.setOption05(null);
+
+                        boolean isSuccessInsert = fileService.insertTbFileList(tbFileList);
+                        if (isSuccessInsert) {
+                            resultFlag = true;
+                            resultMessage = ResponseCode.INSERT_SUCCESS.getDesc();
+                        } else {
+                            resultMessage = ResponseCode.INSERT_ERROR.getDesc();
+                        }
+                    } else {
+                        resultMessage = "上传到阿里云服务器失败， 请重试或联系管理员";
+                    }
+                }
+
+                if (!resultFlag) {
+                    return BaseResponse.valueOfSuccessMessage(resultMessage);
+                }
+                return BaseResponse.valueOfFailureMessage(resultMessage);
+            } else {
+                return BaseResponse.valueOfFailureMessage("系统未发现上传图片， 请确认");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
+        }
+
     }
 
     @PostMapping(value = "/single/image/delete")
