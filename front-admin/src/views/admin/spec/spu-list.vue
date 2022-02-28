@@ -118,8 +118,8 @@ export default {
             buzaModalTitle: 'Modal',
             disable: false,
 
-            imgUploadURL: process.env.VUE_APP_SERVER + '/system/upload/image',
-            imgDeleteURL: process.env.VUE_APP_SERVER + '/system/upload/image/delete',
+            imgUploadURL: process.env.VUE_APP_SERVER + '/system/file/handle/single/image/upload',
+            imgDeleteURL: process.env.VUE_APP_SERVER + '/system/file/handle/single/image/delete',
             dialogImageUrl: '',
             dialogVisible: false,
             fileList: [],
