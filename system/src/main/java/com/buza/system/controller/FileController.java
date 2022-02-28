@@ -5,6 +5,7 @@ import com.buza.server.common.Const;
 import com.buza.server.common.ResponseCode;
 import com.buza.server.dto.BaseRequest;
 import com.buza.server.dto.TbFileListDto;
+import com.buza.server.entity.TbFileList;
 import com.buza.server.service.AliyunService;
 import com.buza.server.service.FileService;
 import com.github.pagehelper.PageHelper;
@@ -41,6 +42,7 @@ public class FileController {
             imgList.add(file_path_url);
             result.put("errno", 0);
             result.put("data", imgList);
+
         } else {
             result.put("errno", 99);
             result.put("data", imgList);
@@ -50,10 +52,11 @@ public class FileController {
     }
 
     @PostMapping(value = "/single/image/upload")
-    public Map<String, Object> image_upload_return_url(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
+    public Map<String, Object> image_upload_return_url(HttpServletRequest request, @RequestBody TbFileListDto tbFileListDto, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
         Map<String, Object> result = new HashMap<>();
         //Const.UPLOAD_IMAGE_MAX_SIZE : 2MB
         Map<String, Object> imageMap = new HashMap<>();
+        System.out.println(">>>>tbFileListDto:" + tbFileListDto.toString());
         if (file.getSize() > 0 && file.getSize() <= (Const.UPLOAD_IMAGE_MAX_SIZE * 20)) {
             imageMap = aliyunService.uploadImageReturnURL(file);
             result.put("errno", 0);

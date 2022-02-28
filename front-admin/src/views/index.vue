@@ -72,6 +72,26 @@
                         </li>
                         <!-- // 系统管理 end -->
 
+                        <!-- 文件管理 start -->
+                        <li class="file-list-sidebar">
+                            <router-link to="/file/list">
+                                <i class="el-icon-s-tools" style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                <span>文件管理</span>
+                                <span class="las la-angle-down"></span>
+                            </router-link>
+                            <ul class="sidebar-submenu">
+                                <li class="file-list-sidebar">
+                                    <router-link to="/file/list">
+                                        <i class="el-icon-user-solid"
+                                           style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>文件列表</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- // 规格管理 end -->
+
                         <!-- 规格管理 start -->
                         <li class="spu-list-sidebar">
                             <router-link to="/spu/list">
