@@ -17,6 +17,20 @@
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
         <h4 style="margin: 1.5rem 0">asdfasdfasdf</h4>
+        <el-row :gutter="20">
+            <el-col :lg="4" :xs="12" :sm="6" :md="6" v-for="(o, index) in 100" :key="o" style="margin-bottom: 20px;">
+                <el-card :body-style="{ padding: '0px' }">
+                    <img src="https://buzatest.oss-cn-beijing.aliyuncs.com/2022/2/1/20220301002540_8536286124.jpeg" class="image">
+                    <div style="padding: 14px;">
+                        <span>好吃的汉堡</span>
+                        <div class="bottom clearfix">
+                            <time class="time">{{ currentDate }}</time>
+                            <el-button type="text" class="button">操作按钮</el-button>
+                        </div>
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
 
     </div>
 </template>
@@ -26,6 +40,7 @@ export default {
     name: "file-list",
     data: function () {
         return {
+            currentDate: new Date(),
             loading: false,
 
             fileList: [],
@@ -53,12 +68,10 @@ export default {
         },
         handleOnUpload(file) {
             let _this = this;
-            console.log(`handleOnUpload:`,  file);
             _this.fileData.append("imageFiles", file.file);
         },
         handleSubmitUpload() {
             let _this = this;
-            console.log("fileList:", _this.fileList);
             const isLt1M = _this.fileList.every(file => file.size / 1024 / 1024 < 1);
             if (!isLt1M) {
                 _this.$message.error("请检查，上传文件大小不能超过1MB!");
@@ -68,11 +81,11 @@ export default {
             _this.fileData = new FormData();
             _this.$refs.upload.submit();
             _this.fileData.append("authors", Tool.getStorageParam("username"));
-            console.log("this fileData:", _this.fileData);
             _this.handleRequest(_this.fileData);
         },
         handleRequest(params) {
             let _this = this;
+            _this.loading = true;
             var instance_files = _this.$request.create({
                 headers: {
                     'content-type': 'multipart/form-data',
@@ -82,19 +95,51 @@ export default {
             instance_files
                 .post(_this.imgUploadURL, params)
                 .then(res => {
-                    console.log(res);
+                    if (res.data.code === 0) {
+                        _this.$message.success(res.data.msg);
+                        _this.fileList = [];
+                    } else {
+                        _this.$message.error(res.data.msg);
+                    }
+                    _this.loading = false;
                 })
                 .catch(response => {
-                    console.log(response);
-                })
+                    _this.$message.error("上传失败， 请重试或联系管理员");
+                    _this.loading = false;
+                });
         }
     }
 }
 </script>
 
 <style>
-.div-upload div.el-upload { display: block;}
-.div-upload div.el-upload-dragger {
+.time {
+    font-size: 13px;
+    color: #999;
+}
+
+.bottom {
+    margin-top: 13px;
+    line-height: 12px;
+}
+
+.button {
+    padding: 0;
+    float: right;
+}
+
+.image {
     width: 100%;
+    display: block;
+}
+
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+}
+
+.clearfix:after {
+    clear: both
 }
 </style>

@@ -115,7 +115,7 @@ public class FileController {
                     }
                 }
 
-                if (!resultFlag) {
+                if (resultFlag) {
                     return BaseResponse.valueOfSuccessMessage(resultMessage);
                 }
                 return BaseResponse.valueOfFailureMessage(resultMessage);
