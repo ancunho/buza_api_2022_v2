@@ -40,9 +40,6 @@ public class SkuServiceImpl implements SkuService {
     private TbSkuAttributeMapper tbSkuAttributeMapper;
 
     @Resource
-    private TbCategoryMapper tbCategoryMapper;
-
-    @Resource
     private TbBrandMapper tbBrandMapper;
 
     public List<TbSpuDto> lstTbSpu(TbSpuDto tbSpuDto) {

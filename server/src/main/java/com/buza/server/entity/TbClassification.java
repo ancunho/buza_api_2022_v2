@@ -2,14 +2,14 @@ package com.buza.server.entity;
 
 import java.util.Date;
 
-public class TbCategory {
-    private Integer categoryId;
+public class TbClassification {
+    private Integer classificationId;
 
-    private Integer parentCategoryId;
+    private Integer parentClassificationId;
 
-    private String categoryName;
+    private String classificationName;
 
-    private String categoryType;
+    private String classificationType;
 
     private Integer sortOrder;
 
@@ -29,36 +29,36 @@ public class TbCategory {
 
     private Date updateTime;
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public Integer getClassificationId() {
+        return classificationId;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setClassificationId(Integer classificationId) {
+        this.classificationId = classificationId;
     }
 
-    public Integer getParentCategoryId() {
-        return parentCategoryId;
+    public Integer getParentClassificationId() {
+        return parentClassificationId;
     }
 
-    public void setParentCategoryId(Integer parentCategoryId) {
-        this.parentCategoryId = parentCategoryId;
+    public void setParentClassificationId(Integer parentClassificationId) {
+        this.parentClassificationId = parentClassificationId;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getClassificationName() {
+        return classificationName;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setClassificationName(String classificationName) {
+        this.classificationName = classificationName;
     }
 
-    public String getCategoryType() {
-        return categoryType;
+    public String getClassificationType() {
+        return classificationType;
     }
 
-    public void setCategoryType(String categoryType) {
-        this.categoryType = categoryType;
+    public void setClassificationType(String classificationType) {
+        this.classificationType = classificationType;
     }
 
     public Integer getSortOrder() {
@@ -139,10 +139,10 @@ public class TbCategory {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", categoryId=").append(categoryId);
-        sb.append(", parentCategoryId=").append(parentCategoryId);
-        sb.append(", categoryName=").append(categoryName);
-        sb.append(", categoryType=").append(categoryType);
+        sb.append(", classificationId=").append(classificationId);
+        sb.append(", parentClassificationId=").append(parentClassificationId);
+        sb.append(", classificationName=").append(classificationName);
+        sb.append(", classificationType=").append(classificationType);
         sb.append(", sortOrder=").append(sortOrder);
         sb.append(", status=").append(status);
         sb.append(", option01=").append(option01);

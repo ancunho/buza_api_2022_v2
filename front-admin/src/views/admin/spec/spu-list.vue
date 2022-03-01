@@ -26,7 +26,7 @@
             <el-table-column prop="updateTime" label="更新时间" width="150"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button @click="handleItemModify(scope.$index, scope.row)" type="primary" icon="el-icon-edit-outline">修改门店</el-button>
+                    <el-button @click="handleItemModify(scope.$index, scope.row)" type="primary" icon="el-icon-edit-outline">修改</el-button>
                     <!--          <el-button @click="getRoleHandler(scope.row)" type="danger" icon="el-icon-delete">删除</el-button>-->
                 </template>
             </el-table-column>
@@ -73,44 +73,51 @@
                     <el-switch v-model="modifyItem.status"></el-switch>
                 </el-form-item>
                 <el-form-item label="主图片">
-                    <el-row :gutter="30">
-                        <el-col :span="4">
-                            <div class="block">
-                                <span class="demonstration"></span>
-                                <el-image :src="modifyItem.mainImage01 || ''" style="width: 100px; height:100px;">
-                                    <div slot="error" class="image-slot">
-                                        <i class="el-icon-picture-outline font100px"></i>
-                                    </div>
-                                </el-image>
-
+                    <div class="block">
+                        <span class="demonstration"></span>
+                        <el-image :src="modifyItem.mainImage01 || ''" style="width: 200px; height:200px;">
+                            <div slot="error" class="image-slot">
+                                <i class="el-icon-picture-outline font200px"></i>
                             </div>
-                            <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选择图片</el-button>
-                        </el-col>
-                        <el-col :span="4">
-                            <div class="block">
-                                <span class="demonstration"></span>
-                                <el-image :src="modifyItem.mainImage02 || ''" style="width: 100px; height:100px;">
-                                    <div slot="error" class="image-slot">
-                                        <i class="el-icon-picture-outline font100px"></i>
-                                    </div>
-                                </el-image>
-
-                            </div>
-                            <el-button type="info" v-on:click="handleChooseMain('mainImage02')">选择图片</el-button>
-                        </el-col>
-                        <el-col :span="4">
-                            <div class="block">
-                                <span class="demonstration"></span>
-                                <el-image :src="modifyItem.mainImage03 || ''" style="width: 100px; height:100px;">
-                                    <div slot="error" class="image-slot">
-                                        <i class="el-icon-picture-outline font100px"></i>
-                                    </div>
-                                </el-image>
-
-                            </div>
-                            <el-button type="info" v-on:click="handleChooseMain('mainImage03')">选择图片</el-button>
-                        </el-col>
-                    </el-row>
+                        </el-image>
+                    </div>
+                    <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选 择 图 片</el-button>
+                    <el-button type="danger" v-on:click="handleDeleteChooseMain('mainImage01')">删 除</el-button>
+<!--                    <el-row :gutter="10">-->
+<!--                        <el-col :span="8">-->
+<!--                            <div class="block">-->
+<!--                                <span class="demonstration"></span>-->
+<!--                                <el-image :src="modifyItem.mainImage01 || ''" style="width: 200px; height:200px;">-->
+<!--                                    <div slot="error" class="image-slot">-->
+<!--                                        <i class="el-icon-picture-outline font100px"></i>-->
+<!--                                    </div>-->
+<!--                                </el-image>-->
+<!--                            </div>-->
+<!--                            <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选择图片</el-button>-->
+<!--                        </el-col>-->
+<!--                        <el-col :span="8">-->
+<!--                            <div class="block">-->
+<!--                                <span class="demonstration"></span>-->
+<!--                                <el-image :src="modifyItem.mainImage02 || ''" style="width: 200px; height:200px;">-->
+<!--                                    <div slot="error" class="image-slot">-->
+<!--                                        <i class="el-icon-picture-outline font100px"></i>-->
+<!--                                    </div>-->
+<!--                                </el-image>-->
+<!--                            </div>-->
+<!--                            <el-button type="info" v-on:click="handleChooseMain('mainImage02')">选择图片</el-button>-->
+<!--                        </el-col>-->
+<!--                        <el-col :span="8">-->
+<!--                            <div class="block">-->
+<!--                                <span class="demonstration"></span>-->
+<!--                                <el-image :src="modifyItem.mainImage03 || ''" style="width: 200px; height:200px;">-->
+<!--                                    <div slot="error" class="image-slot">-->
+<!--                                        <i class="el-icon-picture-outline font100px"></i>-->
+<!--                                    </div>-->
+<!--                                </el-image>-->
+<!--                            </div>-->
+<!--                            <el-button type="info" v-on:click="handleChooseMain('mainImage03')">选择图片</el-button>-->
+<!--                        </el-col>-->
+<!--                    </el-row>-->
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -234,6 +241,12 @@ export default {
             _this.isDrawerVisible = true;
             _this.choosenFlag = flag;
         },
+        handleDeleteChooseMain(flag) {
+            let _this = this;
+            if (flag == 'mainImage01') {
+                _this.modifyItem.mainImage01 = '';
+            }
+        },
         saveItem(item) {
             let _this = this;
             item.status = item.status === true ? "1" : "0";
@@ -255,4 +268,5 @@ export default {
 
 <style scoped>
 .font100px {font-size: 100px;}
+.font200px {font-size: 200px;}
 </style>
