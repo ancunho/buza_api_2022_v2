@@ -40,5 +40,9 @@ public class FileServiceImpl implements FileService {
         return tbFileListMapper.getAllTbFileList(tbFileListDto);
     }
 
+    public TbFileListDto getTbFileListInfoByFileId(Integer fileId) {
+        return tbFileListMapper.getTbFileListInfoByFileId(fileId);
+    }
+
 
 }

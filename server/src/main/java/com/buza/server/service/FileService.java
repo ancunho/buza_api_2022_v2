@@ -10,4 +10,5 @@ public interface FileService {
     public Boolean insertTbFileList(TbFileList tbFileList);
     public Boolean updateTbFileList(TbFileList tbFileList);
     public List<TbFileListDto> getAllTbFileList(TbFileListDto tbFileListDto);
+    public TbFileListDto getTbFileListInfoByFileId(Integer fileId);
 }

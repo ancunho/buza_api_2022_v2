@@ -148,4 +148,14 @@ public class FileController {
         return BaseResponse.valueOfSuccessList(returnData);
     }
 
+    @GetMapping(value = "/info")
+    public BaseResponse getTbFileListInfoByFileId(BaseRequest baseRequest, @RequestParam("fileId") Integer fileId) {
+        if (fileId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        TbFileListDto tbFileListDto = fileService.getTbFileListInfoByFileId(fileId);
+        return BaseResponse.valueOfSuccess(tbFileListDto);
+    }
+
 }

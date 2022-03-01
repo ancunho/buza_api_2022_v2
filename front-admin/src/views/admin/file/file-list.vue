@@ -17,20 +17,78 @@
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
         <h4 style="margin: 1.5rem 0">asdfasdfasdf</h4>
+
+        <!--  paging start  -->
+        <el-row style="margin: 2rem 0;">
+            <el-col :span="12" :offset="6">
+                <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="pageSizes"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+                </el-pagination>
+            </el-col>
+        </el-row>
+        <!--  // paging end  -->
+
+        <!--  paging start  -->
         <el-row :gutter="20">
-            <el-col :lg="4" :xs="12" :sm="6" :md="6" v-for="(o, index) in 100" :key="o" style="margin-bottom: 20px;">
+            <el-col :lg="4" :xs="12" :sm="6" :md="6" v-for="item in arrInitData" :key="item.fileId" style="margin-bottom: 20px;">
                 <el-card :body-style="{ padding: '0px' }">
-                    <img src="https://buzatest.oss-cn-beijing.aliyuncs.com/2022/2/1/20220301002540_8536286124.jpeg" class="image">
+                    <el-image style="width: 100%; height: 200px" :src="item.fileUrl" fit="contain"></el-image>
                     <div style="padding: 14px;">
-                        <span>好吃的汉堡</span>
+                        <span style="font-size: .7rem; height: 30px; line-height: 25px; display: inline-block; overflow-y: hidden">{{ item.fileOriginName }}</span>
                         <div class="bottom clearfix">
-                            <time class="time">{{ currentDate }}</time>
-                            <el-button type="text" class="button">操作按钮</el-button>
+                            <!--                                <time class="time">{{ item.fileName }}</time>-->
+                            <el-button type="text" class="button" v-on:click="handleOpenDrawer(item.fileId)">查看详细</el-button>
                         </div>
                     </div>
                 </el-card>
             </el-col>
         </el-row>
+
+        <!--  paging start  -->
+        <el-row style="margin: 2rem 0;">
+            <el-col :span="12" :offset="6">
+                <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="pageSizes"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+                </el-pagination>
+            </el-col>
+        </el-row>
+        <!--  // paging end  -->
+
+        <!--  // drawer start  -->
+        <el-drawer
+            v-loading="loadingDrawer"
+            title="我是标题"
+            :visible.sync="isDrawerVisible"
+            direction="rtl"
+            size="50%"
+            :close-on-press-escape="false"
+        >
+            <p>fileId : {{ itemDetail.fileId }}</p>
+            <p>fileType : {{ itemDetail.fileType || '' }}</p>
+            <p>filePurpose : {{ itemDetail.filePurpose || '' }}</p>
+            <p>fileOriginName : {{ itemDetail.fileOriginName }}</p>
+            <p>fileName : {{ itemDetail.fileName }}</p>
+            <p>filePath : {{ itemDetail.filePath }}</p>
+            <p>fileBucketName : {{ itemDetail.fileBucketName }}</p>
+            <p>fileBucketObject : {{ itemDetail.fileBucketObject }}</p>
+            <p>fileSize : {{ itemDetail.fileSize }}</p>
+            <p>status : {{ itemDetail.status }}</p>
+            <p>fileExtention : {{ itemDetail.fileExtention }}</p>
+            <p>fileUrl : {{ itemDetail.fileUrl }}</p>
+        </el-drawer>
+        <!--  // drawer end  -->
 
     </div>
 </template>
@@ -42,18 +100,60 @@ export default {
         return {
             currentDate: new Date(),
             loading: false,
+            currentPage: 1, //page
+            pageSize: 24, //limit
+            pageSizes: [24, 50, 100, 200],
+            total: 100,
 
             fileList: [],
             fileData: '', // 文件上传数据（多文件合一）
             imgUploadURL: process.env.VUE_APP_SERVER + '/system/file/handle/multie/image/upload',
             imgDeleteURL: process.env.VUE_APP_SERVER + '/system/file/handle/single/image/delete',
+            imgDetailURL: process.env.VUE_APP_SERVER + '/system/file/handle/info',
+            initDataListURL: process.env.VUE_APP_SERVER + '/system/file/handle/list',
+            arrInitData: [],
+            isDrawerVisible: false,
+            fileId: '',
+            itemDetail: {},
+            loadingDrawer: false,
         }
     },
     mounted: function () {
         let _this = this;
-
+        _this.initDataList();
     },
     methods: {
+        initDataList() {
+            let _this = this;
+            let params = {
+
+            };
+
+            _this.$request
+                .post(_this.initDataListURL + '?page=' + _this.currentPage + "&limit=" + _this.pageSize,params)
+                .then(res => {
+                    if (res.data.status === 200) {
+                        _this.arrInitData = res.data.data;
+                        _this.total = res.data.count;
+                    } else {
+                        _this.$message.error(res.data.msg);
+                    }
+                    _this.loading = false;
+                })
+                .catch(res => {
+                    console.log(res);
+                    _this.loading = false;
+                });
+        },
+        handleSizeChange(limit) {
+            this.currentPage = 1;
+            this.pageSize = limit;
+            this.initDataList();
+        },
+        handleCurrentChange(page) {
+            this.currentPage = page;
+            this.initDataList();
+        },
         handleOnChange(file, fileList) {
             let _this = this;
             let existsFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name);
@@ -101,13 +201,33 @@ export default {
                     } else {
                         _this.$message.error(res.data.msg);
                     }
-                    _this.loading = false;
+                    _this.initDataList();
                 })
                 .catch(response => {
                     _this.$message.error("上传失败， 请重试或联系管理员");
                     _this.loading = false;
                 });
-        }
+        },
+        handleOpenDrawer(fileId) {
+            let _this = this;
+            _this.fileId = fileId;
+            _this.isDrawerVisible = true;
+            _this.loadingDrawer = true;
+            _this.$request.get(_this.imgDetailURL + '?fileId=' + _this.fileId)
+            .then(res => {
+                _this.loadingDrawer = false;
+                if (res.data.status === 200) {
+                    _this.itemDetail = res.data.data;
+                } else {
+                    _this.$message.error(res.data.msg);
+                }
+
+            })
+            .catch(res => {
+
+            });
+
+        },
     }
 }
 </script>

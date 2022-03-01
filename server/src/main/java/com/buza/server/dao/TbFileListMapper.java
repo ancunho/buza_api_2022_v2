@@ -19,4 +19,6 @@ public interface TbFileListMapper {
     int updateByPrimaryKey(TbFileList record);
 
     List<TbFileListDto> getAllTbFileList(TbFileListDto tbFileListDto);
+
+    TbFileListDto getTbFileListInfoByFileId(Integer fileId);
 }

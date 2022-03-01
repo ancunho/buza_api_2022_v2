@@ -104,11 +104,11 @@ export default {
         handleSizeChange(limit) {
             this.currentPage = 1;
             this.pageSize = limit;
-            this.listTable();
+            this.tableList();
         },
         handleCurrentChange(page) {
             this.currentPage = page;
-            this.listTable();
+            this.tableList();
         },
         tableList() {
             let _this = this;
