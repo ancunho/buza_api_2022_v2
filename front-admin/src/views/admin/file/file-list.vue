@@ -69,7 +69,7 @@
         <!--  // drawer start  -->
         <el-drawer
             v-loading="loadingDrawer"
-            title="我是标题"
+            title="图片详细信息"
             :visible.sync="isDrawerVisible"
             direction="rtl"
             size="50%"
@@ -77,7 +77,7 @@
         >
             <p>fileId : {{ itemDetail.fileId }}</p>
             <p>fileType : {{ itemDetail.fileType || '' }}</p>
-            <p>filePurpose : {{ itemDetail.filePurpose || '' }}</p>
+            <p>filePurpose : {{ itemDetail.filePurpose || '-' }}</p>
             <p>fileOriginName : {{ itemDetail.fileOriginName }}</p>
             <p>fileName : {{ itemDetail.fileName }}</p>
             <p>filePath : {{ itemDetail.filePath }}</p>
