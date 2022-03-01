@@ -108,7 +108,7 @@ export default {
                     _this.form.eventDateRange = [_this.form.eventStartTime || '', _this.form.eventEndTime || ''];
                     _this.editor.txt.html(_this.form.postContent);
                 } else {
-                    _this.$notify.error(response.data.msg);
+                    _this.$message.error(response.data.msg);
                 }
                 _this.loading = false;
             })
@@ -126,13 +126,13 @@ export default {
             _this.$request.post(process.env.VUE_APP_SERVER + "/system/post/proc", _this.form)
                 .then(response => {
                     if (response.data.code === 0) {
-                        _this.$notify.success(response.data.msg);
+                        _this.$message.success(response.data.msg);
                         _this.$router.push({name: 'post/list'});
                     } else {
-                        _this.$notify.error(response.data.msg);
+                        _this.$message.error(response.data.msg);
                     }
                 }).catch(response => {
-                    _this.$notify.error(response.data.msg);
+                    _this.$message.error(response.data.msg);
                 });
         },
         initWangEditor() {

@@ -180,11 +180,11 @@ export default {
       sysUserDto.status = sysUserDto.status === true ? "1" : "0";
       _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/user/modify", sysUserDto).then(response => {
         if (response.data.code == 0) {
-          _this.$notify.success(response.data.msg);
+          _this.$message.success(response.data.msg);
           _this.modalHide();
           _this.listTable();
         } else {
-          _this.$notify.error(response.data.msg);
+          _this.$message.error(response.data.msg);
         }
       });
 
@@ -200,18 +200,18 @@ export default {
             .post(process.env.VUE_APP_SERVER + "/system/config/user/role/modify?userSeq=" + _this.modifyUserId + "&roleIds=" + _this.roleIdChecked.toString(), )
             .then(response => {
               if (response.data.code == 0) {
-                _this.$notify.success(response.data.msg);
+                _this.$message.success(response.data.msg);
               } else {
-                _this.$notify.error(response.data.msg);
+                _this.$message.error(response.data.msg);
               }
             })
             .catch(response => {
-              _this.$notify.error(response.data.msg);
+              _this.$message.error(response.data.msg);
             });
         _this.isModalVisible = false;
       }).catch(response => {
         _this.isModalVisible = false;
-        _this.$notify.error("取消操作");
+        _this.$message.error("取消操作");
       });
 
     },

@@ -222,18 +222,18 @@ export default {
                 _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/rolemenu/modify?roleId=" + _this.modifyRoleId + "&menuIds=" + _this.menuIdChecked.toString(),)
                     .then(response => {
                         if (response.data.code == 0) {
-                            _this.$notify.success(response.data.msg);
+                            _this.$message.success(response.data.msg);
                         } else {
-                            _this.$notify.error(response.data.msg);
+                            _this.$message.error(response.data.msg);
                         }
                     }).catch(response => {
                         console.log("role/modify->fail:", response);
-                        _this.$notify.error(response.data.msg);
+                        _this.$message.error(response.data.msg);
                     });
                 _this.isModalVisible = false;
             }).catch(response => {
                 _this.isModalVisible = false;
-                _this.$notify.error("取消操作");
+                _this.$message.error("取消操作");
             });
         },
     }

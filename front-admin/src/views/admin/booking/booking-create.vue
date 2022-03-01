@@ -141,12 +141,12 @@ export default {
                 if (response.data.code === 0) {
                     alert("OK");
                 } else {
-                    _this.$notify.error(response.data.msg);
+                    _this.$message.error(response.data.msg);
                 }
                 _this.loading = false;
             })
             .catch(response => {
-                alert("Fail");
+                _this.$message.error("Fail");
             });
         },
         handleOnSubmit() {
@@ -156,13 +156,13 @@ export default {
             _this.$request.post(process.env.VUE_APP_SERVER + "/system/booking/proc", _this.form)
                 .then(response => {
                     if (response.data.code === 0) {
-                        _this.$notify.success(response.data.msg);
+                        _this.$message.success(response.data.msg);
                         _this.$router.push({name: 'booking/list'});
                     } else {
-                        _this.$notify.error(response.data.msg);
+                        _this.$message.error(response.data.msg);
                     }
                 }).catch(response => {
-                    _this.$notify.error(response.data.msg);
+                    _this.$message.error(response.data.msg);
                 });
         },
 

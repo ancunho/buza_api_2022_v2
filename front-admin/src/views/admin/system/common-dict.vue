@@ -86,8 +86,8 @@ export default {
             modifyItem: {},
             loading: true,
             currentPage: 1, //page
-            pageSize: 5, //limit
-            pageSizes: [5, 15, 30, 50],
+            pageSize: 15, //limit
+            pageSizes: [15, 30, 50, 100],
             total: 100,
             isModalVisible: false,
             buzaModalTitle: 'Modal',
@@ -133,12 +133,11 @@ export default {
             _this.loading = true;
             _this.$request.post(process.env.VUE_APP_SERVER + "/system/code/proc", item)
                 .then(response => {
-
-                    if (response.data.code === 0) {
-                        _this.$notify.success(response.data.msg);
+                    if (response.data.status === 200) {
+                        _this.$message.success(response.data.msg);
                         _this.tableList();
                     } else {
-                        _this.$notify.error(response.data.msg);
+                        _this.$$message.error(response.data.msg);
                     }
                     _this.isModalVisible = false;
                     _this.loading = false;
