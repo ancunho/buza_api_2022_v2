@@ -36,7 +36,7 @@
         <!--  paging start  -->
         <el-row :gutter="20">
             <el-col :lg="4" :xs="12" :sm="6" :md="6" v-for="item in arrInitData" :key="item.fileId" style="margin-bottom: 20px;">
-                <el-card :body-style="{ padding: '0px' }">
+                <el-card :body-style="{ padding: '0px' }" shadow="hover">
                     <el-image style="width: 100%; height: 200px" :src="item.fileUrl" fit="contain"></el-image>
                     <div style="padding: 14px;">
                         <span style="font-size: .7rem; height: 30px; line-height: 25px; display: inline-block; overflow-y: hidden">{{ item.fileOriginName }}</span>
@@ -141,6 +141,7 @@ export default {
                 })
                 .catch(res => {
                     console.log(res);
+                    _this.$message.error("Fail!!!!!!")
                     _this.loading = false;
                 });
         },

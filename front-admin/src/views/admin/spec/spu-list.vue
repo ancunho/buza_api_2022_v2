@@ -7,14 +7,19 @@
         <!--  table list start  -->
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
+            <el-table-column prop="mainImage01" label="Main Image" width="150" >
+                <template slot-scope="scope">
+                    <el-image :src="scope.row.mainImage01" style="width: 100px; height: 100px;" />
+                </template>
+            </el-table-column>
             <el-table-column prop="categoryId" label="CATEGORY_ID" width="150" ></el-table-column>
             <el-table-column prop="brandId" label="BRAND_ID" ></el-table-column>
             <el-table-column prop="spuName" label="SPU_NAME" ></el-table-column>
             <el-table-column prop="spuType" label="SPU_TYPE" width="130"></el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
                 <template slot-scope="scope">
-                    <el-tag type="danger" v-if="scope.row.status == '0'"> {{ scope.row.statusName }}</el-tag>
-                    <el-tag type="success" v-if="scope.row.status == '1'"> {{ scope.row.statusName }}</el-tag>
+                    <el-tag type="danger" v-if="scope.row.status === '0'"> {{ scope.row.statusName }}</el-tag>
+                    <el-tag type="success" v-if="scope.row.status === '1'"> {{ scope.row.statusName }}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
@@ -79,7 +84,7 @@
                                 </el-image>
 
                             </div>
-                            <el-button type="danger" v-on:click="handleChooseMain">选择图片</el-button>
+                            <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选择图片</el-button>
                         </el-col>
                         <el-col :span="4">
                             <div class="block">
@@ -91,7 +96,7 @@
                                 </el-image>
 
                             </div>
-                            <el-button type="danger" v-on:click="handleChooseMain">选择图片</el-button>
+                            <el-button type="info" v-on:click="handleChooseMain('mainImage02')">选择图片</el-button>
                         </el-col>
                         <el-col :span="4">
                             <div class="block">
@@ -103,7 +108,7 @@
                                 </el-image>
 
                             </div>
-                            <el-button type="danger" v-on:click="handleChooseMain">选择图片</el-button>
+                            <el-button type="info" v-on:click="handleChooseMain('mainImage03')">选择图片</el-button>
                         </el-col>
                     </el-row>
                 </el-form-item>
@@ -166,17 +171,33 @@ export default {
             itemDetail: {},
             imgList: [],
             initDataListURL: process.env.VUE_APP_SERVER + '/system/file/handle/list',
+
+            choosenFlag: '',
         }
     },
     mounted: function () {
         let _this = this;
         _this.tableList();
     },
+    watch: {
+        isModalVisible(val, oldVal) {
+            let _this = this;
+            if (val === false) {
+                _this.tableList();
+            }
+        }
+    },
     methods: {
         childEmitItem(data) {
             let _this = this;
             _this.isDrawerVisible = false;
-            console.log("child data:", data);
+            if (_this.choosenFlag === 'mainImage01') {
+                _this.modifyItem.mainImage01 = data.fileUrl;
+            } else if (_this.choosenFlag === 'mainImage02') {
+                _this.modifyItem.mainImage02 = data.fileUrl;
+            } else if (_this.choosenFlag === 'mainImage03') {
+                _this.modifyItem.mainImage03 = data.fileUrl;
+            }
         },
         handleSizeChange(limit) {
             this.currentPage = 1;
@@ -204,28 +225,14 @@ export default {
         handleItemModify(idx, item) {
             let _this = this;
             _this.isModalVisible = true;
-            item.status = item.status == "1" ? true : false;
+            item.status = item.status === "1";
             _this.modifyItem = item;
         },
-        handleChooseMain() {
+        handleChooseMain(flag) {
             let _this = this;
             // _this.loadingDrawer = true;
             _this.isDrawerVisible = true;
-            // _this.$request
-            //     .post(_this.initDataListURL + '?page=' + _this.currentPage + "&limit=" + _this.pageSize,params)
-            //     .then(res => {
-            //         if (res.data.status === 200) {
-            //             _this.arrInitData = res.data.data;
-            //             _this.total = res.data.count;
-            //         } else {
-            //             _this.$message.error(res.data.msg);
-            //         }
-            //         _this.loading = false;
-            //     })
-            //     .catch(res => {
-            //         console.log(res);
-            //         _this.loading = false;
-            //     });
+            _this.choosenFlag = flag;
         },
         saveItem(item) {
             let _this = this;

@@ -246,7 +246,6 @@ export default {
         $route: {
             handler: function (val, oldVal) {
                 let _this = this;
-                console.log(_this.$route);
                 _this.$nextTick(function () {
                     _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar", _this.$route.meta.title);
                 });

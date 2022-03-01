@@ -27,6 +27,8 @@ public class TbShop implements Serializable {
 
     private String shopAddress;
 
+    private String shopImage;
+
     private String option01;
 
     private String option02;
@@ -129,6 +131,14 @@ public class TbShop implements Serializable {
         this.shopAddress = shopAddress;
     }
 
+    public String getShopImage() {
+        return shopImage;
+    }
+
+    public void setShopImage(String shopImage) {
+        this.shopImage = shopImage;
+    }
+
     public String getOption01() {
         return option01;
     }
@@ -202,6 +212,7 @@ public class TbShop implements Serializable {
         sb.append(", shopCity=").append(shopCity);
         sb.append(", shopDistrict=").append(shopDistrict);
         sb.append(", shopAddress=").append(shopAddress);
+        sb.append(", shopImage=").append(shopImage);
         sb.append(", option01=").append(option01);
         sb.append(", option02=").append(option02);
         sb.append(", option03=").append(option03);

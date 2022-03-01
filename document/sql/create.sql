@@ -152,12 +152,13 @@ CREATE TABLE `tb_shop` (
                            `SHOP_CITY` varchar(45) DEFAULT NULL,
                            `SHOP_DISTRICT` varchar(45) DEFAULT NULL,
                            `SHOP_ADDRESS` varchar(100) DEFAULT NULL,
+                           `SHOP_IMAGE` varchar(45) DEFAULT NULL,
                            `OPTION01` varchar(45) DEFAULT NULL,
                            `OPTION02` varchar(45) DEFAULT NULL,
                            `OPTION03` varchar(45) DEFAULT NULL,
                            `OPTION04` varchar(45) DEFAULT NULL,
                            `OPTION05` varchar(45) DEFAULT NULL,
-                           `CREATE_TIME` datetime DEFAULT CURRENT_TIMESTAMP,
+                           `CREATE_TIME` datetime DEFAULT NULL,
                            `UPDATE_TIME` datetime DEFAULT NULL,
                            PRIMARY KEY (`SHOP_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='매장정보테이블';
@@ -304,6 +305,14 @@ CREATE TABLE `tb_spu` (
                           `SPU_NAME` varchar(100) DEFAULT NULL,
                           `SPU_TYPE` varchar(45) DEFAULT NULL,
                           `STATUS` varchar(2) DEFAULT NULL,
+                          `MAIN_IMAGE_01` varchar(100) DEFAULT NULL,
+                          `MAIN_IMAGE_02` varchar(100) DEFAULT NULL,
+                          `MAIN_IMAGE_03` varchar(100) DEFAULT NULL,
+                          `SUB_IMAGE_01` varchar(100) DEFAULT NULL,
+                          `SUB_IMAGE_02` varchar(100) DEFAULT NULL,
+                          `SUB_IMAGE_03` varchar(100) DEFAULT NULL,
+                          `SUB_IMAGE_04` varchar(100) DEFAULT NULL,
+                          `SUB_IMAGE_05` varchar(100) DEFAULT NULL,
                           `OPTION01` varchar(45) DEFAULT NULL,
                           `OPTION02` varchar(45) DEFAULT NULL,
                           `OPTION03` varchar(45) DEFAULT NULL,
@@ -337,6 +346,14 @@ CREATE TABLE `tb_sku` (
                           `SKU_NAME` varchar(100) DEFAULT NULL,
                           `SKU_INTRO` varchar(200) DEFAULT NULL,
                           `STATUS` varchar(10) DEFAULT NULL,
+                          `MAIN_IMAGE_01` varchar(100) DEFAULT NULL,
+                          `MAIN_IMAGE_02` varchar(100) DEFAULT NULL,
+                          `MAIN_IMAGE_03` varchar(100) DEFAULT NULL,
+                          `SUB_IMAGE_01` varchar(100) DEFAULT NULL,
+                          `SUB_IMAGE_02` varchar(100) DEFAULT NULL,
+                          `SUB_IMAGE_03` varchar(100) DEFAULT NULL,
+                          `SUB_IMAGE_04` varchar(100) DEFAULT NULL,
+                          `SUB_IMAGE_05` varchar(100) DEFAULT NULL,
                           `OPTION01` varchar(45) DEFAULT NULL,
                           `OPTION02` varchar(45) DEFAULT NULL,
                           `OPTION03` varchar(45) DEFAULT NULL,
@@ -346,6 +363,7 @@ CREATE TABLE `tb_sku` (
                           `UPDATE_TIME` datetime DEFAULT NULL,
                           PRIMARY KEY (`SKU_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 --TB_SKU_ATTRIBUTE
 CREATE TABLE `tb_sku_attribute` (
@@ -369,6 +387,7 @@ CREATE TABLE `tb_attribute` (
                                 `ATTR_NAME` varchar(45) DEFAULT NULL,
                                 `ATTR_TYPE` varchar(45) DEFAULT NULL,
                                 `STATUS` varchar(2) DEFAULT NULL,
+                                `ATTR_IMAGE` varchar(100) DEFAULT NULL,
                                 `OPTION01` varchar(45) DEFAULT NULL,
                                 `OPTION02` varchar(45) DEFAULT NULL,
                                 `OPTION03` varchar(45) DEFAULT NULL,
@@ -378,6 +397,7 @@ CREATE TABLE `tb_attribute` (
                                 `UPDATE_TIME` datetime DEFAULT NULL,
                                 PRIMARY KEY (`ATTR_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 --TB_ATTRIBUTE_VALUE
 CREATE TABLE `tb_attribute_value` (
@@ -389,6 +409,7 @@ CREATE TABLE `tb_attribute_value` (
                                       `DELIVERY_PRICE` decimal(20,2) DEFAULT NULL,
                                       `DELIVERY_TYPE` varchar(45) DEFAULT NULL,
                                       `STATUS` varchar(10) DEFAULT NULL,
+                                      `ATTR_VALUE_IMAGE` varchar(100) DEFAULT NULL,
                                       `OPTION01` varchar(45) DEFAULT NULL,
                                       `OPTION02` varchar(45) DEFAULT NULL,
                                       `OPTION03` varchar(45) DEFAULT NULL,
@@ -398,6 +419,7 @@ CREATE TABLE `tb_attribute_value` (
                                       `UPDATE_TIME` datetime DEFAULT NULL,
                                       PRIMARY KEY (`ATTR_VALUE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 
 

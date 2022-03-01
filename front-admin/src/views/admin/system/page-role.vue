@@ -227,7 +227,6 @@ export default {
                             _this.$message.error(response.data.msg);
                         }
                     }).catch(response => {
-                        console.log("role/modify->fail:", response);
                         _this.$message.error(response.data.msg);
                     });
                 _this.isModalVisible = false;

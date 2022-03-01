@@ -137,13 +137,14 @@ export default {
                         _this.$message.success(response.data.msg);
                         _this.tableList();
                     } else {
-                        _this.$$message.error(response.data.msg);
+                        _this.$message.error(response.data.msg);
                     }
                     _this.isModalVisible = false;
                     _this.loading = false;
                 })
                 .catch(response => {
                     console.log(response);
+                    _this.$message.error("Fail!!!!!!!!!!!!!")
                 })
             ;
 

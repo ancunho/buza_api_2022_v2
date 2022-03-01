@@ -26,7 +26,7 @@
                         <span style="font-size: .7rem; height: 30px; line-height: 25px; display: inline-block; overflow-y: hidden">{{ item.fileOriginName }}</span>
                         <div class="bottom clearfix">
                             <!--                                <time class="time">{{ item.fileName }}</time>-->
-                            <el-button type="text" class="button" v-on:click="handleEmitItem(item)">查看详细</el-button>
+                            <el-button type="text" class="button" v-on:click="handleEmitItem(item)">选择</el-button>
                         </div>
                     </div>
                 </el-card>
@@ -109,7 +109,6 @@ export default {
         },
         handleEmitItem(item) {
             let _this = this;
-            console.log("item:", item);
             _this.$emit("childEmitItem", item);
 
         },

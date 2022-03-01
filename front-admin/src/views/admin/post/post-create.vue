@@ -136,6 +136,7 @@ export default {
                 });
         },
         initWangEditor() {
+            let _this = this;
             const editor = new wangEditor(`#post-content-div`);
             // 配置 onchange 回调函数，将数据同步到 vue 中
             editor.config.onchange = (newHtml) => {
@@ -148,19 +149,13 @@ export default {
             // editor.customConfig.uploadImgShowBase64 = true;
             editor.config.uploadImgHooks = {
                 fail: function (xhr, editor, result) {
-                    console.log("fail");
-                    console.log(xhr);
-                    alert("哎哟,好像出了问题!");
+                    _this.$message.error("哎哟,好像出了问题!");
                 },
                 error: function (xhr, editor) {
-                    console.log("error");
-                    console.log(xhr);
-                    alert("哎哟,好像出了问题!");
+                    _this.$message.error("哎哟,好像出了问题!");
                 },
                 timeout: function (xhr, editor) {
-                    console.log("timeout");
-                    console.log(xhr);
-                    alert("哎哟,好像出了问题!");
+                    _this.$message.error("哎哟,好像出了问题!");
                 },
                 customerInsert : function(insertImg, result, editor){
                     for (var i = 0; i < result.data.length; i++) {

@@ -13,6 +13,7 @@
         <result column="SHOP_CITY" jdbcType="VARCHAR" property="shopCity"/>
         <result column="SHOP_DISTRICT" jdbcType="VARCHAR" property="shopDistrict"/>
         <result column="SHOP_ADDRESS" jdbcType="VARCHAR" property="shopAddress"/>
+        <result column="SHOP_IMAGE" jdbcType="VARCHAR" property="shopImage"/>
         <result column="OPTION01" jdbcType="VARCHAR" property="option01"/>
         <result column="OPTION02" jdbcType="VARCHAR" property="option02"/>
         <result column="OPTION03" jdbcType="VARCHAR" property="option03"/>
@@ -24,7 +25,7 @@
     <sql id="Base_Column_List">
         SHOP_ID
         , SHOP_NAME, SHOP_INTRO, MANAGER_NAME, MANAGER_MOBILE, SHOP_MOBILE, SHOP_STATUS,
-        SHOP_PROVINCE, SHOP_CITY, SHOP_DISTRICT, SHOP_ADDRESS, OPTION01, OPTION02, OPTION03,
+        SHOP_PROVINCE, SHOP_CITY, SHOP_DISTRICT, SHOP_ADDRESS, SHOP_IMAGE, OPTION01, OPTION02, OPTION03,
         OPTION04, OPTION05, CREATE_TIME, UPDATE_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -42,13 +43,13 @@
         insert into tb_shop (SHOP_ID, SHOP_NAME, SHOP_INTRO,
                              MANAGER_NAME, MANAGER_MOBILE, SHOP_MOBILE,
                              SHOP_STATUS, SHOP_PROVINCE, SHOP_CITY,
-                             SHOP_DISTRICT, SHOP_ADDRESS, OPTION01,
+                             SHOP_DISTRICT, SHOP_ADDRESS, SHOP_IMAGE, OPTION01,
                              OPTION02, OPTION03, OPTION04,
                              OPTION05, CREATE_TIME, UPDATE_TIME)
         values (#{shopId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, #{shopIntro,jdbcType=VARCHAR},
                 #{managerName,jdbcType=VARCHAR}, #{managerMobile,jdbcType=VARCHAR}, #{shopMobile,jdbcType=VARCHAR},
                 #{shopStatus,jdbcType=VARCHAR}, #{shopProvince,jdbcType=VARCHAR}, #{shopCity,jdbcType=VARCHAR},
-                #{shopDistrict,jdbcType=VARCHAR}, #{shopAddress,jdbcType=VARCHAR}, #{option01,jdbcType=VARCHAR},
+                #{shopDistrict,jdbcType=VARCHAR}, #{shopAddress,jdbcType=VARCHAR}, #{shopImage,jdbcType=VARCHAR}, #{option01,jdbcType=VARCHAR},
                 #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR}, #{option04,jdbcType=VARCHAR},
                 #{option05,jdbcType=VARCHAR}, now(), #{updateTime,jdbcType=TIMESTAMP})
     </insert>
@@ -87,6 +88,9 @@
             </if>
             <if test="shopAddress != null">
                 SHOP_ADDRESS,
+            </if>
+            <if test="shopImage != null">
+                SHOP_IMAGE,
             </if>
             <if test="option01 != null">
                 OPTION01,
@@ -139,6 +143,9 @@
             <if test="shopAddress != null">
                 #{shopAddress,jdbcType=VARCHAR},
             </if>
+            <if test="shopImage != null">
+                #{shopImage,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 #{option01,jdbcType=VARCHAR},
             </if>
@@ -190,6 +197,9 @@
             <if test="shopAddress != null">
                 SHOP_ADDRESS = #{shopAddress,jdbcType=VARCHAR},
             </if>
+            <if test="shopImage != null">
+                SHOP_IMAGE = #{shopImage,jdbcType=VARCHAR},
+            </if>
             <if test="option01 != null">
                 OPTION01 = #{option01,jdbcType=VARCHAR},
             </if>
@@ -221,6 +231,7 @@
             SHOP_CITY      = #{shopCity,jdbcType=VARCHAR},
             SHOP_DISTRICT  = #{shopDistrict,jdbcType=VARCHAR},
             SHOP_ADDRESS   = #{shopAddress,jdbcType=VARCHAR},
+            SHOP_IMAGE   = #{shopImage,jdbcType=VARCHAR},
             OPTION01       = #{option01,jdbcType=VARCHAR},
             OPTION02       = #{option02,jdbcType=VARCHAR},
             OPTION03       = #{option03,jdbcType=VARCHAR},
