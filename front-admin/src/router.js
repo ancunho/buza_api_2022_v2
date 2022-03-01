@@ -16,6 +16,7 @@ import Room_List from "./views/admin/booking/room-list.vue"
 import Booking_Create from "./views/admin/booking/booking-create.vue"
 import File_List from "./views/admin/file/file-list.vue"
 import Spu_List from "./views/admin/spec/spu-list.vue"
+import Sku_List from "./views/admin/spec/sku-list.vue"
 
 Vue.use(Router);
 
@@ -51,6 +52,7 @@ export default new Router({
             ,{ path: "booking/create", name: "booking/create", component: Booking_Create, meta: {title: "新增预约" }}
             ,{ path: "file/list", name: "file/list", component: File_List, meta: {title: "File" }}
             ,{ path: "spu/list", name: "spu/list", component: Spu_List, meta: {title: "SPU" }}
+            ,{ path: "sku/list", name: "sku/list", component: Sku_List, meta: {title: "SKU" }}
         ]
     }]
 })

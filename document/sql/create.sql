@@ -340,29 +340,37 @@ CREATE TABLE `tb_spu_attribute` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --TB_SKU
-CREATE TABLE `tb_sku` (
-                          `SKU_ID` int NOT NULL AUTO_INCREMENT,
-                          `SPU_ID` int NOT NULL,
-                          `SKU_NAME` varchar(100) DEFAULT NULL,
-                          `SKU_INTRO` varchar(200) DEFAULT NULL,
-                          `STATUS` varchar(10) DEFAULT NULL,
-                          `MAIN_IMAGE_01` varchar(100) DEFAULT NULL,
-                          `MAIN_IMAGE_02` varchar(100) DEFAULT NULL,
-                          `MAIN_IMAGE_03` varchar(100) DEFAULT NULL,
-                          `SUB_IMAGE_01` varchar(100) DEFAULT NULL,
-                          `SUB_IMAGE_02` varchar(100) DEFAULT NULL,
-                          `SUB_IMAGE_03` varchar(100) DEFAULT NULL,
-                          `SUB_IMAGE_04` varchar(100) DEFAULT NULL,
-                          `SUB_IMAGE_05` varchar(100) DEFAULT NULL,
-                          `OPTION01` varchar(45) DEFAULT NULL,
-                          `OPTION02` varchar(45) DEFAULT NULL,
-                          `OPTION03` varchar(45) DEFAULT NULL,
-                          `OPTION04` varchar(45) DEFAULT NULL,
-                          `OPTION05` varchar(45) DEFAULT NULL,
-                          `CREATE_TIME` datetime DEFAULT NULL,
-                          `UPDATE_TIME` datetime DEFAULT NULL,
-                          PRIMARY KEY (`SKU_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE IF NOT EXISTS `TB_SKU` (
+                                        `SKU_ID` INT NOT NULL AUTO_INCREMENT,
+                                        `SPU_ID` INT NOT NULL,
+                                        `SKU_NAME` VARCHAR(100) NULL,
+                                        `SKU_INTRO` VARCHAR(1000) NULL,
+                                        `SKU_PRICE` DECIMAL(20,2) NULL,
+                                        `SKU_CODE` VARCHAR(50) NULL COMMENT 'SKU 编码',
+                                        `SKU_BARCODE` VARCHAR(100) NULL,
+                                        `SKU_STOCK` INT NULL,
+                                        `SKU_UNIT` INT NULL,
+                                        `SKU_UNIT_NAME` VARCHAR(10) NULL,
+                                        `PRICE` DECIMAL(20,2) NULL,
+                                        `VIP_PRICE` DECIMAL(20,2) NULL,
+                                        `STATUS` VARCHAR(10) NULL,
+                                        `MAIN_IMAGE_01` VARCHAR(100) NULL,
+                                        `MAIN_IMAGE_02` VARCHAR(100) NULL,
+                                        `MAIN_IMAGE_03` VARCHAR(100) NULL,
+                                        `SUB_IMAGE_01` VARCHAR(100) NULL,
+                                        `SUB_IMAGE_02` VARCHAR(100) NULL,
+                                        `SUB_IMAGE_03` VARCHAR(100) NULL,
+                                        `SUB_IMAGE_04` VARCHAR(100) NULL,
+                                        `SUB_IMAGE_05` VARCHAR(100) NULL,
+                                        `OPTION01` VARCHAR(45) NULL,
+                                        `OPTION02` VARCHAR(45) NULL,
+                                        `OPTION03` VARCHAR(45) NULL,
+                                        `OPTION04` VARCHAR(45) NULL,
+                                        `OPTION05` VARCHAR(45) NULL,
+                                        `CREATE_TIME` DATETIME NULL,
+                                        `UPDATE_TIME` DATETIME NULL,
+                                        PRIMARY KEY (`SKU_ID`)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 --TB_SKU_ATTRIBUTE

@@ -1,7 +1,7 @@
 <template>
     <div v-loading="loading">
 
-        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增SPU</el-button>
+        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增SKU</el-button>
 <!--        <router-link to="/post/create"><el-button type="primary" icon="el-icon-plus">新增文章</el-button></router-link>-->
 
         <!--  table list start  -->
@@ -83,41 +83,7 @@
                     </div>
                     <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选 择 图 片</el-button>
                     <el-button type="danger" v-on:click="handleDeleteChooseMain('mainImage01')">删 除</el-button>
-<!--                    <el-row :gutter="10">-->
-<!--                        <el-col :span="8">-->
-<!--                            <div class="block">-->
-<!--                                <span class="demonstration"></span>-->
-<!--                                <el-image :src="modifyItem.mainImage01 || ''" style="width: 200px; height:200px;">-->
-<!--                                    <div slot="error" class="image-slot">-->
-<!--                                        <i class="el-icon-picture-outline font100px"></i>-->
-<!--                                    </div>-->
-<!--                                </el-image>-->
-<!--                            </div>-->
-<!--                            <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选择图片</el-button>-->
-<!--                        </el-col>-->
-<!--                        <el-col :span="8">-->
-<!--                            <div class="block">-->
-<!--                                <span class="demonstration"></span>-->
-<!--                                <el-image :src="modifyItem.mainImage02 || ''" style="width: 200px; height:200px;">-->
-<!--                                    <div slot="error" class="image-slot">-->
-<!--                                        <i class="el-icon-picture-outline font100px"></i>-->
-<!--                                    </div>-->
-<!--                                </el-image>-->
-<!--                            </div>-->
-<!--                            <el-button type="info" v-on:click="handleChooseMain('mainImage02')">选择图片</el-button>-->
-<!--                        </el-col>-->
-<!--                        <el-col :span="8">-->
-<!--                            <div class="block">-->
-<!--                                <span class="demonstration"></span>-->
-<!--                                <el-image :src="modifyItem.mainImage03 || ''" style="width: 200px; height:200px;">-->
-<!--                                    <div slot="error" class="image-slot">-->
-<!--                                        <i class="el-icon-picture-outline font100px"></i>-->
-<!--                                    </div>-->
-<!--                                </el-image>-->
-<!--                            </div>-->
-<!--                            <el-button type="info" v-on:click="handleChooseMain('mainImage03')">选择图片</el-button>-->
-<!--                        </el-col>-->
-<!--                    </el-row>-->
+
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -150,7 +116,7 @@
 <script>
 import FileListComponent from '@/components/FileListComponent';
 export default {
-    name: "spu-list",
+    name: "sku-list",
     components: {
         FileListComponent
     },
@@ -217,7 +183,7 @@ export default {
         },
         tableList() {
             let _this = this;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/spu/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/sku/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
                 _this.itemList = response.data.data;
                 _this.total = response.data.count;
                 _this.loading = false;

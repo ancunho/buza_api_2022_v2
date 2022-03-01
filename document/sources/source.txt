@@ -57,3 +57,41 @@ listToTree.forEach(item => {
 });
 console.log(result);
 ---------list To Tree end
+
+---------팝업창에 이미지선택하는거 세개 ( 메인이미지) start
+<el-row :gutter="10">
+    <el-col :span="8">
+        <div class="block">
+            <span class="demonstration"></span>
+            <el-image :src="modifyItem.mainImage01 || ''" style="width: 200px; height:200px;">
+                <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline font100px"></i>
+                </div>
+            </el-image>
+        </div>
+        <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选择图片</el-button>
+    </el-col>
+    <el-col :span="8">
+        <div class="block">
+            <span class="demonstration"></span>
+            <el-image :src="modifyItem.mainImage02 || ''" style="width: 200px; height:200px;">
+                <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline font100px"></i>
+                </div>
+            </el-image>
+        </div>
+        <el-button type="info" v-on:click="handleChooseMain('mainImage02')">选择图片</el-button>
+    </el-col>
+    <el-col :span="8">
+        <div class="block">
+            <span class="demonstration"></span>
+            <el-image :src="modifyItem.mainImage03 || ''" style="width: 200px; height:200px;">
+                <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline font100px"></i>
+                </div>
+            </el-image>
+        </div>
+        <el-button type="info" v-on:click="handleChooseMain('mainImage03')">选择图片</el-button>
+    </el-col>
+</el-row>
+---------팝업창에 이미지선택하는거 세개 ( 메인이미지) end

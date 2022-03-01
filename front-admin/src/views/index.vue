@@ -108,6 +108,14 @@
                                         <span class="las la-angle-right"></span>
                                     </router-link>
                                 </li>
+                                <li class="sku-list-sidebar">
+                                    <router-link to="/sku/list">
+                                        <i class="el-icon-user-solid"
+                                           style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>SKU</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
                             </ul>
                         </li>
                         <!-- // 规格管理 end -->
