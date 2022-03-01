@@ -68,24 +68,44 @@
                     <el-switch v-model="modifyItem.status"></el-switch>
                 </el-form-item>
                 <el-form-item label="主图片">
-                    <el-upload
-                        :action="imgUploadURL"
-                        list-type="picture-card"
-                        :on-success="handleImageSubmitSuccess"
-                        :auto-upload="true">
-                        <i slot="default" class="el-icon-plus"></i>
-                        <div slot="file" slot-scope="{file}">
-                            <el-image :src="file.url" alt="" style="width: 148px; height: 148px"></el-image>
-                            <span class="el-upload-list__item-actions">
-                                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                                    <i class="el-icon-zoom-in"></i>
-                                </span>
-                                <span v-if="!disable" class="el-upload-list__item-delete" @click="handlePictureRemove(file)">
-                                    <i class="el-icon-delete"></i>
-                                </span>
-                            </span>
-                        </div>
-                    </el-upload>
+                    <el-row :gutter="30">
+                        <el-col :span="4">
+                            <div class="block">
+                                <span class="demonstration"></span>
+                                <el-image :src="modifyItem.mainImage01 || ''" style="width: 100px; height:100px;">
+                                    <div slot="error" class="image-slot">
+                                        <i class="el-icon-picture-outline font100px"></i>
+                                    </div>
+                                </el-image>
+
+                            </div>
+                            <el-button type="danger" v-on:click="handleChooseMain">选择图片</el-button>
+                        </el-col>
+                        <el-col :span="4">
+                            <div class="block">
+                                <span class="demonstration"></span>
+                                <el-image :src="modifyItem.mainImage02 || ''" style="width: 100px; height:100px;">
+                                    <div slot="error" class="image-slot">
+                                        <i class="el-icon-picture-outline font100px"></i>
+                                    </div>
+                                </el-image>
+
+                            </div>
+                            <el-button type="danger" v-on:click="handleChooseMain">选择图片</el-button>
+                        </el-col>
+                        <el-col :span="4">
+                            <div class="block">
+                                <span class="demonstration"></span>
+                                <el-image :src="modifyItem.mainImage03 || ''" style="width: 100px; height:100px;">
+                                    <div slot="error" class="image-slot">
+                                        <i class="el-icon-picture-outline font100px"></i>
+                                    </div>
+                                </el-image>
+
+                            </div>
+                            <el-button type="danger" v-on:click="handleChooseMain">选择图片</el-button>
+                        </el-col>
+                    </el-row>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -99,12 +119,29 @@
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
 
+        <!--  // drawer start  -->
+        <el-drawer
+            v-loading="loadingDrawer"
+            title="图片详细信息"
+            :visible.sync="isDrawerVisible"
+            direction="rtl"
+            size="80%"
+            :close-on-press-escape="false"
+        >
+            <FileListComponent @childEmitItem="childEmitItem" />
+        </el-drawer>
+        <!--  // drawer end  -->
+
     </div>
 </template>
 
 <script>
+import FileListComponent from '@/components/FileListComponent';
 export default {
     name: "post-list",
+    components: {
+        FileListComponent
+    },
     data: function () {
         return {
             itemList: [],
@@ -123,6 +160,12 @@ export default {
             dialogImageUrl: '',
             dialogVisible: false,
             fileList: [],
+
+            loadingDrawer: false,
+            isDrawerVisible: false,
+            itemDetail: {},
+            imgList: [],
+            initDataListURL: process.env.VUE_APP_SERVER + '/system/file/handle/list',
         }
     },
     mounted: function () {
@@ -130,31 +173,10 @@ export default {
         _this.tableList();
     },
     methods: {
-        handleImageSubmitSuccess(res, file) {
-            console.log("handleImageSubmitSuccess start");
-            console.log(res);
-            console.log(file);
-            console.log("handleImageSubmitSuccess end");
-            // if (res.errno === 0) {
-            //     this.fileList.push(res.data.)
-            // }
-        },
-        handlePictureCardPreview(file) {
-            this.dialogImageUrl = file.url;
-            this.dialogVisible = true;
-        },
-        handlePictureRemove(data) {
+        childEmitItem(data) {
             let _this = this;
-            console.log(data.response.data.imageObject);
-            var params = {};
-            params.imageObject = data.response.data.imageObject;
-            _this.$request.post(_this.imgDeleteURL + '?imageUrl=' + params.imageObject)
-            .then(response => {
-                console.log(response);
-            })
-            .catch(response => {
-                console.log(response);
-            })
+            _this.isDrawerVisible = false;
+            console.log("child data:", data);
         },
         handleSizeChange(limit) {
             this.currentPage = 1;
@@ -185,6 +207,26 @@ export default {
             item.status = item.status == "1" ? true : false;
             _this.modifyItem = item;
         },
+        handleChooseMain() {
+            let _this = this;
+            // _this.loadingDrawer = true;
+            _this.isDrawerVisible = true;
+            // _this.$request
+            //     .post(_this.initDataListURL + '?page=' + _this.currentPage + "&limit=" + _this.pageSize,params)
+            //     .then(res => {
+            //         if (res.data.status === 200) {
+            //             _this.arrInitData = res.data.data;
+            //             _this.total = res.data.count;
+            //         } else {
+            //             _this.$message.error(res.data.msg);
+            //         }
+            //         _this.loading = false;
+            //     })
+            //     .catch(res => {
+            //         console.log(res);
+            //         _this.loading = false;
+            //     });
+        },
         saveItem(item) {
             let _this = this;
             item.status = item.status === true ? "1" : "0";
@@ -205,5 +247,5 @@ export default {
 </script>
 
 <style scoped>
-
+.font100px {font-size: 100px;}
 </style>

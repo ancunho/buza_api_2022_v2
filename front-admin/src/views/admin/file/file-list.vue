@@ -16,7 +16,6 @@
             <el-button style="margin-left: 10px;" type="success" @click="handleSubmitUpload">2. 上传到服务器</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
-        <h4 style="margin: 1.5rem 0">asdfasdfasdf</h4>
 
         <!--  paging start  -->
         <el-row style="margin: 2rem 0;">
@@ -232,7 +231,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .time {
     font-size: 13px;
     color: #999;
