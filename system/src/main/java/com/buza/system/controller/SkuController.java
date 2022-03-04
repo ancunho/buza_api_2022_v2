@@ -52,7 +52,7 @@ public class SkuController {
             if (tbSpuDto.getSpuId() == null || "".equals(String.valueOf(tbSpuDto.getSpuId()))) {
                 // insert new
                 TbSpu tbSpu = new TbSpu();
-                tbSpu.setCategoryId(tbSpuDto.getCategoryId());
+                tbSpu.setClassificationId(tbSpuDto.getClassificationId());
                 tbSpu.setBrandId(tbSpuDto.getBrandId());
                 tbSpu.setSpuName(tbSpuDto.getSpuName());
                 tbSpu.setSpuType(tbSpuDto.getSpuType());
@@ -80,7 +80,7 @@ public class SkuController {
                 // update
                 TbSpu tbSpu = new TbSpu();
                 tbSpu.setSpuId(tbSpuDto.getSpuId());
-                tbSpu.setCategoryId(tbSpuDto.getCategoryId());
+                tbSpu.setClassificationId(tbSpuDto.getClassificationId());
                 tbSpu.setBrandId(tbSpuDto.getBrandId());
                 tbSpu.setSpuName(tbSpuDto.getSpuName());
                 tbSpu.setSpuType(tbSpuDto.getSpuType());

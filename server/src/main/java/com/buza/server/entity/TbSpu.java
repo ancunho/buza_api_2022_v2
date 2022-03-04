@@ -5,7 +5,7 @@ import java.util.Date;
 public class TbSpu {
     private Integer spuId;
 
-    private Integer categoryId;
+    private Integer classificationId;
 
     private Integer brandId;
 
@@ -53,12 +53,12 @@ public class TbSpu {
         this.spuId = spuId;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public Integer getClassificationId() {
+        return classificationId;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setClassificationId(Integer classificationId) {
+        this.classificationId = classificationId;
     }
 
     public Integer getBrandId() {
@@ -220,7 +220,7 @@ public class TbSpu {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", spuId=").append(spuId);
-        sb.append(", categoryId=").append(categoryId);
+        sb.append(", classificationId=").append(classificationId);
         sb.append(", brandId=").append(brandId);
         sb.append(", spuName=").append(spuName);
         sb.append(", spuType=").append(spuType);

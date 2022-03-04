@@ -14,7 +14,7 @@ public class TbSpuDto extends BaseRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer spuId;
-    private Integer categoryId;
+    private Integer classificationId;
     private Integer brandId;
     private String spuName;
     private String spuType;

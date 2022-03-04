@@ -3,7 +3,7 @@
 <mapper namespace="com.buza.server.dao.TbSpuMapper">
     <resultMap id="BaseResultMap" type="com.buza.server.entity.TbSpu">
         <id column="SPU_ID" jdbcType="INTEGER" property="spuId"/>
-        <result column="CATEGORY_ID" jdbcType="INTEGER" property="categoryId"/>
+        <result column="CLASSIFICATION_ID" jdbcType="INTEGER" property="classificationId"/>
         <result column="BRAND_ID" jdbcType="INTEGER" property="brandId"/>
         <result column="SPU_NAME" jdbcType="VARCHAR" property="spuName"/>
         <result column="SPU_TYPE" jdbcType="VARCHAR" property="spuType"/>
@@ -25,7 +25,7 @@
         <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-        SPU_ID, CATEGORY_ID, BRAND_ID, SPU_NAME, SPU_TYPE,
+        SPU_ID, CLASSIFICATION_ID, BRAND_ID, SPU_NAME, SPU_TYPE,
         `STATUS`, MAIN_IMAGE_01, MAIN_IMAGE_02, MAIN_IMAGE_03, SUB_IMAGE_01,
         SUB_IMAGE_02, SUB_IMAGE_03, SUB_IMAGE_04, SUB_IMAGE_05, OPTION01, OPTION02,
         OPTION03, OPTION04, OPTION05, CREATE_TIME, UPDATE_TIME
@@ -42,13 +42,13 @@
         where SPU_ID = #{spuId,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.buza.server.entity.TbSpu">
-        insert into tb_spu (SPU_ID, CATEGORY_ID, BRAND_ID,
+        insert into tb_spu (SPU_ID, CLASSIFICATION_ID, BRAND_ID,
                             SPU_NAME, SPU_TYPE, `STATUS`,MAIN_IMAGE_01, MAIN_IMAGE_02, MAIN_IMAGE_03, SUB_IMAGE_01,
                             SUB_IMAGE_02, SUB_IMAGE_03, SUB_IMAGE_04, SUB_IMAGE_05,
                             OPTION01, OPTION02, OPTION03,
                             OPTION04, OPTION05, CREATE_TIME,
                             UPDATE_TIME)
-        values (#{spuId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER},
+        values (#{spuId,jdbcType=INTEGER}, #{classificationId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER},
                 #{spuName,jdbcType=VARCHAR}, #{spuType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
                 #{mainImage01,jdbcType=VARCHAR}, #{mainImage02,jdbcType=VARCHAR}, #{mainImage03,jdbcType=VARCHAR},
                 #{subImage01,jdbcType=VARCHAR}, #{subImage02,jdbcType=VARCHAR}, #{subImage03,jdbcType=VARCHAR}, #{subImage04,jdbcType=VARCHAR}, #{subImage05,jdbcType=VARCHAR},
@@ -62,8 +62,8 @@
             <if test="spuId != null">
                 SPU_ID,
             </if>
-            <if test="categoryId != null">
-                CATEGORY_ID,
+            <if test="classificationId != null">
+                CLASSIFICATION_ID,
             </if>
             <if test="brandId != null">
                 BRAND_ID,
@@ -122,8 +122,8 @@
             <if test="spuId != null">
                 #{spuId,jdbcType=INTEGER},
             </if>
-            <if test="categoryId != null">
-                #{categoryId,jdbcType=INTEGER},
+            <if test="classificationId != null">
+                #{classificationId,jdbcType=INTEGER},
             </if>
             <if test="brandId != null">
                 #{brandId,jdbcType=INTEGER},
@@ -182,8 +182,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.buza.server.entity.TbSpu">
         update tb_spu
         <set>
-            <if test="categoryId != null">
-                CATEGORY_ID = #{categoryId,jdbcType=INTEGER},
+            <if test="classificationId != null">
+                CLASSIFICATION_ID = #{classificationId,jdbcType=INTEGER},
             </if>
             <if test="brandId != null">
                 BRAND_ID = #{brandId,jdbcType=INTEGER},
@@ -242,7 +242,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.buza.server.entity.TbSpu">
         update tb_spu
-        set CATEGORY_ID = #{categoryId,jdbcType=INTEGER},
+        set CLASSIFICATION_ID = #{classificationId,jdbcType=INTEGER},
             BRAND_ID    = #{brandId,jdbcType=INTEGER},
             SPU_NAME    = #{spuName,jdbcType=VARCHAR},
             SPU_TYPE    = #{spuType,jdbcType=VARCHAR},
@@ -267,7 +267,7 @@
     <select id="lstTbSpu" parameterType="com.buza.server.dto.TbSpuDto" resultType="com.buza.server.dto.TbSpuDto">
         SELECT 	ROW_NUMBER() OVER() AS RN
                 ,T1.SPU_ID
-                ,T1.CATEGORY_ID
+                ,T1.CLASSIFICATION_ID
                 ,T1.BRAND_ID
                 ,T1.SPU_NAME
                 ,T1.SPU_TYPE
@@ -293,7 +293,7 @@
 
     <select id="getTbSpuInfoBySpuId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSpuDto">
         SELECT 	T1.SPU_ID
-                ,T1.CATEGORY_ID
+                ,T1.CLASSIFICATION_ID
                 ,T1.BRAND_ID
                 ,T1.SPU_NAME
                 ,T1.SPU_TYPE

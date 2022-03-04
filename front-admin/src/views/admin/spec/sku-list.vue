@@ -1,8 +1,8 @@
 <template>
     <div v-loading="loading">
 
-        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增SKU</el-button>
-<!--        <router-link to="/post/create"><el-button type="primary" icon="el-icon-plus">新增文章</el-button></router-link>-->
+<!--        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增SKU</el-button>-->
+        <router-link to="/sku/create"><el-button type="primary" icon="el-icon-plus">新增SKU</el-button></router-link>
 
         <!--  table list start  -->
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
