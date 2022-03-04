@@ -541,4 +541,72 @@ public class SkuController {
         }
     }
 
+    /********************************************************************
+     * TB_CLASSIFICATION
+     ***************************************************************** */
+    @PostMapping(value = "/classification/list")
+    public BaseResponse lstTbClassification(BaseRequest baseRequest, @RequestBody TbClassificationDto tbClassificationDto) {
+        List<TbClassificationDto> lstTbClassification = skuService.lstTbClassification(tbClassificationDto);
+        return BaseResponse.valueOfSuccess(lstTbClassification);
+    }
+
+    @PostMapping(value = "/classification/info")
+    public BaseResponse getTbClassificationInfoByClassificationId(BaseRequest baseRequest, @RequestParam("classificationId") Integer classificationId) {
+        if (classificationId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        TbClassificationDto tbClassificationDto = skuService.getTbClassificationInfoByClassificationId(classificationId);
+        return BaseResponse.valueOfSuccess(tbClassificationDto);
+    }
+
+    @PostMapping(value = "/classification/proc")
+    public BaseResponse procTB_CLASSIFICATION(BaseRequest baseRequest, @RequestBody TbClassificationDto tbClassificationDto) {
+        try {
+            if (tbClassificationDto.getClassificationId() == null || "".equals(String.valueOf(tbClassificationDto.getClassificationId()))) {
+                // insert new
+                TbClassification tbClassification = new TbClassification();
+                tbClassification.setClassificationName(tbClassificationDto.getClassificationName());
+                tbClassification.setClassificationType(tbClassificationDto.getClassificationType());
+                tbClassification.setParentClassificationId((tbClassificationDto.getParentClassificationId() == null || "".equals(String.valueOf(tbClassificationDto.getParentClassificationId())) ) ? 0 : tbClassificationDto.getParentClassificationId());
+                tbClassification.setClassificationType(tbClassificationDto.getClassificationType());
+                tbClassification.setSortOrder(tbClassificationDto.getSortOrder());
+                tbClassification.setOption01(tbClassificationDto.getOption01());
+                tbClassification.setOption02(tbClassificationDto.getOption02());
+                tbClassification.setOption03(tbClassificationDto.getOption03());
+                tbClassification.setOption04(tbClassificationDto.getOption04());
+                tbClassification.setOption05(tbClassificationDto.getOption05());
+
+                boolean isSuccessInsert = skuService.insertTbClassification(tbClassification);
+                if (isSuccessInsert) {
+                    return BaseResponse.valueOfSuccessMessage(ResponseCode.INSERT_SUCCESS.getDesc());
+                }
+                return BaseResponse.valueOfFailureMessage(ResponseCode.INSERT_ERROR.getDesc());
+            } else {
+                // update
+                TbClassification tbClassification = new TbClassification();
+                tbClassification.setClassificationId(tbClassificationDto.getClassificationId());
+                tbClassification.setClassificationName(tbClassificationDto.getClassificationName());
+                tbClassification.setClassificationType(tbClassificationDto.getClassificationType());
+                tbClassification.setParentClassificationId((tbClassificationDto.getParentClassificationId() == null || "".equals(String.valueOf(tbClassificationDto.getParentClassificationId())) ) ? 0 : tbClassificationDto.getParentClassificationId());
+                tbClassification.setClassificationType(tbClassificationDto.getClassificationType());
+                tbClassification.setSortOrder(tbClassificationDto.getSortOrder());
+                tbClassification.setOption01(tbClassificationDto.getOption01());
+                tbClassification.setOption02(tbClassificationDto.getOption02());
+                tbClassification.setOption03(tbClassificationDto.getOption03());
+                tbClassification.setOption04(tbClassificationDto.getOption04());
+                tbClassification.setOption05(tbClassificationDto.getOption05());
+
+                boolean isSuccessUpdate = skuService.updateTbClassification(tbClassification);
+                if (isSuccessUpdate) {
+                    return BaseResponse.valueOfSuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
+                }
+                return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+    }
+
 }

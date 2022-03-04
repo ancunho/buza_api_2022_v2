@@ -37,6 +37,9 @@ public class SkuServiceImpl implements SkuService {
     private TbSkuMapper tbSkuMapper;
 
     @Resource
+    private TbClassificationMapper tbClassificationMapper;
+
+    @Resource
     private TbSkuAttributeMapper tbSkuAttributeMapper;
 
     @Resource
@@ -182,5 +185,23 @@ public class SkuServiceImpl implements SkuService {
         return updateCount > 0;
     }
 
+    public List<TbClassificationDto> lstTbClassification(TbClassificationDto tbClassificationDto) {
+        return tbClassificationMapper.lstTbClassification(tbClassificationDto);
+    }
 
+    public TbClassificationDto getTbClassificationInfoByClassificationId(Integer classificationId) {
+        return tbClassificationMapper.getTbClassificationInfoByClassificationId(classificationId);
+    }
+
+    @Transactional
+    public Boolean insertTbClassification(TbClassification tbClassification) {
+        int insertCount = tbClassificationMapper.insertSelective(tbClassification);
+        return insertCount > 0;
+    }
+
+    @Transactional
+    public Boolean updateTbClassification(TbClassification tbClassification) {
+        int updateCount = tbClassificationMapper.updateByPrimaryKeySelective(tbClassification);
+        return updateCount > 0;
+    }
 }

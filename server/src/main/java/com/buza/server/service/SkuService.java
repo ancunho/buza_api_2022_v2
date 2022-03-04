@@ -48,8 +48,10 @@ public interface SkuService {
     public Boolean insertTbAttributeValue(TbAttributeValue tbAttributeValue);
     public Boolean updateTbAttributeValue(TbAttributeValue tbAttributeValue);
 
-
-
-
+    //TB_CLASSIFICATION
+    public List<TbClassificationDto> lstTbClassification(TbClassificationDto tbClassificationDto);
+    public TbClassificationDto getTbClassificationInfoByClassificationId(Integer classificationId);
+    public Boolean insertTbClassification(TbClassification tbClassification);
+    public Boolean updateTbClassification(TbClassification tbClassification);
 
 }
