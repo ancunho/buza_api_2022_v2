@@ -1,5 +1,6 @@
 package com.buza.server.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TbSku {
@@ -10,6 +11,22 @@ public class TbSku {
     private String skuName;
 
     private String skuIntro;
+
+    private BigDecimal skuPrice;
+
+    private String skuCode;
+
+    private String skuBarcode;
+
+    private Integer skuStock;
+
+    private Integer skuUnit;
+
+    private String skuUnitName;
+
+    private BigDecimal price;
+
+    private BigDecimal vipPrice;
 
     private String status;
 
@@ -73,6 +90,70 @@ public class TbSku {
 
     public void setSkuIntro(String skuIntro) {
         this.skuIntro = skuIntro;
+    }
+
+    public BigDecimal getSkuPrice() {
+        return skuPrice;
+    }
+
+    public void setSkuPrice(BigDecimal skuPrice) {
+        this.skuPrice = skuPrice;
+    }
+
+    public String getSkuCode() {
+        return skuCode;
+    }
+
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
+
+    public String getSkuBarcode() {
+        return skuBarcode;
+    }
+
+    public void setSkuBarcode(String skuBarcode) {
+        this.skuBarcode = skuBarcode;
+    }
+
+    public Integer getSkuStock() {
+        return skuStock;
+    }
+
+    public void setSkuStock(Integer skuStock) {
+        this.skuStock = skuStock;
+    }
+
+    public Integer getSkuUnit() {
+        return skuUnit;
+    }
+
+    public void setSkuUnit(Integer skuUnit) {
+        this.skuUnit = skuUnit;
+    }
+
+    public String getSkuUnitName() {
+        return skuUnitName;
+    }
+
+    public void setSkuUnitName(String skuUnitName) {
+        this.skuUnitName = skuUnitName;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getVipPrice() {
+        return vipPrice;
+    }
+
+    public void setVipPrice(BigDecimal vipPrice) {
+        this.vipPrice = vipPrice;
     }
 
     public String getStatus() {
@@ -213,6 +294,14 @@ public class TbSku {
         sb.append(", spuId=").append(spuId);
         sb.append(", skuName=").append(skuName);
         sb.append(", skuIntro=").append(skuIntro);
+        sb.append(", skuPrice=").append(skuPrice);
+        sb.append(", skuCode=").append(skuCode);
+        sb.append(", skuBarcode=").append(skuBarcode);
+        sb.append(", skuStock=").append(skuStock);
+        sb.append(", skuUnit=").append(skuUnit);
+        sb.append(", skuUnitName=").append(skuUnitName);
+        sb.append(", price=").append(price);
+        sb.append(", vipPrice=").append(vipPrice);
         sb.append(", status=").append(status);
         sb.append(", mainImage01=").append(mainImage01);
         sb.append(", mainImage02=").append(mainImage02);

@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 
 @Getter
@@ -18,6 +19,14 @@ public class TbSkuDto extends BaseRequest implements Serializable {
     private Integer spuId;
     private String skuName;
     private String skuIntro;
+    private BigDecimal skuPrice;
+    private String skuCode;
+    private String skuBarcode;
+    private Integer skuStock;
+    private Integer skuUnit;
+    private String skuUnitName;
+    private BigDecimal price;
+    private BigDecimal vipPrice;
     private String status;
     private String mainImage01;
     private String mainImage02;
