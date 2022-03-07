@@ -15,6 +15,7 @@ import Booking_List from "./views/admin/booking/booking-list.vue"
 import Room_List from "./views/admin/booking/room-list.vue"
 import Booking_Create from "./views/admin/booking/booking-create.vue"
 import File_List from "./views/admin/file/file-list.vue"
+import Classification_List from "./views/admin/spec/classification-list.vue"
 import Spu_List from "./views/admin/spec/spu-list.vue"
 import Sku_List from "./views/admin/spec/sku-list.vue"
 import Sku_Create from "./views/admin/spec/sku-create.vue"
@@ -52,6 +53,7 @@ export default new Router({
             ,{ path: "room/list", name: "room/list", component: Room_List, meta: {title: "Room列表" }}
             ,{ path: "booking/create", name: "booking/create", component: Booking_Create, meta: {title: "新增预约" }}
             ,{ path: "file/list", name: "file/list", component: File_List, meta: {title: "File" }}
+            ,{ path: "classification/list", name: "classification/list", component: Classification_List, meta: {title: "Classification" }}
             ,{ path: "spu/list", name: "spu/list", component: Spu_List, meta: {title: "SPU" }}
             ,{ path: "sku/list", name: "sku/list", component: Sku_List, meta: {title: "SKU" }}
             ,{ path: "sku/create", name: "sku/create", component: Sku_Create, meta: {title: "SKU Create" }}

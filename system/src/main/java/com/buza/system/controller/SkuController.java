@@ -546,6 +546,7 @@ public class SkuController {
      ***************************************************************** */
     @PostMapping(value = "/classification/list")
     public BaseResponse lstTbClassification(BaseRequest baseRequest, @RequestBody TbClassificationDto tbClassificationDto) {
+        PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
         List<TbClassificationDto> lstTbClassification = skuService.lstTbClassification(tbClassificationDto);
         return BaseResponse.valueOfSuccess(lstTbClassification);
     }

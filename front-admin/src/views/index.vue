@@ -100,14 +100,22 @@
                                 <span class="las la-angle-down"></span>
                             </router-link>
                             <ul class="sidebar-submenu">
-                                <li class="spu-list-sidebar">
-                                    <router-link to="/spu/list">
+                                <li class="classification-list-sidebar">
+                                    <router-link to="/classification/list">
                                         <i class="el-icon-user-solid"
                                            style="font-size: 20px; margin-right: 0.5rem;"></i>
-                                        <span>SPU</span>
+                                        <span>Classification</span>
                                         <span class="las la-angle-right"></span>
                                     </router-link>
                                 </li>
+                                <li class="spu-list-sidebar">
+                                <router-link to="/spu/list">
+                                    <i class="el-icon-user-solid"
+                                       style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                    <span>SPU</span>
+                                    <span class="las la-angle-right"></span>
+                                </router-link>
+                            </li>
                                 <li class="sku-list-sidebar">
                                     <router-link to="/sku/list">
                                         <i class="el-icon-user-solid"

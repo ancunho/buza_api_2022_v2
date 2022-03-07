@@ -190,8 +190,11 @@
     </update>
 
     <select id="lstTbClassification" parameterType="com.buza.server.dto.TbClassificationDto" resultType="com.buza.server.dto.TbClassificationDto">
-        SELECT  T1.CLASSIFICATION_ID
+        SELECT  ROW_NUMBER() OVER() AS RN
+                ,T1.CLASSIFICATION_ID
                 ,T1.PARENT_CLASSIFICATION_ID
+                ,(CASE WHEN T1.PARENT_CLASSIFICATION_ID = 0 OR T1.PARENT_CLASSIFICATION_ID = NULL THEN '-'
+                       ELSE (SELECT A1.CLASSIFICATION_NAME FROM TB_CLASSIFICATION A1 WHERE A1.PARENT_CLASSIFICATION_ID = T1.CLASSIFICATION_ID) END ) AS PARENT_CLASSIFICATION_NAME
                 ,T1.CLASSIFICATION_NAME
                 ,T1.CLASSIFICATION_TYPE
                 ,T1.SORT_ORDER
