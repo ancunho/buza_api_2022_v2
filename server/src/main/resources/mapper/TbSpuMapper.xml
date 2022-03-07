@@ -8,6 +8,12 @@
         <result column="SPU_NAME" jdbcType="VARCHAR" property="spuName"/>
         <result column="SPU_TYPE" jdbcType="VARCHAR" property="spuType"/>
         <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="DEPTH01_ID" jdbcType="INTEGER" property="depth01Id"/>
+        <result column="DEPTH02_ID" jdbcType="INTEGER" property="depth02Id"/>
+        <result column="DEPTH03_ID" jdbcType="INTEGER" property="depth03Id"/>
+        <result column="DEPTH01_NAME" jdbcType="VARCHAR" property="depth01Name"/>
+        <result column="DEPTH02_NAME" jdbcType="VARCHAR" property="depth02Name"/>
+        <result column="DEPTH03_NAME" jdbcType="VARCHAR" property="depth03Name"/>
         <result column="MAIN_IMAGE_01" jdbcType="VARCHAR" property="mainImage01"/>
         <result column="MAIN_IMAGE_02" jdbcType="VARCHAR" property="mainImage02"/>
         <result column="MAIN_IMAGE_03" jdbcType="VARCHAR" property="mainImage03"/>
@@ -26,7 +32,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         SPU_ID, CLASSIFICATION_ID, BRAND_ID, SPU_NAME, SPU_TYPE,
-        `STATUS`, MAIN_IMAGE_01, MAIN_IMAGE_02, MAIN_IMAGE_03, SUB_IMAGE_01,
+        `STATUS`, DEPTH01_ID, DEPTH02_ID, DEPTH03_ID, DEPTH01_NAME, DEPTH02_NAME, DEPTH03_NAME, MAIN_IMAGE_01, MAIN_IMAGE_02, MAIN_IMAGE_03, SUB_IMAGE_01,
         SUB_IMAGE_02, SUB_IMAGE_03, SUB_IMAGE_04, SUB_IMAGE_05, OPTION01, OPTION02,
         OPTION03, OPTION04, OPTION05, CREATE_TIME, UPDATE_TIME
     </sql>
@@ -43,13 +49,16 @@
     </delete>
     <insert id="insert" parameterType="com.buza.server.entity.TbSpu">
         insert into tb_spu (SPU_ID, CLASSIFICATION_ID, BRAND_ID,
-                            SPU_NAME, SPU_TYPE, `STATUS`,MAIN_IMAGE_01, MAIN_IMAGE_02, MAIN_IMAGE_03, SUB_IMAGE_01,
+                            SPU_NAME, SPU_TYPE, `STATUS`, DEPTH01_ID, DEPTH02_ID, DEPTH03_ID, DEPTH01_NAME, DEPTH02_NAME, DEPTH03_NAME,
+                            MAIN_IMAGE_01, MAIN_IMAGE_02, MAIN_IMAGE_03, SUB_IMAGE_01,
                             SUB_IMAGE_02, SUB_IMAGE_03, SUB_IMAGE_04, SUB_IMAGE_05,
                             OPTION01, OPTION02, OPTION03,
                             OPTION04, OPTION05, CREATE_TIME,
                             UPDATE_TIME)
         values (#{spuId,jdbcType=INTEGER}, #{classificationId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER},
                 #{spuName,jdbcType=VARCHAR}, #{spuType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+                #{depth01Id,jdbcType=INTEGER}, #{depth02Id,jdbcType=INTEGER}, #{depth03Id,jdbcType=INTEGER},
+                #{depth01Name,jdbcType=VARCHAR}, #{depth02Name,jdbcType=VARCHAR}, #{depth03Name,jdbcType=VARCHAR},
                 #{mainImage01,jdbcType=VARCHAR}, #{mainImage02,jdbcType=VARCHAR}, #{mainImage03,jdbcType=VARCHAR},
                 #{subImage01,jdbcType=VARCHAR}, #{subImage02,jdbcType=VARCHAR}, #{subImage03,jdbcType=VARCHAR}, #{subImage04,jdbcType=VARCHAR}, #{subImage05,jdbcType=VARCHAR},
                 #{option01,jdbcType=VARCHAR}, #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR},
@@ -76,6 +85,24 @@
             </if>
             <if test="status != null">
                 `STATUS`,
+            </if>
+            <if test="depth01Id != null">
+                DEPTH01_ID,
+            </if>
+            <if test="depth02Id != null">
+                DEPTH02_ID,
+            </if>
+            <if test="depth03Id != null">
+                DEPTH03_ID,
+            </if>
+            <if test="depth01Name != null">
+                DEPTH01_NAME,
+            </if>
+            <if test="depth02Name != null">
+                DEPTH02_NAME,
+            </if>
+            <if test="depth03Name != null">
+                DEPTH03_NAME,
             </if>
             <if test="mainImage01 != null">
                 MAIN_IMAGE_01,
@@ -137,6 +164,24 @@
             <if test="status != null">
                 #{status,jdbcType=VARCHAR},
             </if>
+            <if test="depth01Id != null">
+                #{depth01Id,jdbcType=INTEGER},
+            </if>
+            <if test="depth02Id != null">
+                #{depth02Id,jdbcType=INTEGER},
+            </if>
+            <if test="depth03Id != null">
+                #{depth03Id,jdbcType=INTEGER},
+            </if>
+            <if test="depth01Name != null">
+                #{depth01Name,jdbcType=VARCHAR},
+            </if>
+            <if test="depth02Name != null">
+                #{depth02Name,jdbcType=VARCHAR},
+            </if>
+            <if test="depth03Name != null">
+                #{depth03Name,jdbcType=VARCHAR},
+            </if>
             <if test="mainImage01 != null">
                 #{mainImage01,jdbcType=VARCHAR},
             </if>
@@ -197,6 +242,24 @@
             <if test="status != null">
                 `STATUS` = #{status,jdbcType=VARCHAR},
             </if>
+            <if test="depth01Id != null">
+                DEPTH01_ID = #{depth01Id,jdbcType=INTEGER},
+            </if>
+            <if test="depth02Id != null">
+                DEPTH02_ID = #{depth02Id,jdbcType=INTEGER},
+            </if>
+            <if test="depth03Id != null">
+                DEPTH03_ID = #{depth03Id,jdbcType=INTEGER},
+            </if>
+            <if test="depth01Name != null">
+                DEPTH01_NAME = #{depth01Name,jdbcType=VARCHAR},
+            </if>
+            <if test="depth02Name != null">
+                DEPTH02_NAME = #{depth02Name,jdbcType=VARCHAR},
+            </if>
+            <if test="depth03Name != null">
+                DEPTH03_NAME = #{depth03Name,jdbcType=VARCHAR},
+            </if>
             <if test="mainImage01 != null">
                 MAIN_IMAGE_01 = #{mainImage01,jdbcType=VARCHAR},
             </if>
@@ -247,6 +310,12 @@
             SPU_NAME    = #{spuName,jdbcType=VARCHAR},
             SPU_TYPE    = #{spuType,jdbcType=VARCHAR},
             `STATUS`    = #{status,jdbcType=VARCHAR},
+            DEPTH01_ID    = #{depth01Id,jdbcType=INTEGER},
+            DEPTH02_ID    = #{depth02Id,jdbcType=INTEGER},
+            DEPTH03_ID    = #{depth03Id,jdbcType=INTEGER},
+            DEPTH01_NAME    = #{depth01Name,jdbcType=VARCHAR},
+            DEPTH02_NAME    = #{depth02Name,jdbcType=VARCHAR},
+            DEPTH03_NAME    = #{depth03Name,jdbcType=VARCHAR},
             MAIN_IMAGE_01    = #{mainImage01,jdbcType=VARCHAR},
             MAIN_IMAGE_02    = #{mainImage02,jdbcType=VARCHAR},
             MAIN_IMAGE_03    = #{mainImage03,jdbcType=VARCHAR},
@@ -273,6 +342,12 @@
                 ,T1.SPU_TYPE
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.DEPTH01_ID
+                ,T1.DEPTH02_ID
+                ,T1.DEPTH03_ID
+                ,T1.DEPTH01_NAME
+                ,T1.DEPTH02_NAME
+                ,T1.DEPTH03_NAME
                 ,T1.MAIN_IMAGE_01
                 ,T1.MAIN_IMAGE_02
                 ,T1.MAIN_IMAGE_03
@@ -299,6 +374,12 @@
                 ,T1.SPU_TYPE
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
+                ,T1.DEPTH01_ID
+                ,T1.DEPTH02_ID
+                ,T1.DEPTH03_ID
+                ,T1.DEPTH01_NAME
+                ,T1.DEPTH02_NAME
+                ,T1.DEPTH03_NAME
                 ,T1.MAIN_IMAGE_01
                 ,T1.MAIN_IMAGE_02
                 ,T1.MAIN_IMAGE_03

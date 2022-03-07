@@ -19,6 +19,12 @@ public class TbSpuDto extends BaseRequest implements Serializable {
     private String spuName;
     private String spuType;
     private String status;
+    private Integer depth01Id;
+    private Integer depth02Id;
+    private Integer depth03Id;
+    private String depth01Name;
+    private String depth02Name;
+    private String depth03Name;
     private String mainImage01;
     private String mainImage02;
     private String mainImage03;

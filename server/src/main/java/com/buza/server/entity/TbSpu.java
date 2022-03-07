@@ -15,6 +15,18 @@ public class TbSpu {
 
     private String status;
 
+    private Integer depth01Id;
+
+    private Integer depth02Id;
+
+    private Integer depth03Id;
+
+    private String depth01Name;
+
+    private String depth02Name;
+
+    private String depth03Name;
+
     private String mainImage01;
 
     private String mainImage02;
@@ -91,6 +103,54 @@ public class TbSpu {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getDepth01Id() {
+        return depth01Id;
+    }
+
+    public void setDepth01Id(Integer depth01Id) {
+        this.depth01Id = depth01Id;
+    }
+
+    public Integer getDepth02Id() {
+        return depth02Id;
+    }
+
+    public void setDepth02Id(Integer depth02Id) {
+        this.depth02Id = depth02Id;
+    }
+
+    public Integer getDepth03Id() {
+        return depth03Id;
+    }
+
+    public void setDepth03Id(Integer depth03Id) {
+        this.depth03Id = depth03Id;
+    }
+
+    public String getDepth01Name() {
+        return depth01Name;
+    }
+
+    public void setDepth01Name(String depth01Name) {
+        this.depth01Name = depth01Name;
+    }
+
+    public String getDepth02Name() {
+        return depth02Name;
+    }
+
+    public void setDepth02Name(String depth02Name) {
+        this.depth02Name = depth02Name;
+    }
+
+    public String getDepth03Name() {
+        return depth03Name;
+    }
+
+    public void setDepth03Name(String depth03Name) {
+        this.depth03Name = depth03Name;
     }
 
     public String getMainImage01() {
@@ -215,32 +275,34 @@ public class TbSpu {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", spuId=").append(spuId);
-        sb.append(", classificationId=").append(classificationId);
-        sb.append(", brandId=").append(brandId);
-        sb.append(", spuName=").append(spuName);
-        sb.append(", spuType=").append(spuType);
-        sb.append(", status=").append(status);
-        sb.append(", mainImage01=").append(mainImage01);
-        sb.append(", mainImage02=").append(mainImage02);
-        sb.append(", mainImage03=").append(mainImage03);
-        sb.append(", subImage01=").append(subImage01);
-        sb.append(", subImage02=").append(subImage02);
-        sb.append(", subImage03=").append(subImage03);
-        sb.append(", subImage04=").append(subImage04);
-        sb.append(", subImage05=").append(subImage05);
-        sb.append(", option01=").append(option01);
-        sb.append(", option02=").append(option02);
-        sb.append(", option03=").append(option03);
-        sb.append(", option04=").append(option04);
-        sb.append(", option05=").append(option05);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append("]");
-        return sb.toString();
+        return "TbSpu{" +
+                "spuId=" + spuId +
+                ", classificationId=" + classificationId +
+                ", brandId=" + brandId +
+                ", spuName='" + spuName + '\'' +
+                ", spuType='" + spuType + '\'' +
+                ", status='" + status + '\'' +
+                ", depth01Id=" + depth01Id +
+                ", depth02Id=" + depth02Id +
+                ", depth03Id=" + depth03Id +
+                ", depth01Name='" + depth01Name + '\'' +
+                ", depth02Name='" + depth02Name + '\'' +
+                ", depth03Name='" + depth03Name + '\'' +
+                ", mainImage01='" + mainImage01 + '\'' +
+                ", mainImage02='" + mainImage02 + '\'' +
+                ", mainImage03='" + mainImage03 + '\'' +
+                ", subImage01='" + subImage01 + '\'' +
+                ", subImage02='" + subImage02 + '\'' +
+                ", subImage03='" + subImage03 + '\'' +
+                ", subImage04='" + subImage04 + '\'' +
+                ", subImage05='" + subImage05 + '\'' +
+                ", option01='" + option01 + '\'' +
+                ", option02='" + option02 + '\'' +
+                ", option03='" + option03 + '\'' +
+                ", option04='" + option04 + '\'' +
+                ", option05='" + option05 + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

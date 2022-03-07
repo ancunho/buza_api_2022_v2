@@ -300,7 +300,13 @@ CREATE TABLE `tb_base_date` (
 -- TB_SPU
 CREATE TABLE `tb_spu` (
                           `SPU_ID` int NOT NULL AUTO_INCREMENT,
-                          `CATEGORY_ID` int DEFAULT NULL,
+                          `CLASSIFICATION_ID` int DEFAULT NULL,
+                          `DEPTH01_ID` int DEFAULT NULL,
+                          `DEPTH01_NAME` varchar(45) DEFAULT NULL,
+                          `DEPTH02_ID` int DEFAULT NULL,
+                          `DEPTH02_NAME` varchar(45) DEFAULT NULL,
+                          `DEPTH03_ID` int DEFAULT NULL,
+                          `DEPTH03_NAME` varchar(45) DEFAULT NULL,
                           `BRAND_ID` int DEFAULT NULL,
                           `SPU_NAME` varchar(100) DEFAULT NULL,
                           `SPU_TYPE` varchar(45) DEFAULT NULL,
@@ -321,7 +327,8 @@ CREATE TABLE `tb_spu` (
                           `CREATE_TIME` datetime DEFAULT NULL,
                           `UPDATE_TIME` datetime DEFAULT NULL,
                           PRIMARY KEY (`SPU_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 --TB_SPU_ATTRIBUTE
 CREATE TABLE `tb_spu_attribute` (
