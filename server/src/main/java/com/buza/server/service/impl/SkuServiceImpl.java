@@ -193,6 +193,10 @@ public class SkuServiceImpl implements SkuService {
         return tbClassificationMapper.getTbClassificationInfoByClassificationId(classificationId);
     }
 
+    public List<TbClassificationDto> getTbClassificationInfoByParentClassificationId(Integer parentClassificationId) {
+        return tbClassificationMapper.lstTbClassificationByParentClassificationId(parentClassificationId);
+    }
+
     @Transactional
     public Boolean insertTbClassification(TbClassification tbClassification) {
         int insertCount = tbClassificationMapper.insertSelective(tbClassification);

@@ -8,7 +8,11 @@
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
             <el-table-column prop="classificationId" label="classificationId" width="150" ></el-table-column>
-            <el-table-column prop="parentClassificationId" label="PARENT_CLASSIFICATION_ID" width="150" ></el-table-column>
+            <el-table-column prop="parentClassificationId" label="父分类" width="150" >
+                <template slot-scope="scope">
+                    {{ scope.row.parentClassificationId === 0 ? '-' : scope.row.parentClassificationName }}
+                </template>
+            </el-table-column>
             <el-table-column prop="classificationName" label="classificationName" ></el-table-column>
             <el-table-column prop="classificationType" label="CLASSIFICATION_TYPE" ></el-table-column>
             <el-table-column prop="sortOrder" label="SORT_ORDER" width="130"></el-table-column>
@@ -57,10 +61,24 @@
                     <el-input v-model="modifyItem.classificationName"></el-input>
                 </el-form-item>
                 <el-form-item label="parentId">
-                    <el-input v-model="modifyItem.parentClassificationId"></el-input>
+                    <el-cascader
+                        :value="vvvv"
+                        @change="handleChangeCategory"
+                        :options="lstCategory"
+                        :props="{value: 'classificationId', label: 'classificationName', checkStrictly: true}"
+                        :show-all-levels="false"
+                        clearable>
+                        <template slot-scope="{ node, data }">
+                            <span>{{ data.classificationName }}</span>
+                            <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+                        </template>
+                    </el-cascader>
                 </el-form-item>
                 <el-form-item label="Type">
                     <el-input v-model="modifyItem.classificationType"></el-input>
+                </el-form-item>
+                <el-form-item label="SortOrder">
+                    <el-input v-model="modifyItem.sortOrder"></el-input>
                 </el-form-item>
                 <el-form-item label="是否激活">
                     <el-switch v-model="modifyItem.status"></el-switch>
@@ -85,17 +103,21 @@ export default {
             modifyItem: {},
             loading: true,
             currentPage: 1, //page
-            pageSize: 5, //limit
-            pageSizes: [5, 15, 30, 50],
+            pageSize: 20, //limit
+            pageSizes: [20, 50, 100],
             total: 100,
             isModalVisible: false,
             buzaModalTitle: 'Modal',
 
+            lstClassificationList: [],
+            lstCategory: [],
+            vvvv: [],
         }
     },
     mounted: function () {
         let _this = this;
         _this.tableList();
+        _this.getAllClassificationList();
     },
     watch: {
         isModalVisible(val, oldVal) {
@@ -106,6 +128,9 @@ export default {
         }
     },
     methods: {
+        handleChangeCategory(value) {
+            console.log(value);
+        },
         handleSizeChange(limit) {
             this.currentPage = 1;
             this.pageSize = limit;
@@ -121,12 +146,46 @@ export default {
                 _this.itemList = response.data.data;
                 _this.total = response.data.count;
                 _this.loading = false;
+
+                let listToTree = response.data.data;
+                let result = [];
+                listToTree.forEach(item => {
+                    delete item.children;
+                });
+
+                let map = {};
+                listToTree.forEach(item => {
+                    map[item.classificationId] = item;
+                });
+                listToTree.forEach(item => {
+                    let parent = map[item.parentClassificationId];
+                    if (parent) {
+                        (parent.children || (parent.children = [])).push(item);
+                    } else {
+                        result.push(item);
+                    }
+                });
+                _this.lstCategory = result;
             })
+        },
+        getAllClassificationList() {
+            let _this = this;
+            _this.$request.post(process.env.VUE_APP_SERVER + '/system/classification/list', {})
+            .then (response => {
+                if (response.data.status === 200) {
+                    _this.lstClassificationList = response.data.data;
+                } else {
+                    _this.$message.error(response.data.msg);
+                }
+            })
+            .catch(response => {
+                _this.$message.error("出错！！！！");
+            });
         },
         handleAddNew() {
             let _this = this;
             _this.isModalVisible = true;
-            _this.buzaModalTitle = "新增SPU";
+            _this.buzaModalTitle = "新增Classification";
             _this.modifyItem = {};
         },
         handleItemModify(idx, item) {

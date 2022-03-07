@@ -21,4 +21,6 @@ public interface TbClassificationMapper {
     List<TbClassificationDto> lstTbClassification(TbClassificationDto tbClassificationDto);
 
     TbClassificationDto getTbClassificationInfoByClassificationId(Integer classificationId);
+
+    List<TbClassificationDto> lstTbClassificationByParentClassificationId(Integer parentClassificationId);
 }

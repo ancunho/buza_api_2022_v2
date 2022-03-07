@@ -51,6 +51,7 @@ public interface SkuService {
     //TB_CLASSIFICATION
     public List<TbClassificationDto> lstTbClassification(TbClassificationDto tbClassificationDto);
     public TbClassificationDto getTbClassificationInfoByClassificationId(Integer classificationId);
+    public List<TbClassificationDto> getTbClassificationInfoByParentClassificationId(Integer parentClassificationId);
     public Boolean insertTbClassification(TbClassification tbClassification);
     public Boolean updateTbClassification(TbClassification tbClassification);
 

@@ -14,9 +14,10 @@ public class TbClassificationDto extends BaseRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer classificationId;
-    private Integer parentClassificationId;
     private String classificationName;
     private String classificationType;
+    private Integer parentClassificationId;
+    private String parentClassificationName;
     private Integer sortOrder;
     private String status;
     private String option01;

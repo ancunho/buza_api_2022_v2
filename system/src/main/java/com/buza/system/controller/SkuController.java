@@ -548,7 +548,7 @@ public class SkuController {
     public BaseResponse lstTbClassification(BaseRequest baseRequest, @RequestBody TbClassificationDto tbClassificationDto) {
         PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
         List<TbClassificationDto> lstTbClassification = skuService.lstTbClassification(tbClassificationDto);
-        return BaseResponse.valueOfSuccess(lstTbClassification);
+        return BaseResponse.valueOfSuccessList(lstTbClassification);
     }
 
     @PostMapping(value = "/classification/info")
@@ -572,6 +572,7 @@ public class SkuController {
                 tbClassification.setParentClassificationId((tbClassificationDto.getParentClassificationId() == null || "".equals(String.valueOf(tbClassificationDto.getParentClassificationId())) ) ? 0 : tbClassificationDto.getParentClassificationId());
                 tbClassification.setClassificationType(tbClassificationDto.getClassificationType());
                 tbClassification.setSortOrder(tbClassificationDto.getSortOrder());
+                tbClassification.setStatus(tbClassificationDto.getStatus());
                 tbClassification.setOption01(tbClassificationDto.getOption01());
                 tbClassification.setOption02(tbClassificationDto.getOption02());
                 tbClassification.setOption03(tbClassificationDto.getOption03());
@@ -592,6 +593,7 @@ public class SkuController {
                 tbClassification.setParentClassificationId((tbClassificationDto.getParentClassificationId() == null || "".equals(String.valueOf(tbClassificationDto.getParentClassificationId())) ) ? 0 : tbClassificationDto.getParentClassificationId());
                 tbClassification.setClassificationType(tbClassificationDto.getClassificationType());
                 tbClassification.setSortOrder(tbClassificationDto.getSortOrder());
+                tbClassification.setStatus(tbClassificationDto.getStatus());
                 tbClassification.setOption01(tbClassificationDto.getOption01());
                 tbClassification.setOption02(tbClassificationDto.getOption02());
                 tbClassification.setOption03(tbClassificationDto.getOption03());
@@ -608,6 +610,16 @@ public class SkuController {
             e.printStackTrace();
             return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
+    }
+
+    @PostMapping(value = "/classification/list/byParentClassificationId")
+    public BaseResponse lstTbClassificationByParentClassificationId(BaseRequest baseRequest, @RequestParam("parentClassificationId") Integer parentClassificationId) {
+        if (parentClassificationId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        List<TbClassificationDto> lstTbClassificationByParentClassificationIdData = skuService.getTbClassificationInfoByParentClassificationId(parentClassificationId);
+        return BaseResponse.valueOfSuccess(lstTbClassificationByParentClassificationIdData);
     }
 
 }
