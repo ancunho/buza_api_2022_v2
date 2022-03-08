@@ -613,7 +613,7 @@ public class SkuController {
     }
 
     @PostMapping(value = "/classification/list/byParentClassificationId")
-    public BaseResponse lstTbClassificationByParentClassificationId(BaseRequest baseRequest, @RequestParam("parentClassificationId") Integer parentClassificationId) {
+    public BaseResponse lstTbClassificationByParentClassificationId(BaseRequest baseRequest, @RequestParam(value = "parentClassificationId", defaultValue = "0") Integer parentClassificationId) {
         if (parentClassificationId == null) {
             return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }

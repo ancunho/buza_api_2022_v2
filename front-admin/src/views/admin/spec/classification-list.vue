@@ -4,6 +4,15 @@
         <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增Classification</el-button>
 <!--        <router-link to="/post/create"><el-button type="primary" icon="el-icon-plus">新增文章</el-button></router-link>-->
 
+        <!-- 级联面板 start -->
+        <el-cascader-panel :options="itemList" :props="{value: 'classificationId', label: 'classificationName', checkStrictly: true}" style="margin-top: 20px">
+            <template slot-scope="{ node, data }">
+                <span>{{ data.classificationName }}</span>
+                <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+            </template>
+        </el-cascader-panel>
+        <!-- //级联面板 end -->
+
         <!--  table list start  -->
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
@@ -62,7 +71,7 @@
                 </el-form-item>
                 <el-form-item label="parentId">
                     <el-cascader
-                        :value="vvvv"
+                        :value="selectedParentValue"
                         @change="handleChangeCategory"
                         :options="lstCategory"
                         :props="{value: 'classificationId', label: 'classificationName', checkStrictly: true}"
@@ -111,7 +120,7 @@ export default {
 
             lstClassificationList: [],
             lstCategory: [],
-            vvvv: [],
+            selectedParentValue: [],
         }
     },
     mounted: function () {
@@ -129,7 +138,8 @@ export default {
     },
     methods: {
         handleChangeCategory(value) {
-            console.log(value);
+            let _this = this;
+            _this.selectedParentValue = value[value.length - 1];
         },
         handleSizeChange(limit) {
             this.currentPage = 1;
@@ -143,12 +153,12 @@ export default {
         tableList() {
             let _this = this;
             _this.$request.post(process.env.VUE_APP_SERVER + "/system/classification/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
-                _this.itemList = response.data.data;
+                _this.setItemListToTree(response.data.data);
                 _this.total = response.data.count;
                 _this.loading = false;
 
                 let listToTree = response.data.data;
-                let result = [];
+                let result = [{classificationId: 0, classificationName: '无分类'}];
                 listToTree.forEach(item => {
                     delete item.children;
                 });
@@ -167,6 +177,28 @@ export default {
                 });
                 _this.lstCategory = result;
             })
+        },
+        setItemListToTree(itemList) {
+            let _this = this;
+            let listToTree = itemList;
+            let result = [];
+            listToTree.forEach(item => {
+                delete item.children;
+            });
+
+            let map = {};
+            listToTree.forEach(item => {
+                map[item.classificationId] = item;
+            });
+            listToTree.forEach(item => {
+                let parent = map[item.parentClassificationId];
+                if (parent) {
+                    (parent.children || (parent.children = [])).push(item);
+                } else {
+                    result.push(item);
+                }
+            });
+            _this.itemList = result;
         },
         getAllClassificationList() {
             let _this = this;
@@ -197,6 +229,9 @@ export default {
         saveItem(item) {
             let _this = this;
             item.status = item.status === true ? "1" : "0";
+            console.log(_this.selectedParentValue);
+            item.parentClassificationId = _this.selectedParentValue;
+            console.log("item:", item);
             _this.loading = true;
             _this.$request.post(process.env.VUE_APP_SERVER + "/system/classification/proc", item).then(response => {
                 if (response.data.code === 0) {

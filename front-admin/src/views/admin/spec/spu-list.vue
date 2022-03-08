@@ -60,6 +60,17 @@
                 <el-form-item label="categoryId">
                     <el-input v-model="modifyItem.categoryId"></el-input>
                 </el-form-item>
+                <el-form-item label="depth">
+                    <el-select placeholder="请选择1级分类" v-model="modifyItem.classificationId" @change="handleChangeDepth('1', modifyItem.classificationId)">
+                        <el-option v-for="item in lstClassificationDepth01" :label="item.classificationName" :key="item.classificationId" :value="item.classificationId"></el-option>
+                    </el-select>
+                    <el-select placeholder="请选择2级分类" v-model="modifyItem.classificationId" @change="handleChangeDepth('2', modifyItem.classificationId)">
+                        <el-option v-for="item in lstClassificationDepth02" :label="item.classificationName" :key="item.classificationId" :value="item.classificationId"></el-option>
+                    </el-select>
+                    <el-select placeholder="请选择3级分类" v-model="modifyItem.classificationId" @change="handleChangeDepth('3', modifyItem.classificationId)">
+                        <el-option v-for="item in lstClassificationDepth03" :label="item.classificationName" :key="item.classificationId" :value="item.classificationId"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="brandId">
                     <el-input v-model="modifyItem.brandId"></el-input>
                 </el-form-item>
@@ -83,41 +94,6 @@
                     </div>
                     <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选 择 图 片</el-button>
                     <el-button type="danger" v-on:click="handleDeleteChooseMain('mainImage01')">删 除</el-button>
-<!--                    <el-row :gutter="10">-->
-<!--                        <el-col :span="8">-->
-<!--                            <div class="block">-->
-<!--                                <span class="demonstration"></span>-->
-<!--                                <el-image :src="modifyItem.mainImage01 || ''" style="width: 200px; height:200px;">-->
-<!--                                    <div slot="error" class="image-slot">-->
-<!--                                        <i class="el-icon-picture-outline font100px"></i>-->
-<!--                                    </div>-->
-<!--                                </el-image>-->
-<!--                            </div>-->
-<!--                            <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选择图片</el-button>-->
-<!--                        </el-col>-->
-<!--                        <el-col :span="8">-->
-<!--                            <div class="block">-->
-<!--                                <span class="demonstration"></span>-->
-<!--                                <el-image :src="modifyItem.mainImage02 || ''" style="width: 200px; height:200px;">-->
-<!--                                    <div slot="error" class="image-slot">-->
-<!--                                        <i class="el-icon-picture-outline font100px"></i>-->
-<!--                                    </div>-->
-<!--                                </el-image>-->
-<!--                            </div>-->
-<!--                            <el-button type="info" v-on:click="handleChooseMain('mainImage02')">选择图片</el-button>-->
-<!--                        </el-col>-->
-<!--                        <el-col :span="8">-->
-<!--                            <div class="block">-->
-<!--                                <span class="demonstration"></span>-->
-<!--                                <el-image :src="modifyItem.mainImage03 || ''" style="width: 200px; height:200px;">-->
-<!--                                    <div slot="error" class="image-slot">-->
-<!--                                        <i class="el-icon-picture-outline font100px"></i>-->
-<!--                                    </div>-->
-<!--                                </el-image>-->
-<!--                            </div>-->
-<!--                            <el-button type="info" v-on:click="handleChooseMain('mainImage03')">选择图片</el-button>-->
-<!--                        </el-col>-->
-<!--                    </el-row>-->
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -180,6 +156,10 @@ export default {
             initDataListURL: process.env.VUE_APP_SERVER + '/system/file/handle/list',
 
             choosenFlag: '',
+            lstClassificationDepth01: [],
+            lstClassificationDepth02: [],
+            lstClassificationDepth03: [],
+            initLstClassificationURL: process.env.VUE_APP_SERVER + '/system/classification/list/byParentClassificationId'
         }
     },
     mounted: function () {
@@ -192,9 +172,44 @@ export default {
             if (val === false) {
                 _this.tableList();
             }
+            if (val === true) {
+                _this.getLstClassication('1', 0);
+            }
         }
     },
     methods: {
+        handleChangeDepth(depth, parentClassificationId) {
+            if (depth === '1') {
+                this.lstClassificationDepth02 = [];
+                this.lstClassificationDepth03 = [];
+            } else if (depth === '2') {
+                this.lstClassificationDepth03 = [];
+            }
+            console.log("parentClassificationId:", parentClassificationId);
+
+        },
+        getLstClassication(depth, parentClassificationId) {
+            let _this = this;
+            _this.$request.post(_this.initLstClassificationURL + '?page=1&limit=1000&parentClassificationId=' + parentClassificationId, {})
+            .then(response => {
+                console.log(response);
+                if (response.data.status === 200) {
+                    if (depth === '1') {
+                        _this.lstClassificationDepth01 = response.data.data;
+                    } else if (depth === '2') {
+                        _this.lstClassificationDepth02 = response.data.data;
+                    } else if (depth === '3') {
+                        _this.lstClassificationDepth03 = response.data.data;
+                    }
+
+                } else {
+                    _this.$message.error(response.data.msg);
+                }
+            })
+            .catch(response => {
+                _this.$message.error("出错了");
+            });
+        },
         childEmitItem(data) {
             let _this = this;
             _this.isDrawerVisible = false;
@@ -218,8 +233,14 @@ export default {
         tableList() {
             let _this = this;
             _this.$request.post(process.env.VUE_APP_SERVER + "/system/spu/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
-                _this.itemList = response.data.data;
-                _this.total = response.data.count;
+                if(response.data.status === 200) {
+                    _this.itemList = response.data.data;
+                    _this.total = response.data.count;
+                } else {
+                    _this.$message.error(response.data.msg);
+                    _this.$router.push("/login");
+                }
+
                 _this.loading = false;
             })
         },
