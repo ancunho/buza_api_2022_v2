@@ -5,7 +5,7 @@
 <!--        <router-link to="/post/create"><el-button type="primary" icon="el-icon-plus">新增文章</el-button></router-link>-->
 
         <!-- 级联面板 start -->
-        <el-cascader-panel :options="itemList" :props="{value: 'classificationId', label: 'classificationName', checkStrictly: true}" style="margin-top: 20px">
+        <el-cascader-panel :options="itemListForCascader" :props="{value: 'classificationId', label: 'classificationName', checkStrictly: true}" style="margin-top: 20px">
             <template slot-scope="{ node, data }">
                 <span>{{ data.classificationName }}</span>
                 <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -16,14 +16,19 @@
         <!--  table list start  -->
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
-            <el-table-column prop="classificationId" label="classificationId" width="150" ></el-table-column>
+            <el-table-column prop="classificationId" label="ID" width="150" ></el-table-column>
             <el-table-column prop="parentClassificationId" label="父分类" width="150" >
                 <template slot-scope="scope">
                     {{ scope.row.parentClassificationId === 0 ? '-' : scope.row.parentClassificationName }}
                 </template>
             </el-table-column>
-            <el-table-column prop="classificationName" label="classificationName" ></el-table-column>
-            <el-table-column prop="classificationType" label="CLASSIFICATION_TYPE" ></el-table-column>
+            <el-table-column prop="classificationName" label="NAME" ></el-table-column>
+            <el-table-column prop="depthNum" label="DEPTH" >
+                <template slot-scope="scope">
+                    {{ scope.row.depthNum }}级分类
+                </template>
+            </el-table-column>
+            <el-table-column prop="classificationType" label="TYPE" ></el-table-column>
             <el-table-column prop="sortOrder" label="SORT_ORDER" width="130"></el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
                 <template slot-scope="scope">
@@ -71,7 +76,7 @@
                 </el-form-item>
                 <el-form-item label="parentId">
                     <el-cascader
-                        :value="selectedParentValue"
+                        :value="modifyItem.parentClassificationId || 0"
                         @change="handleChangeCategory"
                         :options="lstCategory"
                         :props="{value: 'classificationId', label: 'classificationName', checkStrictly: true}"
@@ -82,6 +87,13 @@
                             <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
                         </template>
                     </el-cascader>
+                </el-form-item>
+                <el-form-item label="层级">
+                    <el-radio-group v-model="modifyItem.depthNum" @change="handleChangeDepth">
+                        <el-radio :label="1">一级</el-radio>
+                        <el-radio :label="2">二级</el-radio>
+                        <el-radio :label="3">三级</el-radio>
+                    </el-radio-group>
                 </el-form-item>
                 <el-form-item label="Type">
                     <el-input v-model="modifyItem.classificationType"></el-input>
@@ -109,12 +121,13 @@ export default {
     data: function () {
         return {
             itemList: [],
+            itemListForCascader: [],
             modifyItem: {},
             loading: true,
             currentPage: 1, //page
-            pageSize: 20, //limit
-            pageSizes: [20, 50, 100],
-            total: 100,
+            pageSize: 50, //limit
+            pageSizes: [50, 80, 120],
+            total: 120,
             isModalVisible: false,
             buzaModalTitle: 'Modal',
 
@@ -137,9 +150,12 @@ export default {
         }
     },
     methods: {
+        handleChangeDepth(value) {
+            console.log(value);
+        },
         handleChangeCategory(value) {
             let _this = this;
-            _this.selectedParentValue = value[value.length - 1];
+            _this.modifyItem.parentClassificationId = value[value.length - 1];
         },
         handleSizeChange(limit) {
             this.currentPage = 1;
@@ -153,6 +169,7 @@ export default {
         tableList() {
             let _this = this;
             _this.$request.post(process.env.VUE_APP_SERVER + "/system/classification/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
+                _this.itemList = response.data.data;
                 _this.setItemListToTree(response.data.data);
                 _this.total = response.data.count;
                 _this.loading = false;
@@ -198,7 +215,7 @@ export default {
                     result.push(item);
                 }
             });
-            _this.itemList = result;
+            _this.itemListForCascader = result;
         },
         getAllClassificationList() {
             let _this = this;
@@ -229,9 +246,8 @@ export default {
         saveItem(item) {
             let _this = this;
             item.status = item.status === true ? "1" : "0";
-            console.log(_this.selectedParentValue);
-            item.parentClassificationId = _this.selectedParentValue;
-            console.log("item:", item);
+            console.log("save item: ", item);
+
             _this.loading = true;
             _this.$request.post(process.env.VUE_APP_SERVER + "/system/classification/proc", item).then(response => {
                 if (response.data.code === 0) {

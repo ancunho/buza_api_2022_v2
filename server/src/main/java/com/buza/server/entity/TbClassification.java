@@ -13,7 +13,7 @@ public class TbClassification {
 
     private Integer sortOrder;
 
-    private Integer depth_num;
+    private Integer depthNum;
 
     private String status;
 
@@ -71,12 +71,12 @@ public class TbClassification {
         this.sortOrder = sortOrder;
     }
 
-    public Integer getDepth_num() {
-        return depth_num;
+    public Integer getDepthNum() {
+        return depthNum;
     }
 
-    public void setDepth_num(Integer depth_num) {
-        this.depth_num = depth_num;
+    public void setDepthNum(Integer depthNum) {
+        this.depthNum = depthNum;
     }
 
     public String getStatus() {
@@ -151,7 +151,7 @@ public class TbClassification {
                 ", classificationName='" + classificationName + '\'' +
                 ", classificationType='" + classificationType + '\'' +
                 ", sortOrder=" + sortOrder +
-                ", depth_num=" + depth_num +
+                ", depthNum=" + depthNum +
                 ", status='" + status + '\'' +
                 ", option01='" + option01 + '\'' +
                 ", option02='" + option02 + '\'' +
