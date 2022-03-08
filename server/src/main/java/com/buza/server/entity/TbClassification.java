@@ -13,6 +13,8 @@ public class TbClassification {
 
     private Integer sortOrder;
 
+    private Integer depth_num;
+
     private String status;
 
     private String option01;
@@ -67,6 +69,14 @@ public class TbClassification {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Integer getDepth_num() {
+        return depth_num;
+    }
+
+    public void setDepth_num(Integer depth_num) {
+        this.depth_num = depth_num;
     }
 
     public String getStatus() {
@@ -135,24 +145,21 @@ public class TbClassification {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", classificationId=").append(classificationId);
-        sb.append(", parentClassificationId=").append(parentClassificationId);
-        sb.append(", classificationName=").append(classificationName);
-        sb.append(", classificationType=").append(classificationType);
-        sb.append(", sortOrder=").append(sortOrder);
-        sb.append(", status=").append(status);
-        sb.append(", option01=").append(option01);
-        sb.append(", option02=").append(option02);
-        sb.append(", option03=").append(option03);
-        sb.append(", option04=").append(option04);
-        sb.append(", option05=").append(option05);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append("]");
-        return sb.toString();
+        return "TbClassification{" +
+                "classificationId=" + classificationId +
+                ", parentClassificationId=" + parentClassificationId +
+                ", classificationName='" + classificationName + '\'' +
+                ", classificationType='" + classificationType + '\'' +
+                ", sortOrder=" + sortOrder +
+                ", depth_num=" + depth_num +
+                ", status='" + status + '\'' +
+                ", option01='" + option01 + '\'' +
+                ", option02='" + option02 + '\'' +
+                ", option03='" + option03 + '\'' +
+                ", option04='" + option04 + '\'' +
+                ", option05='" + option05 + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

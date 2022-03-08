@@ -436,10 +436,21 @@ CREATE TABLE `tb_attribute_value` (
                                       PRIMARY KEY (`ATTR_VALUE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
-
-
-
-
-
-
+-- TB_CLASSIFICATION
+CREATE TABLE IF NOT EXISTS `TB_CLASSIFICATION` (
+                                                `CLASSIFICATION_ID` INT NOT NULL AUTO_INCREMENT,
+                                                `PARENT_CLASSIFICATION_ID` INT NULL,
+                                                `CLASSIFICATION_NAME` VARCHAR(100) NULL,
+                                                `CLASSIFICATION_TYPE` VARCHAR(45) NULL,
+                                                `SORT_ORDER` INT NULL,
+                                                `DEPTH_NUM` INT NULL,
+                                                `STATUS` VARCHAR(10) NULL,
+                                                `OPTION01` VARCHAR(45) NULL,
+                                                `OPTION02` VARCHAR(45) NULL,
+                                                `OPTION03` VARCHAR(45) NULL,
+                                                `OPTION04` VARCHAR(45) NULL,
+                                                `OPTION05` VARCHAR(45) NULL,
+                                                `CREATE_TIME` DATETIME NULL,
+                                                `UPDATE_TIME` DATETIME NULL,
+                                                PRIMARY KEY (`CLASSIFICATION_ID`)
+)   ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

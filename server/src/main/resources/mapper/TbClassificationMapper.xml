@@ -7,6 +7,7 @@
         <result column="CLASSIFICATION_NAME" jdbcType="VARCHAR" property="classificationName"/>
         <result column="CLASSIFICATION_TYPE" jdbcType="VARCHAR" property="classificationType"/>
         <result column="SORT_ORDER" jdbcType="INTEGER" property="sortOrder"/>
+        <result column="DEPTH_NUM" jdbcType="INTEGER" property="depthNum"/>
         <result column="STATUS" jdbcType="VARCHAR" property="status"/>
         <result column="OPTION01" jdbcType="VARCHAR" property="option01"/>
         <result column="OPTION02" jdbcType="VARCHAR" property="option02"/>
@@ -19,7 +20,7 @@
     <sql id="Base_Column_List">
         CLASSIFICATION_ID
         , PARENT_CLASSIFICATION_ID, CLASSIFICATION_NAME, CLASSIFICATION_TYPE,
-    SORT_ORDER, `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05, CREATE_TIME, 
+    SORT_ORDER, DEPTH_NUM, `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05, CREATE_TIME,
     UPDATE_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -36,12 +37,12 @@
     <insert id="insert" parameterType="com.buza.server.entity.TbClassification">
         insert into tb_classification (CLASSIFICATION_ID, PARENT_CLASSIFICATION_ID,
                                        CLASSIFICATION_NAME, CLASSIFICATION_TYPE,
-                                       SORT_ORDER, `STATUS`, OPTION01,
+                                       SORT_ORDER, DEPTH_NUM, `STATUS`, OPTION01,
                                        OPTION02, OPTION03, OPTION04,
                                        OPTION05, CREATE_TIME, UPDATE_TIME)
         values (#{classificationId,jdbcType=INTEGER}, #{parentClassificationId,jdbcType=INTEGER},
                 #{classificationName,jdbcType=VARCHAR}, #{classificationType,jdbcType=VARCHAR},
-                #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{option01,jdbcType=VARCHAR},
+                #{sortOrder,jdbcType=INTEGER}, #{depthNum,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{option01,jdbcType=VARCHAR},
                 #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR}, #{option04,jdbcType=VARCHAR},
                 #{option05,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
     </insert>
@@ -62,6 +63,9 @@
             </if>
             <if test="sortOrder != null">
                 SORT_ORDER,
+            </if>
+            <if test="depthNum != null">
+                DEPTH_NUM,
             </if>
             <if test="status != null">
                 `STATUS`,
@@ -99,6 +103,9 @@
             <if test="sortOrder != null">
                 #{sortOrder,jdbcType=INTEGER},
             </if>
+            <if test="depthNum != null">
+                #{depthNum,jdbcType=INTEGER},
+            </if>
             <if test="status != null">
                 #{status,jdbcType=VARCHAR},
             </if>
@@ -135,6 +142,9 @@
             <if test="sortOrder != null">
                 SORT_ORDER = #{sortOrder,jdbcType=INTEGER},
             </if>
+            <if test="depthNum != null">
+                DEPTH_NUM = #{depthNum,jdbcType=INTEGER},
+            </if>
             <if test="status != null">
                 `STATUS` = #{status,jdbcType=VARCHAR},
             </if>
@@ -163,6 +173,7 @@
             CLASSIFICATION_NAME      = #{classificationName,jdbcType=VARCHAR},
             CLASSIFICATION_TYPE      = #{classificationType,jdbcType=VARCHAR},
             SORT_ORDER               = #{sortOrder,jdbcType=INTEGER},
+            DEPTH_NUM               = #{depthNum,jdbcType=INTEGER},
             `STATUS`                 = #{status,jdbcType=VARCHAR},
             OPTION01                 = #{option01,jdbcType=VARCHAR},
             OPTION02                 = #{option02,jdbcType=VARCHAR},
@@ -182,6 +193,7 @@
                 ,T1.CLASSIFICATION_NAME
                 ,T1.CLASSIFICATION_TYPE
                 ,T1.SORT_ORDER
+                ,T1.DEPTH_NUM
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
                 ,T1.OPTION01
@@ -200,6 +212,7 @@
                 ,T1.CLASSIFICATION_NAME
                 ,T1.CLASSIFICATION_TYPE
                 ,T1.SORT_ORDER
+                ,T1.DEPTH_NUM
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
                 ,T1.OPTION01
