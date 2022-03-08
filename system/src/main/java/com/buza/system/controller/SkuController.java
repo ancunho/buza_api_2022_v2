@@ -53,6 +53,12 @@ public class SkuController {
                 // insert new
                 TbSpu tbSpu = new TbSpu();
                 tbSpu.setClassificationId(tbSpuDto.getClassificationId());
+                tbSpu.setDepth01Id(tbSpuDto.getDepth01Id());
+                tbSpu.setDepth02Id(tbSpuDto.getDepth02Id());
+                tbSpu.setDepth03Id(tbSpuDto.getDepth03Id());
+                tbSpu.setDepth01Name(tbSpuDto.getDepth01Name());
+                tbSpu.setDepth02Name(tbSpuDto.getDepth02Name());
+                tbSpu.setDepth03Name(tbSpuDto.getDepth03Name());
                 tbSpu.setBrandId(tbSpuDto.getBrandId());
                 tbSpu.setSpuName(tbSpuDto.getSpuName());
                 tbSpu.setSpuType(tbSpuDto.getSpuType());
@@ -81,6 +87,12 @@ public class SkuController {
                 TbSpu tbSpu = new TbSpu();
                 tbSpu.setSpuId(tbSpuDto.getSpuId());
                 tbSpu.setClassificationId(tbSpuDto.getClassificationId());
+                tbSpu.setDepth01Id(tbSpuDto.getDepth01Id());
+                tbSpu.setDepth02Id(tbSpuDto.getDepth02Id());
+                tbSpu.setDepth03Id(tbSpuDto.getDepth03Id());
+                tbSpu.setDepth01Name(tbSpuDto.getDepth01Name());
+                tbSpu.setDepth02Name(tbSpuDto.getDepth02Name());
+                tbSpu.setDepth03Name(tbSpuDto.getDepth03Name());
                 tbSpu.setBrandId(tbSpuDto.getBrandId());
                 tbSpu.setSpuName(tbSpuDto.getSpuName());
                 tbSpu.setSpuType(tbSpuDto.getSpuType());

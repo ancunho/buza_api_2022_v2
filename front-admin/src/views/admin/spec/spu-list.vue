@@ -61,15 +61,15 @@
                     <el-input v-model="modifyItem.categoryId"></el-input>
                 </el-form-item>
                 <el-form-item label="depth">
-                    <el-select placeholder="请选择1级分类" v-model="modifyItem.classificationId" @change="handleChangeDepth('1', modifyItem.classificationId)">
+                    <el-select placeholder="请选择1级分类" v-model="depth01ClassificationId" @change="handleChangeDepth01('1', depth01ClassificationId)">
                         <el-option v-for="item in lstClassificationDepth01" :label="item.classificationName" :key="item.classificationId" :value="item.classificationId"></el-option>
                     </el-select>
-                    <el-select placeholder="请选择2级分类" v-model="modifyItem.classificationId" @change="handleChangeDepth('2', modifyItem.classificationId)">
-                        <el-option v-for="item in lstClassificationDepth02" :label="item.classificationName" :key="item.classificationId" :value="item.classificationId"></el-option>
-                    </el-select>
-                    <el-select placeholder="请选择3级分类" v-model="modifyItem.classificationId" @change="handleChangeDepth('3', modifyItem.classificationId)">
-                        <el-option v-for="item in lstClassificationDepth03" :label="item.classificationName" :key="item.classificationId" :value="item.classificationId"></el-option>
-                    </el-select>
+<!--                    <el-select placeholder="请选择2级分类" v-model="depth02ClassificationId" @change="handleChangeDepth02('2', depth02ClassificationId)">-->
+<!--                        <el-option v-for="item in lstClassificationDepth02" :label="item.classificationName" :key="item.classificationId" :value="item.classificationId"></el-option>-->
+<!--                    </el-select>-->
+<!--                    <el-select placeholder="请选择3级分类" v-model="depth03ClassificationId" @change="handleChangeDepth03('3', depth03ClassificationId)">-->
+<!--                        <el-option v-for="item in lstClassificationDepth03" :label="item.classificationName" :key="item.classificationId" :value="item.classificationId"></el-option>-->
+<!--                    </el-select>-->
                 </el-form-item>
                 <el-form-item label="brandId">
                     <el-input v-model="modifyItem.brandId"></el-input>
@@ -136,8 +136,8 @@ export default {
             modifyItem: {},
             loading: true,
             currentPage: 1, //page
-            pageSize: 5, //limit
-            pageSizes: [5, 15, 30, 50],
+            pageSize: 20, //limit
+            pageSizes: [20, 50, 100],
             total: 100,
             isModalVisible: false,
             buzaModalTitle: 'Modal',
@@ -159,12 +159,16 @@ export default {
             lstClassificationDepth01: [],
             lstClassificationDepth02: [],
             lstClassificationDepth03: [],
+            depth01ClassificationId: '',
+            depth02ClassificationId: '',
+            depth03ClassificationId: '',
             initLstClassificationURL: process.env.VUE_APP_SERVER + '/system/classification/list/byParentClassificationId'
         }
     },
     mounted: function () {
         let _this = this;
         _this.tableList();
+
     },
     watch: {
         isModalVisible(val, oldVal) {
@@ -172,42 +176,20 @@ export default {
             if (val === false) {
                 _this.tableList();
             }
-            if (val === true) {
-                _this.getLstClassication('1', 0);
-            }
         }
     },
     methods: {
-        handleChangeDepth(depth, parentClassificationId) {
-            if (depth === '1') {
-                this.lstClassificationDepth02 = [];
-                this.lstClassificationDepth03 = [];
-            } else if (depth === '2') {
-                this.lstClassificationDepth03 = [];
-            }
-            console.log("parentClassificationId:", parentClassificationId);
+        handleChangeDepth01(value) {
 
         },
-        getLstClassication(depth, parentClassificationId) {
+        getLstClassificationByParentId(parentClassificationId) {
             let _this = this;
-            _this.$request.post(_this.initLstClassificationURL + '?page=1&limit=1000&parentClassificationId=' + parentClassificationId, {})
+            _this.$request.post(_this.initLstClassificationURL + '?parentClassificationId=' + parentClassificationId)
             .then(response => {
-                console.log(response);
-                if (response.data.status === 200) {
-                    if (depth === '1') {
-                        _this.lstClassificationDepth01 = response.data.data;
-                    } else if (depth === '2') {
-                        _this.lstClassificationDepth02 = response.data.data;
-                    } else if (depth === '3') {
-                        _this.lstClassificationDepth03 = response.data.data;
-                    }
 
-                } else {
-                    _this.$message.error(response.data.msg);
-                }
             })
             .catch(response => {
-                _this.$message.error("出错了");
+
             });
         },
         childEmitItem(data) {

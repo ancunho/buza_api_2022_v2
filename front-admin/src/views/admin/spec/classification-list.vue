@@ -5,7 +5,7 @@
 <!--        <router-link to="/post/create"><el-button type="primary" icon="el-icon-plus">新增文章</el-button></router-link>-->
 
         <!-- 级联面板 start -->
-        <el-cascader-panel :options="itemListForCascader" :props="{value: 'classificationId', label: 'classificationName', checkStrictly: true}" style="margin-top: 20px">
+        <el-cascader-panel :options="itemListForCascader" :props="{value: 'classificationId', label: 'classificationName'}" style="margin-top: 20px">
             <template slot-scope="{ node, data }">
                 <span>{{ data.classificationName }}</span>
                 <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
