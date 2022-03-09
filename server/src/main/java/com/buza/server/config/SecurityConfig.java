@@ -108,6 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/doc.html").permitAll()
                 .antMatchers("/file/handle/").permitAll()
                 .antMatchers("/file/handle/**").permitAll()
+                .antMatchers("/api/buza/miniapp/**").permitAll()
                 //                .antMatchers("/doc.html").permitAll()
                 //配置允许匿名访问的路径
                 .anyRequest().authenticated()
@@ -144,6 +145,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ,"/static/**"
                 ,"/system/file/handle"
                 ,"/system/file/handle/**"
+                ,"/wechat/api/buza/miniapp/**"
 //                ,"/favicon.ico"
 //                ,"/webjars/**"
         );

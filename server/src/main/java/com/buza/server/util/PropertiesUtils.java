@@ -20,6 +20,7 @@ public class PropertiesUtils {
     private static String BUZA_MINIAPP_ID;
     private static String BUZA_MCH_ID;
     private static String BUZA_MINIAPP_SECRET;
+    private static String JS_CODE_TO_SESSION_URL;
 
     static {
         properties = new Properties();
@@ -37,6 +38,7 @@ public class PropertiesUtils {
             BUZA_MINIAPP_ID = properties.getProperty("BUZA_MINIAPP_ID");
             BUZA_MCH_ID = properties.getProperty("BUZA_MCH_ID");
             BUZA_MINIAPP_SECRET = properties.getProperty("BUZA_MINIAPP_SECRET");
+            JS_CODE_TO_SESSION_URL = properties.getProperty("JS_CODE_TO_SESSION_URL");
 
         } catch (Exception e){
             e.printStackTrace();
@@ -123,5 +125,13 @@ public class PropertiesUtils {
 
     public static void setBuzaMiniappSecret(String buzaMiniappSecret) {
         BUZA_MINIAPP_SECRET = buzaMiniappSecret;
+    }
+
+    public static String getJsCodeToSessionUrl() {
+        return JS_CODE_TO_SESSION_URL;
+    }
+
+    public static void setJsCodeToSessionUrl(String jsCodeToSessionUrl) {
+        JS_CODE_TO_SESSION_URL = jsCodeToSessionUrl;
     }
 }
