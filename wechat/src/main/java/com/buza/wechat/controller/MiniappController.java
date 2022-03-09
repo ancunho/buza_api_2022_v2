@@ -36,7 +36,18 @@ public class MiniappController {
         resultMap.put("openId", openId);
         resultMap.put("sessionKey", sessionKey);
         return BaseResponse.valueOfSuccess(resultMap);
+    }
 
+    @RequestMapping(value = "/getAccessToken")
+    public BaseResponse getAccessToken() {
+        JSONObject jsonObject = WechatUtil.getAccessToken();
+        String accessToken = "";
+        accessToken = jsonObject.getString("access_token");
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("accessToken", accessToken);
+
+        return BaseResponse.valueOfSuccess(resultMap);
     }
 
 }

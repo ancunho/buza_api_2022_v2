@@ -33,6 +33,19 @@ public class WechatUtil {
         return jsonObject;
     }
 
+    public static JSONObject getAccessToken() {
+        String requestUrl = PropertiesUtils.getGetAccessTokenUrl();
+        Map<String, String> params = new HashMap<>();
+        params.put("appid", PropertiesUtils.getBuzaMiniappId());
+        params.put("secret", PropertiesUtils.getBuzaMiniappSecret());
+        params.put("grant_type", "client_credential");
+        log.info("params: " + params);
+
+        JSONObject jsonObject = JSON.parseObject(HttpClientUtil.doGet(requestUrl, params));
+        log.info("AccessToken Object:" + jsonObject.toJSONString());
+        return jsonObject;
+    }
+
     // TODO Wechat getUserInfo
 //    public static JSONObject getUserInfo(String encryptedData, String sessionKey, String iv) {
 //        // 被加密的数据
