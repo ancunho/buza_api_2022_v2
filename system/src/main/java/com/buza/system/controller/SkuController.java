@@ -52,7 +52,7 @@ public class SkuController {
             if (tbSpuDto.getSpuId() == null || "".equals(String.valueOf(tbSpuDto.getSpuId()))) {
                 // insert new
                 TbSpu tbSpu = new TbSpu();
-                tbSpu.setClassificationId(tbSpuDto.getClassificationId());
+                tbSpu.setClassificationId(tbSpuDto.getDepth01Id());
                 tbSpu.setDepth01Id(tbSpuDto.getDepth01Id());
                 tbSpu.setDepth02Id(tbSpuDto.getDepth02Id());
                 tbSpu.setDepth03Id(tbSpuDto.getDepth03Id());
@@ -86,7 +86,7 @@ public class SkuController {
                 // update
                 TbSpu tbSpu = new TbSpu();
                 tbSpu.setSpuId(tbSpuDto.getSpuId());
-                tbSpu.setClassificationId(tbSpuDto.getClassificationId());
+                tbSpu.setClassificationId(tbSpuDto.getDepth01Id());
                 tbSpu.setDepth01Id(tbSpuDto.getDepth01Id());
                 tbSpu.setDepth02Id(tbSpuDto.getDepth02Id());
                 tbSpu.setDepth03Id(tbSpuDto.getDepth03Id());

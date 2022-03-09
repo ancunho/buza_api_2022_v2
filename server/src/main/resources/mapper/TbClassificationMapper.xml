@@ -232,6 +232,7 @@
                 ,T1.CLASSIFICATION_NAME
                 ,T1.CLASSIFICATION_TYPE
                 ,T1.SORT_ORDER
+                ,T1.DEPTH_NUM
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
                 ,T1.OPTION01

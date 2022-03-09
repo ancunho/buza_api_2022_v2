@@ -57,11 +57,11 @@
                 <el-form-item label="spuId" v-if="modifyItem.spuId != null">
                     <el-input v-model="modifyItem.spuId" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="categoryId">
-                    <el-input v-model="modifyItem.categoryId"></el-input>
+                <el-form-item label="classificationId">
+                    <el-input v-model="modifyItem.classificationId"></el-input>
                 </el-form-item>
                 <el-form-item label="depth">
-                    <el-select placeholder="请选择1级分类" v-model="depth01ClassificationId" @change="handleChangeDepth01('1', depth01ClassificationId)">
+                    <el-select placeholder="请选择分类" v-model="modifyItem.depth01Id" @change="handleChangeDepth01('1', modifyItem.depth01Id)">
                         <el-option v-for="item in lstClassificationDepth01" :label="item.classificationName" :key="item.classificationId" :value="item.classificationId"></el-option>
                     </el-select>
 <!--                    <el-select placeholder="请选择2级分类" v-model="depth02ClassificationId" @change="handleChangeDepth02('2', depth02ClassificationId)">-->
@@ -71,9 +71,9 @@
 <!--                        <el-option v-for="item in lstClassificationDepth03" :label="item.classificationName" :key="item.classificationId" :value="item.classificationId"></el-option>-->
 <!--                    </el-select>-->
                 </el-form-item>
-                <el-form-item label="brandId">
-                    <el-input v-model="modifyItem.brandId"></el-input>
-                </el-form-item>
+<!--                <el-form-item label="brandId">-->
+<!--                    <el-input v-model="modifyItem.brandId"></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item label="SPU_NAME">
                     <el-input v-model="modifyItem.spuName"></el-input>
                 </el-form-item>
@@ -159,7 +159,6 @@ export default {
             lstClassificationDepth01: [],
             lstClassificationDepth02: [],
             lstClassificationDepth03: [],
-            depth01ClassificationId: '',
             depth02ClassificationId: '',
             depth03ClassificationId: '',
             initLstClassificationURL: process.env.VUE_APP_SERVER + '/system/classification/list/byParentClassificationId'
@@ -168,7 +167,7 @@ export default {
     mounted: function () {
         let _this = this;
         _this.tableList();
-
+        _this.getLstClassificationByParentId(0);
     },
     watch: {
         isModalVisible(val, oldVal) {
@@ -179,14 +178,20 @@ export default {
         }
     },
     methods: {
-        handleChangeDepth01(value) {
-
+        handleChangeDepth01(depth, parentClassificationId) {
+            let _this = this;
+            console.log(depth, parentClassificationId);
+            _this.getLstClassificationByParentId(0);
         },
         getLstClassificationByParentId(parentClassificationId) {
             let _this = this;
             _this.$request.post(_this.initLstClassificationURL + '?parentClassificationId=' + parentClassificationId)
             .then(response => {
-
+                if (response.data.status === 200) {
+                    _this.lstClassificationDepth01 = response.data.data;
+                } else {
+                    _this.$message.error(response.data.msg);
+                }
             })
             .catch(response => {
 
@@ -231,6 +236,7 @@ export default {
             _this.isModalVisible = true;
             _this.buzaModalTitle = "新增SPU";
             _this.modifyItem = {};
+            _this.getLstClassificationByParentId(0);
         },
         handleItemModify(idx, item) {
             let _this = this;
@@ -253,6 +259,7 @@ export default {
         saveItem(item) {
             let _this = this;
             item.status = item.status === true ? "1" : "0";
+            console.log("item:", item);
             _this.loading = true;
             _this.$request.post(process.env.VUE_APP_SERVER + "/system/spu/proc", item).then(response => {
                 if (response.data.code === 0) {
