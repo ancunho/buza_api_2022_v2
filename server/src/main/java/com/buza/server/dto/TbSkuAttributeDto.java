@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -16,6 +17,9 @@ public class TbSkuAttributeDto extends BaseRequest implements Serializable {
     private Integer skuAttrId;
     private Integer skuId;
     private Integer attrValueId;
+    private String isMust;
+    private String isDefault;
+    private BigDecimal pricePlus;
     private String status;
     private String option01;
     private String option02;

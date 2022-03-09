@@ -375,6 +375,9 @@ public class SkuController {
                 TbSkuAttribute tbSkuAttribute = new TbSkuAttribute();
                 tbSkuAttribute.setSkuId(tbSkuAttributeDto.getSkuId());
                 tbSkuAttribute.setAttrValueId(tbSkuAttributeDto.getAttrValueId());
+                tbSkuAttribute.setIsMust(tbSkuAttributeDto.getIsMust());
+                tbSkuAttribute.setIsDefault(tbSkuAttributeDto.getIsDefault());
+                tbSkuAttribute.setPricePlus(tbSkuAttributeDto.getPricePlus());
                 tbSkuAttribute.setStatus(tbSkuAttributeDto.getStatus());
                 tbSkuAttribute.setOption01(tbSkuAttributeDto.getOption01());
                 tbSkuAttribute.setOption02(tbSkuAttributeDto.getOption02());
@@ -393,6 +396,9 @@ public class SkuController {
                 tbSkuAttribute.setSkuAttrId(tbSkuAttributeDto.getSkuAttrId());
                 tbSkuAttribute.setSkuId(tbSkuAttributeDto.getSkuId());
                 tbSkuAttribute.setAttrValueId(tbSkuAttributeDto.getAttrValueId());
+                tbSkuAttribute.setIsMust(tbSkuAttributeDto.getIsMust());
+                tbSkuAttribute.setIsDefault(tbSkuAttributeDto.getIsDefault());
+                tbSkuAttribute.setPricePlus(tbSkuAttributeDto.getPricePlus());
                 tbSkuAttribute.setStatus(tbSkuAttributeDto.getStatus());
                 tbSkuAttribute.setOption01(tbSkuAttributeDto.getOption01());
                 tbSkuAttribute.setOption02(tbSkuAttributeDto.getOption02());

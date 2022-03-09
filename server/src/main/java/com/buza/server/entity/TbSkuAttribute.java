@@ -1,5 +1,6 @@
 package com.buza.server.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TbSkuAttribute {
@@ -8,6 +9,12 @@ public class TbSkuAttribute {
     private Integer skuId;
 
     private Integer attrValueId;
+
+    private String isMust;
+
+    private String isDefault;
+
+    private BigDecimal pricePlus;
 
     private String status;
 
@@ -47,6 +54,30 @@ public class TbSkuAttribute {
 
     public void setAttrValueId(Integer attrValueId) {
         this.attrValueId = attrValueId;
+    }
+
+    public String getIsMust() {
+        return isMust;
+    }
+
+    public void setIsMust(String isMust) {
+        this.isMust = isMust;
+    }
+
+    public String getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(String isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public BigDecimal getPricePlus() {
+        return pricePlus;
+    }
+
+    public void setPricePlus(BigDecimal pricePlus) {
+        this.pricePlus = pricePlus;
     }
 
     public String getStatus() {
@@ -122,6 +153,9 @@ public class TbSkuAttribute {
         sb.append(", skuAttrId=").append(skuAttrId);
         sb.append(", skuId=").append(skuId);
         sb.append(", attrValueId=").append(attrValueId);
+        sb.append(", isMust=").append(isMust);
+        sb.append(", isDefault=").append(isDefault);
+        sb.append(", pricePlus=").append(pricePlus);
         sb.append(", status=").append(status);
         sb.append(", option01=").append(option01);
         sb.append(", option02=").append(option02);

@@ -5,6 +5,9 @@
         <id column="SKU_ATTR_ID" jdbcType="INTEGER" property="skuAttrId"/>
         <result column="SKU_ID" jdbcType="INTEGER" property="skuId"/>
         <result column="ATTR_VALUE_ID" jdbcType="INTEGER" property="attrValueId"/>
+        <result column="IS_MUST" jdbcType="VARCHAR" property="isMust"/>
+        <result column="IS_DEFAULT" jdbcType="VARCHAR" property="isDefault"/>
+        <result column="PRICE_PLUS" jdbcType="DECIMAL" property="pricePlus"/>
         <result column="STATUS" jdbcType="VARCHAR" property="status"/>
         <result column="OPTION01" jdbcType="VARCHAR" property="option01"/>
         <result column="OPTION02" jdbcType="VARCHAR" property="option02"/>
@@ -16,7 +19,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         SKU_ATTR_ID
-        , SKU_ID, ATTR_VALUE_ID, `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05,
+        , SKU_ID, ATTR_VALUE_ID,IS_MUST, IS_DEFAULT, PRICE_PLUS, `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05,
     CREATE_TIME, UPDATE_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -31,11 +34,13 @@
         where SKU_ATTR_ID = #{skuAttrId,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.buza.server.entity.TbSkuAttribute">
-        insert into tb_sku_attribute (SKU_ATTR_ID, SKU_ID, ATTR_VALUE_ID,`STATUS`,
-                                      OPTION01, OPTION02, OPTION03,
+        insert into tb_sku_attribute (SKU_ATTR_ID, SKU_ID, ATTR_VALUE_ID,IS_MUST, IS_DEFAULT,PRICE_PLUS,
+                                      `STATUS`, OPTION01, OPTION02, OPTION03,
                                       OPTION04, OPTION05, CREATE_TIME,
                                       UPDATE_TIME)
-        values (#{skuAttrId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{attrValueId,jdbcType=INTEGER},#{status,jdbcType=VARCHAR},
+        values (#{skuAttrId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{attrValueId,jdbcType=INTEGER},
+                #{isMust,jdbcType=VARCHAR},#{isDefault,jdbcType=VARCHAR},#{pricePlus,jdbcType=DECIMAL},
+                #{status,jdbcType=VARCHAR},
                 #{option01,jdbcType=VARCHAR}, #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR},
                 #{option04,jdbcType=VARCHAR}, #{option05,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
                 #{updateTime,jdbcType=TIMESTAMP})
@@ -51,6 +56,15 @@
             </if>
             <if test="attrValueId != null">
                 ATTR_VALUE_ID,
+            </if>
+            <if test="isMust != null">
+                IS_MUST,
+            </if>
+            <if test="isDefault != null">
+                IS_DEFAULT,
+            </if>
+            <if test="pricePlus != null">
+                PRICE_PLUS,
             </if>
             <if test="status != null">
                 `STATUS`,
@@ -87,6 +101,15 @@
             <if test="attrValueId != null">
                 #{attrValueId,jdbcType=INTEGER},
             </if>
+            <if test="isMust != null">
+                #{isMust,jdbcType=VARCHAR},
+            </if>
+            <if test="isDefault != null">
+                #{isDefault,jdbcType=VARCHAR},
+            </if>
+            <if test="pricePlus != null">
+                #{pricePlus,jdbcType=DECIMAL},
+            </if>
             <if test="status != null">
                 #{status,jdbcType=VARCHAR},
             </if>
@@ -122,6 +145,15 @@
             <if test="attrValueId != null">
                 ATTR_VALUE_ID = #{attrValueId,jdbcType=INTEGER},
             </if>
+            <if test="isMust != null">
+                IS_MUST = #{isMust,jdbcType=VARCHAR},
+            </if>
+            <if test="isDefault != null">
+                IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+            </if>
+            <if test="pricePlus != null">
+                PRICE_PLUS = #{pricePlus,jdbcType=DECIMAL},
+            </if>
             <if test="status != null">
                 `STATUS` = #{status,jdbcType=VARCHAR},
             </if>
@@ -153,6 +185,9 @@
         update tb_sku_attribute
         set SKU_ID        = #{skuId,jdbcType=INTEGER},
             ATTR_VALUE_ID = #{attrValueId,jdbcType=INTEGER},
+            IS_MUST = #{isMust,jdbcType=VARCHAR},
+            IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+            PRICE_PLUS = #{pricePlus,jdbcType=DECIMAL},
             `STATUS` = #{status,jdbcType=VARCHAR},
             OPTION01      = #{option01,jdbcType=VARCHAR},
             OPTION02      = #{option02,jdbcType=VARCHAR},
@@ -168,6 +203,9 @@
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
                 ,T1.ATTR_VALUE_ID
+                ,T1.IS_MUST
+                ,T1.IS_DEFAULT
+                ,T1.PRICE_PLUS
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
                 ,T1.OPTION01
@@ -184,6 +222,9 @@
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
                 ,T1.ATTR_VALUE_ID
+                ,T1.IS_MUST
+                ,T1.IS_DEFAULT
+                ,T1.PRICE_PLUS
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
                 ,T1.OPTION01
@@ -201,6 +242,9 @@
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
                 ,T1.ATTR_VALUE_ID
+                ,T1.IS_MUST
+                ,T1.IS_DEFAULT
+                ,T1.PRICE_PLUS
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
                 ,T1.OPTION01
@@ -218,6 +262,9 @@
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
                 ,T1.ATTR_VALUE_ID
+                ,T1.IS_MUST
+                ,T1.IS_DEFAULT
+                ,T1.PRICE_PLUS
                 ,T1.STATUS
                 ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS STATUS_NAME
                 ,T1.OPTION01

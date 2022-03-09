@@ -386,6 +386,9 @@ CREATE TABLE `tb_sku_attribute` (
                                     `SKU_ATTR_ID` int NOT NULL AUTO_INCREMENT,
                                     `SKU_ID` int NOT NULL,
                                     `ATTR_VALUE_ID` int NOT NULL,
+                                    `IS_MUST` varchar(2) DEFAULT NULL,
+                                    `IS_DEFAULT` varchar(2) DEFAULT NULL,
+                                    `PRICE_PLUS` decimal(20,2) DEFAULT NULL,
                                     `STATUS` varchar(10) DEFAULT NULL,
                                     `OPTION01` varchar(45) DEFAULT NULL,
                                     `OPTION02` varchar(45) DEFAULT NULL,
@@ -396,6 +399,7 @@ CREATE TABLE `tb_sku_attribute` (
                                     `UPDATE_TIME` datetime DEFAULT NULL,
                                     PRIMARY KEY (`SKU_ATTR_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 --TB_ATTRIBUTE
 CREATE TABLE `tb_attribute` (
