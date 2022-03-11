@@ -74,12 +74,7 @@
             <if test="option05 != null">
                 OPTION05,
             </if>
-            <if test="createTime != null">
-                CREATE_TIME,
-            </if>
-            <if test="updateTime != null">
-                UPDATE_TIME,
-            </if>
+            CREATE_TIME
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="attrId != null">
@@ -112,12 +107,7 @@
             <if test="option05 != null">
                 #{option05,jdbcType=VARCHAR},
             </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
+            now()
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.buza.server.entity.TbAttribute">
@@ -150,12 +140,7 @@
             <if test="option05 != null">
                 OPTION05 = #{option05,jdbcType=VARCHAR},
             </if>
-            <if test="createTime != null">
-                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-            </if>
+            UPDATE_TIME = now()
         </set>
         where ATTR_ID = #{attrId,jdbcType=INTEGER}
     </update>
@@ -171,12 +156,13 @@
             OPTION04    = #{option04,jdbcType=VARCHAR},
             OPTION05    = #{option05,jdbcType=VARCHAR},
             CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-            UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+            UPDATE_TIME = NOW()
         where ATTR_ID = #{attrId,jdbcType=INTEGER}
     </update>
 
     <select id="lstTbAttribute" parameterType="com.buza.server.dto.TbAttributeDto" resultType="com.buza.server.dto.TbAttributeDto">
-        SELECT  T1.ATTR_ID
+        SELECT  ROW_NUMBER() OVER() RN
+                ,T1.ATTR_ID
                 ,T1.ATTR_NAME
                 ,T1.ATTR_TYPE
                 ,T1.STATUS

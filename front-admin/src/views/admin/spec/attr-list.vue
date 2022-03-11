@@ -1,21 +1,20 @@
 <template>
     <div v-loading="loading">
 
-<!--        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增SKU</el-button>-->
-        <router-link to="/sku/create"><el-button type="primary" icon="el-icon-plus">新增SKU</el-button></router-link>
+        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增ATTR</el-button>
+<!--        <router-link to="/sku/create"><el-button type="primary" icon="el-icon-plus">新增SKU</el-button></router-link>-->
 
         <!--  table list start  -->
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
-            <el-table-column prop="mainImage01" label="Main Image" width="150" >
+            <el-table-column prop="attrId" label="Id" width="150" ></el-table-column>
+            <el-table-column prop="attrName" label="Name" width="150" ></el-table-column>
+            <el-table-column prop="attrType" label="Type" width="150" ></el-table-column>
+            <el-table-column prop="attrImage" label="Attr Image" width="150" >
                 <template slot-scope="scope">
-                    <el-image :src="scope.row.mainImage01" style="width: 100px; height: 100px;" />
+                    <el-image :src="scope.row.attrImage" style="width: 100px; height: 100px;" />
                 </template>
             </el-table-column>
-            <el-table-column prop="categoryId" label="CATEGORY_ID" width="150" ></el-table-column>
-            <el-table-column prop="brandId" label="BRAND_ID" ></el-table-column>
-            <el-table-column prop="spuName" label="SPU_NAME" ></el-table-column>
-            <el-table-column prop="spuType" label="SPU_TYPE" width="130"></el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
                 <template slot-scope="scope">
                     <el-tag type="danger" v-if="scope.row.status === '0'"> {{ scope.row.statusName }}</el-tag>
@@ -52,22 +51,16 @@
         <!--  dialog start  -->
         <el-dialog v-bind:title="buzaModalTitle" :visible.sync="isModalVisible" :close-on-click-modal="false">
             <!--:close-on-click-modal="false"-->
-            <input type="hidden" v-model="modifyItem.spuId"/>
+            <input type="hidden" v-model="modifyItem.attrId"/>
             <el-form ref="form" label-width="130px">
-                <el-form-item label="spuId" v-if="modifyItem.spuId != null">
-                    <el-input v-model="modifyItem.spuId" disabled></el-input>
+                <el-form-item label="spuId" v-if="modifyItem.attrId != null">
+                    <el-input v-model="modifyItem.attrId" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="categoryId">
-                    <el-input v-model="modifyItem.categoryId"></el-input>
+                <el-form-item label="Name">
+                    <el-input v-model="modifyItem.attrName"></el-input>
                 </el-form-item>
-                <el-form-item label="brandId">
-                    <el-input v-model="modifyItem.brandId"></el-input>
-                </el-form-item>
-                <el-form-item label="SPU_NAME">
-                    <el-input v-model="modifyItem.spuName"></el-input>
-                </el-form-item>
-                <el-form-item label="SPU_TYPE">
-                    <el-input v-model="modifyItem.spuType"></el-input>
+                <el-form-item label="Type">
+                    <el-input v-model="modifyItem.attrType"></el-input>
                 </el-form-item>
                 <el-form-item label="是否激活">
                     <el-switch v-model="modifyItem.status"></el-switch>
@@ -75,7 +68,7 @@
                 <el-form-item label="主图片">
                     <div class="block">
                         <span class="demonstration"></span>
-                        <el-image :src="modifyItem.mainImage01 || ''" style="width: 200px; height:200px;">
+                        <el-image :src="modifyItem.attrImage || ''" style="width: 200px; height:200px;">
                             <div slot="error" class="image-slot">
                                 <i class="el-icon-picture-outline font200px"></i>
                             </div>
@@ -165,11 +158,7 @@ export default {
             let _this = this;
             _this.isDrawerVisible = false;
             if (_this.choosenFlag === 'mainImage01') {
-                _this.modifyItem.mainImage01 = data.fileUrl;
-            } else if (_this.choosenFlag === 'mainImage02') {
-                _this.modifyItem.mainImage02 = data.fileUrl;
-            } else if (_this.choosenFlag === 'mainImage03') {
-                _this.modifyItem.mainImage03 = data.fileUrl;
+                _this.modifyItem.attrImage = data.fileUrl;
             }
         },
         handleSizeChange(limit) {
@@ -183,7 +172,7 @@ export default {
         },
         tableList() {
             let _this = this;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/sku/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/attr/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
                 _this.itemList = response.data.data;
                 _this.total = response.data.count;
                 _this.loading = false;
@@ -210,14 +199,14 @@ export default {
         handleDeleteChooseMain(flag) {
             let _this = this;
             if (flag == 'mainImage01') {
-                _this.modifyItem.mainImage01 = '';
+                _this.modifyItem.attrImage = '';
             }
         },
         saveItem(item) {
             let _this = this;
             item.status = item.status === true ? "1" : "0";
             _this.loading = true;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/spu/proc", item).then(response => {
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/attr/proc", item).then(response => {
                 if (response.data.code === 0) {
                     _this.$message.success(response.data.msg);
                     _this.tableList();
