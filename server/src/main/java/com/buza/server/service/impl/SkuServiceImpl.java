@@ -189,6 +189,12 @@ public class SkuServiceImpl implements SkuService {
         return updateCount > 0;
     }
 
+    @Transactional
+    public Boolean deleteTbAttributeValueByAttrValueId(Integer attrValueId) {
+        int deleteCount = tbAttributeValueMapper.deleteByPrimaryKey(attrValueId);
+        return deleteCount > 0;
+    }
+
     public List<TbClassificationDto> lstTbClassification(TbClassificationDto tbClassificationDto) {
         return tbClassificationMapper.lstTbClassification(tbClassificationDto);
     }

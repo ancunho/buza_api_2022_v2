@@ -382,10 +382,11 @@ CREATE TABLE `tb_sku` (
 
 
 --TB_SKU_ATTRIBUTE
+
 CREATE TABLE `tb_sku_attribute` (
                                     `SKU_ATTR_ID` int NOT NULL AUTO_INCREMENT,
                                     `SKU_ID` int NOT NULL,
-                                    `ATTR_ID` int NOT NULL,
+                                    `ATTR_ID` int DEFAULT NULL,
                                     `ATTR_VALUE_ID` int NOT NULL,
                                     `IS_MUST` varchar(2) DEFAULT NULL,
                                     `IS_DEFAULT` varchar(2) DEFAULT NULL,
@@ -398,9 +399,10 @@ CREATE TABLE `tb_sku_attribute` (
                                     `OPTION05` varchar(45) DEFAULT NULL,
                                     `CREATE_TIME` datetime DEFAULT NULL,
                                     `UPDATE_TIME` datetime DEFAULT NULL,
-                                    PRIMARY KEY (`SKU_ATTR_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+                                    PRIMARY KEY (`SKU_ATTR_ID`),
+                                    KEY `tb_sku_attribute_attr_id` (`ATTR_ID` ASC),
+                                    KEY `tb_sku_attribute_attr_value_id` (`ATTR_VALUE_ID` ASC)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --TB_ATTRIBUTE
 CREATE TABLE `tb_attribute` (

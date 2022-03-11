@@ -569,6 +569,23 @@ public class SkuController {
         }
     }
 
+    @DeleteMapping(value = "/attrValue/deleteByAttrValueId")
+    public BaseResponse deleteTB_ATTRIBUTE_VALUEByAttrValueId(BaseRequest baseRequest, @RequestParam("attrValueId") Integer attrValueId) {
+        if (attrValueId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        try {
+            boolean isSuccessDelete = skuService.deleteTbAttributeValueByAttrValueId(attrValueId);
+            if (isSuccessDelete) {
+                return BaseResponse.valueOfSuccessMessage(ResponseCode.DELETE_SUCCESS.getDesc());
+            }
+            return BaseResponse.valueOfFailureMessage(ResponseCode.DELETE_ERROR.getDesc());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseResponse.valueOfFailureMessage("删除错误！");
+        }
+    }
     /********************************************************************
      * TB_CLASSIFICATION
      ***************************************************************** */

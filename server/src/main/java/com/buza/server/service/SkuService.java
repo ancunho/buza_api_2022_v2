@@ -48,6 +48,7 @@ public interface SkuService {
     public TbAttributeValueDto getTbAttributeValueInfoByAttrValueId(Integer attrValueId);
     public Boolean insertTbAttributeValue(TbAttributeValue tbAttributeValue);
     public Boolean updateTbAttributeValue(TbAttributeValue tbAttributeValue);
+    public Boolean deleteTbAttributeValueByAttrValueId(Integer attrValueId);
 
     //TB_CLASSIFICATION
     public List<TbClassificationDto> lstTbClassification(TbClassificationDto tbClassificationDto);

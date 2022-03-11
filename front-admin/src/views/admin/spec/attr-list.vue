@@ -22,10 +22,12 @@
                         :key="item.attrValueId"
                         style="cursor: pointer"
                         @click="handleClickAttrValue(item)"
+                        @close="handleCloseAttrValue(item)"
                         closable>
                         {{item.attrValue}}
                     </el-tag>
                     <el-button class="button-new-tag" size="small" @click="handleAddNewAttrValue(scope.row.attrId)">+ New AttrValue</el-button>
+
                 </template>
             </el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
@@ -129,6 +131,14 @@
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
 
+        <el-dialog :visible.sync="isDeleteAttrValueDialog" width="20%">
+            <span>确定删除吗？ 【{{ attrValueItem.attrValue}} ({{ attrValueItem.attrValueId }})】</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDeleteAttrValueDialog = false">取 消</el-button>
+                <el-button type="primary" @click="handleDeleteAttrValue(attrValueItem.attrValueId)">确 定</el-button>
+            </span>
+        </el-dialog>
+
         <!--  // drawer start  -->
         <el-drawer
             v-loading="loadingDrawer"
@@ -180,6 +190,9 @@ export default {
             choosenFlag: '',
             modifyItem2: {},
             isModalVisibleForAttrValue: false,
+            isDeleteAttrValueDialog: false,
+            attrValueItem: {},
+            deleteAttrValueByAttrValueIdURL: process.env.VUE_APP_SERVER + '/system/attrValue/deleteByAttrValueId',
         }
     },
     mounted: function () {
@@ -198,14 +211,38 @@ export default {
         handleAddNewAttrValue(attrId){
             let _this = this;
             _this.isModalVisibleForAttrValue = true;
+            _this.modifyItem2 = {};
             _this.modifyItem2.attrId = attrId;
         },
         handleClickAttrValue(value) {
-            console.log(value);
             let _this = this;
             value.status = value.status === "1";
             _this.isModalVisibleForAttrValue = true;
             _this.modifyItem2 = value;
+        },
+        handleCloseAttrValue(item) {
+            let _this = this;
+            _this.isDeleteAttrValueDialog = true;
+            _this.attrValueItem = item;
+        },
+        handleDeleteAttrValue(attrValueId) {
+            let _this = this;
+            _this.loading = true;
+            _this.isDeleteAttrValueDialog = false;
+            _this.$request.delete(_this.deleteAttrValueByAttrValueIdURL + '?attrValueId=' + attrValueId)
+            .then(response => {
+                _this.loading = false;
+                if (response.data.status === 200) {
+                    _this.$message.success(response.data.msg);
+                    _this.tableList();
+                } else {
+                    _this.$message.error(response.data.msg);
+                }
+            })
+            .catch(response => {
+                _this.loading = false;
+                _this.$message.error(response.data.msg);
+            })
         },
         childEmitItem(data) {
             let _this = this;
