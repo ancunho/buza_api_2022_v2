@@ -169,6 +169,10 @@ public class SkuServiceImpl implements SkuService {
         return tbAttributeValueMapper.lstTbAttributeValue(tbAttributeValueDto);
     }
 
+    public List<TbAttributeValueDto> lstTbAttributeValueByAttrId(TbAttributeValueDto tbAttributeValueDto) {
+        return tbAttributeValueMapper.lstTbAttributeValueByAttrId(tbAttributeValueDto);
+    }
+
     public TbAttributeValueDto getTbAttributeValueInfoByAttrValueId(Integer attrValueId) {
         return tbAttributeValueMapper.getTbAttributeValueInfoByAttrValueId(attrValueId);
     }

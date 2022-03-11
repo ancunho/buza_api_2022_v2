@@ -22,4 +22,6 @@ public interface TbAttributeValueMapper {
     List<TbAttributeValueDto> lstTbAttributeValue(TbAttributeValueDto tbAttributeValueDto);
 
     TbAttributeValueDto getTbAttributeValueInfoByAttrValueId(Integer attrValueId);
+
+    List<TbAttributeValueDto> lstTbAttributeValueByAttrId(TbAttributeValueDto tbAttributeValueDto);
 }

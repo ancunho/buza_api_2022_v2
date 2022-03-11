@@ -496,6 +496,14 @@ public class SkuController {
         return BaseResponse.valueOfSuccessList(lstTbAttributeValue);
     }
 
+    @PostMapping(value = "/attrValue/listByAttrId")
+    public BaseResponse lstTbAttributeValueByAttrId(BaseRequest baseRequest, @RequestBody TbAttributeValueDto tbAttributeValueDto) {
+        PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
+        List<TbAttributeValueDto> lstTbAttributeValue = skuService.lstTbAttributeValueByAttrId(tbAttributeValueDto);
+        return BaseResponse.valueOfSuccessList(lstTbAttributeValue);
+    }
+
+
     @GetMapping(value = "/attrValue/info")
     public BaseResponse getTbAttributeValueInfoByAttrValueId(BaseRequest baseRequest, @RequestParam("attrValueId") Integer attrValueId) {
         if (attrValueId == null) {

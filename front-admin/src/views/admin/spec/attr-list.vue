@@ -15,6 +15,19 @@
                     <el-image :src="scope.row.attrImage" style="width: 100px; height: 100px;" />
                 </template>
             </el-table-column>
+            <el-table-column label="lstAttrValue">
+                <template slot-scope="scope">
+                    <el-tag
+                        v-for="item in scope.row.lstAttrValue"
+                        :key="item.attrValueId"
+                        style="cursor: pointer"
+                        @click="handleClickAttrValue(item)"
+                        closable>
+                        {{item.attrValue}}
+                    </el-tag>
+                    <el-button class="button-new-tag" size="small" @click="handleAddNewAttrValue(scope.row.attrId)">+ New AttrValue</el-button>
+                </template>
+            </el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
                 <template slot-scope="scope">
                     <el-tag type="danger" v-if="scope.row.status === '0'"> {{ scope.row.statusName }}</el-tag>
@@ -53,7 +66,7 @@
             <!--:close-on-click-modal="false"-->
             <input type="hidden" v-model="modifyItem.attrId"/>
             <el-form ref="form" label-width="130px">
-                <el-form-item label="spuId" v-if="modifyItem.attrId != null">
+                <el-form-item label="attrId" v-if="modifyItem.attrId != null">
                     <el-input v-model="modifyItem.attrId" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="Name">
@@ -85,6 +98,32 @@
             </div>
         </el-dialog>
         <!--  // dialog end  -->
+
+        <!--  attr value dialog start  -->
+        <el-dialog title="Attr Value" :visible.sync="isModalVisibleForAttrValue" :close-on-click-modal="false">
+            <!--:close-on-click-modal="false"-->
+            <input type="hidden" v-model="modifyItem2.attrValueId"/>
+            <input type="hidden" v-model="modifyItem2.attrId"/>
+            <el-form ref="form" label-width="130px">
+                <el-form-item label="attrValueId" v-if="modifyItem2.attrValueId != null">
+                    <el-input v-model="modifyItem2.attrValueId" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="Name">
+                    <el-input v-model="modifyItem2.attrValue"></el-input>
+                </el-form-item>
+                <el-form-item label="Type">
+                    <el-input v-model="modifyItem2.attrValueImage"></el-input>
+                </el-form-item>
+                <el-form-item label="是否激活">
+                    <el-switch v-model="modifyItem2.status"></el-switch>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="danger" v-on:click="isModalVisibleForAttrValue = false">取 消</el-button>
+                <el-button type="primary" v-on:click="saveAttrValueItem(modifyItem2)">保 存</el-button>
+            </div>
+        </el-dialog>
+        <!--  // attr value end  -->
 
         <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="">
@@ -139,6 +178,8 @@ export default {
             initDataListURL: process.env.VUE_APP_SERVER + '/system/file/handle/list',
 
             choosenFlag: '',
+            modifyItem2: {},
+            isModalVisibleForAttrValue: false,
         }
     },
     mounted: function () {
@@ -154,6 +195,18 @@ export default {
         }
     },
     methods: {
+        handleAddNewAttrValue(attrId){
+            let _this = this;
+            _this.isModalVisibleForAttrValue = true;
+            _this.modifyItem2.attrId = attrId;
+        },
+        handleClickAttrValue(value) {
+            console.log(value);
+            let _this = this;
+            value.status = value.status === "1";
+            _this.isModalVisibleForAttrValue = true;
+            _this.modifyItem2 = value;
+        },
         childEmitItem(data) {
             let _this = this;
             _this.isDrawerVisible = false;
@@ -181,7 +234,7 @@ export default {
         handleAddNew() {
             let _this = this;
             _this.isModalVisible = true;
-            _this.buzaModalTitle = "新增SPU";
+            _this.buzaModalTitle = "新增ATTR";
             _this.modifyItem = {};
         },
         handleItemModify(idx, item) {
@@ -216,6 +269,20 @@ export default {
                 _this.isModalVisible = false;
             });
 
+        },
+        saveAttrValueItem(item) {
+            let _this = this;
+            item.status = item.status === true ? "1" : "0";
+            _this.loading = true;
+            _this.$request.post(process.env.VUE_APP_SERVER + "/system/attrValue/proc", item).then(response => {
+                if (response.data.code === 0) {
+                    _this.$message.success(response.data.msg);
+                    _this.tableList();
+                } else {
+                    _this.$message.error(response.data.msg);
+                }
+                _this.isModalVisibleForAttrValue = false;
+            });
         }
     }
 }

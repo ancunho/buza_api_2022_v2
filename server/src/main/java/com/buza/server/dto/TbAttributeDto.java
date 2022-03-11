@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,5 +26,7 @@ public class TbAttributeDto extends BaseRequest implements Serializable {
     private String option05;
     private String createTime;
     private String updateTime;
+
+    private List<TbAttributeValueDto> lstAttrValue;
 
 }

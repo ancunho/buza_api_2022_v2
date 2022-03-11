@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,5 +31,6 @@ public class TbAttributeValueDto extends BaseRequest implements Serializable {
     private String option05;
     private String createTime;
     private String updateTime;
+
 
 }

@@ -160,7 +160,30 @@
         where ATTR_ID = #{attrId,jdbcType=INTEGER}
     </update>
 
-    <select id="lstTbAttribute" parameterType="com.buza.server.dto.TbAttributeDto" resultType="com.buza.server.dto.TbAttributeDto">
+    <resultMap id="lstTbAttributeMap" type="com.buza.server.dto.TbAttributeDto">
+        <id property="attrId" column="ATTR_ID" />
+        <result property="rn" column="RN" />
+        <result property="attrName" column="ATTR_NAME" />
+        <result property="attrType" column="ATTR_TYPE" />
+        <result property="attrImage" column="ATTR_IMAGE" />
+        <result property="status" column="STATUS" />
+        <result property="statusName" column="STATUS_NAME" />
+        <result property="option01" column="OPTION01" />
+        <result property="option02" column="OPTION02" />
+        <result property="option03" column="OPTION03" />
+        <result property="option04" column="OPTION04" />
+        <result property="option05" column="OPTION05" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <collection property="lstAttrValue" ofType="com.buza.server.dto.TbAttributeValueDto">
+            <id property="attrValueId" column="ATTR_VALUE_ID" />
+            <result property="attrValue" column="ATTR_VALUE" />
+            <result property="attrId" column="ATTR_ID2" />
+            <result property="status" column="STATUS" />
+            <result property="attrValueImage" column="ATTR_VALUE_IMAGE" />
+        </collection>
+    </resultMap>
+    <select id="lstTbAttribute" parameterType="com.buza.server.dto.TbAttributeDto" resultMap="lstTbAttributeMap">
         SELECT  ROW_NUMBER() OVER() RN
                 ,T1.ATTR_ID
                 ,T1.ATTR_NAME
@@ -175,7 +198,16 @@
                 ,T1.OPTION05
                 ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
                 ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
+                ,T2.ATTR_VALUE_ID
+                ,T2.ATTR_ID AS ATTR_ID2
+                ,T2.ATTR_VALUE
+                ,T2.PRICE
+                ,T2.VIP_PRICE
+                ,T2.DELIVERY_PRICE
+                ,T2.DELIVERY_TYPE
+                ,T2.STATUS
         FROM    TB_ATTRIBUTE T1
+                LEFT OUTER JOIN TB_ATTRIBUTE_VALUE T2 ON T1.ATTR_ID = T2.ATTR_ID
     </select>
 
     <select id="getTbAttributeInfoByAttrId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbAttributeDto">

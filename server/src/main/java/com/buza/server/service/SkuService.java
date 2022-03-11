@@ -44,6 +44,7 @@ public interface SkuService {
 
     // TB_ATTRIBUTE_VALUE
     public List<TbAttributeValueDto> lstTbAttributeValue(TbAttributeValueDto tbAttributeValueDto);
+    public List<TbAttributeValueDto> lstTbAttributeValueByAttrId(TbAttributeValueDto tbAttributeValueDto);
     public TbAttributeValueDto getTbAttributeValueInfoByAttrValueId(Integer attrValueId);
     public Boolean insertTbAttributeValue(TbAttributeValue tbAttributeValue);
     public Boolean updateTbAttributeValue(TbAttributeValue tbAttributeValue);
