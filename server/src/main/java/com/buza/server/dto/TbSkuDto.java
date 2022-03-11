@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @Getter
@@ -45,5 +46,8 @@ public class TbSkuDto extends BaseRequest implements Serializable {
     private String updateTime;
 
     private String spuName;
+    private List<TbSkuAttributeDto> lstSkuAttr;
+    private List<TbAttributeDto> lstAttr;
+    private List<TbAttributeValueDto> lstAttrValue;
 
 }

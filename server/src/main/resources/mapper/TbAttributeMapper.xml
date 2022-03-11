@@ -15,6 +15,8 @@
         <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
+
+
     <sql id="Base_Column_List">
         ATTR_ID
         , ATTR_NAME, ATTR_TYPE, `STATUS`,ATTR_IMAGE, OPTION01, OPTION02, OPTION03, OPTION04,
@@ -160,30 +162,39 @@
         where ATTR_ID = #{attrId,jdbcType=INTEGER}
     </update>
 
-    <resultMap id="lstTbAttributeMap" type="com.buza.server.dto.TbAttributeDto">
-        <id property="attrId" column="ATTR_ID" />
-        <result property="rn" column="RN" />
-        <result property="attrName" column="ATTR_NAME" />
-        <result property="attrType" column="ATTR_TYPE" />
-        <result property="attrImage" column="ATTR_IMAGE" />
-        <result property="status" column="STATUS" />
-        <result property="statusName" column="STATUS_NAME" />
-        <result property="option01" column="OPTION01" />
-        <result property="option02" column="OPTION02" />
-        <result property="option03" column="OPTION03" />
-        <result property="option04" column="OPTION04" />
-        <result property="option05" column="OPTION05" />
-        <result property="createTime" column="CREATE_TIME" />
-        <result property="updateTime" column="UPDATE_TIME" />
+    <resultMap id="BaseResultDtoMap" type="com.buza.server.dto.TbAttributeDto">
+        <id column="ATTR_ID" jdbcType="INTEGER" property="attrId"/>
+        <result property="attrName" column="ATTR_NAME" jdbcType="VARCHAR" />
+        <result property="attrType" column="ATTR_TYPE" jdbcType="VARCHAR" />
+        <result property="status" column="STATUS" jdbcType="VARCHAR" />
+        <result property="attrImage" column="ATTR_IMAGE" jdbcType="VARCHAR" />
+        <result property="option01" column="OPTION01" jdbcType="VARCHAR" />
+        <result property="option02" column="OPTION02" jdbcType="VARCHAR" />
+        <result property="option03" column="OPTION03" jdbcType="VARCHAR" />
+        <result property="option04" column="OPTION04" jdbcType="VARCHAR" />
+        <result property="option05" column="OPTION05" jdbcType="VARCHAR" />
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP" />
+        <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP" />
         <collection property="lstAttrValue" ofType="com.buza.server.dto.TbAttributeValueDto">
-            <id property="attrValueId" column="ATTR_VALUE_ID" />
-            <result property="attrValue" column="ATTR_VALUE" />
-            <result property="attrId" column="ATTR_ID2" />
-            <result property="status" column="STATUS" />
-            <result property="attrValueImage" column="ATTR_VALUE_IMAGE" />
+            <id column="ATTR_VALUE_ID" jdbcType="INTEGER" property="attrValueId"/>
+            <result column="ATTR_ID" jdbcType="INTEGER" property="attrId"/>
+            <result column="ATTR_VALUE" jdbcType="VARCHAR" property="attrValue"/>
+            <result column="PRICE" jdbcType="DECIMAL" property="price"/>
+            <result column="VIP_PRICE" jdbcType="DECIMAL" property="vipPrice"/>
+            <result column="DELIVERY_PRICE" jdbcType="DECIMAL" property="deliveryPrice"/>
+            <result column="DELIVERY_TYPE" jdbcType="VARCHAR" property="deliveryType"/>
+            <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+            <result column="ATTR_VALUE_IMAGE" jdbcType="VARCHAR" property="attrValueImage"/>
+            <result column="OPTION01" jdbcType="VARCHAR" property="option01"/>
+            <result column="OPTION02" jdbcType="VARCHAR" property="option02"/>
+            <result column="OPTION03" jdbcType="VARCHAR" property="option03"/>
+            <result column="OPTION04" jdbcType="VARCHAR" property="option04"/>
+            <result column="OPTION05" jdbcType="VARCHAR" property="option05"/>
+            <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
         </collection>
     </resultMap>
-    <select id="lstTbAttribute" parameterType="com.buza.server.dto.TbAttributeDto" resultMap="lstTbAttributeMap">
+    <select id="lstTbAttribute" parameterType="com.buza.server.dto.TbAttributeDto" resultMap="BaseResultDtoMap">
         SELECT  ROW_NUMBER() OVER() RN
                 ,T1.ATTR_ID
                 ,T1.ATTR_NAME
@@ -199,13 +210,38 @@
                 ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS CREATE_TIME
                 ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS UPDATE_TIME
                 ,T2.ATTR_VALUE_ID
-                ,T2.ATTR_ID AS ATTR_ID2
+                ,T2.ATTR_ID
                 ,T2.ATTR_VALUE
                 ,T2.PRICE
                 ,T2.VIP_PRICE
                 ,T2.DELIVERY_PRICE
                 ,T2.DELIVERY_TYPE
                 ,T2.STATUS
+        FROM    TB_ATTRIBUTE T1
+                LEFT OUTER JOIN TB_ATTRIBUTE_VALUE T2 ON T1.ATTR_ID = T2.ATTR_ID
+    </select>
+
+    <select id="lstTbAttributeType2" parameterType="com.buza.server.dto.TbAttributeDto" resultType="java.util.Map">
+        SELECT  ROW_NUMBER() OVER() AS rn
+                ,T1.ATTR_ID AS attrId
+                ,T1.ATTR_NAME AS attrName
+                ,T1.ATTR_TYPE AS attrType
+                ,T1.STATUS as status
+                ,CASE WHEN T1.STATUS = 1 THEN '使用中' WHEN T1.STATUS = 0 THEN '禁用' ELSE '-' END AS statusName
+                ,T1.ATTR_IMAGE as attrImage
+                ,T1.OPTION01 as option01
+                ,T1.OPTION02 as option02
+                ,T1.OPTION03 as option03
+                ,T1.OPTION04 as option04
+                ,T1.OPTION05 as option05
+                ,DATE_FORMAT(T1.CREATE_TIME, '%Y-%m-%d %H:%i') AS createTime
+                ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i') AS updateTime
+                ,T2.ATTR_VALUE_ID as attrValueId
+                ,T2.ATTR_VALUE as attrValue
+                ,T2.PRICE as price
+                ,T2.VIP_PRICE as vipPrice
+                ,T2.DELIVERY_PRICE as deliveryPrice
+                ,T2.DELIVERY_TYPE as deliveryType
         FROM    TB_ATTRIBUTE T1
                 LEFT OUTER JOIN TB_ATTRIBUTE_VALUE T2 ON T1.ATTR_ID = T2.ATTR_ID
     </select>
