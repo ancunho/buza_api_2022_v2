@@ -11,6 +11,8 @@ public class TbClassification {
 
     private String classificationType;
 
+    private String classificationImage;
+
     private Integer sortOrder;
 
     private Integer depthNum;
@@ -61,6 +63,14 @@ public class TbClassification {
 
     public void setClassificationType(String classificationType) {
         this.classificationType = classificationType;
+    }
+
+    public String getClassificationImage() {
+        return classificationImage;
+    }
+
+    public void setClassificationImage(String classificationImage) {
+        this.classificationImage = classificationImage;
     }
 
     public Integer getSortOrder() {
@@ -150,6 +160,7 @@ public class TbClassification {
                 ", parentClassificationId=" + parentClassificationId +
                 ", classificationName='" + classificationName + '\'' +
                 ", classificationType='" + classificationType + '\'' +
+                ", classificationImage='" + classificationImage + '\'' +
                 ", sortOrder=" + sortOrder +
                 ", depthNum=" + depthNum +
                 ", status='" + status + '\'' +

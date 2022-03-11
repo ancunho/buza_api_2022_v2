@@ -446,6 +446,7 @@ CREATE TABLE IF NOT EXISTS `TB_CLASSIFICATION` (
                                                 `PARENT_CLASSIFICATION_ID` INT NULL,
                                                 `CLASSIFICATION_NAME` VARCHAR(100) NULL,
                                                 `CLASSIFICATION_TYPE` VARCHAR(45) NULL,
+                                                `CLASSIFICATION_IMAGE` VARCHAR(100) NULL,
                                                 `SORT_ORDER` INT NULL,
                                                 `DEPTH_NUM` INT NULL,
                                                 `STATUS` VARCHAR(10) NULL,

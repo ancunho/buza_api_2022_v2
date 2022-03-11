@@ -589,6 +589,7 @@ public class SkuController {
                 tbClassification.setClassificationType(tbClassificationDto.getClassificationType());
                 tbClassification.setParentClassificationId((tbClassificationDto.getParentClassificationId() == null || "".equals(String.valueOf(tbClassificationDto.getParentClassificationId())) ) ? 0 : tbClassificationDto.getParentClassificationId());
                 tbClassification.setClassificationType(tbClassificationDto.getClassificationType());
+                tbClassification.setClassificationImage(tbClassificationDto.getClassificationImage());
                 tbClassification.setSortOrder(tbClassificationDto.getSortOrder());
                 tbClassification.setDepthNum(tbClassificationDto.getDepthNum());
                 tbClassification.setStatus(tbClassificationDto.getStatus());
@@ -611,6 +612,7 @@ public class SkuController {
                 tbClassification.setClassificationType(tbClassificationDto.getClassificationType());
                 tbClassification.setParentClassificationId((tbClassificationDto.getParentClassificationId() == null || "".equals(String.valueOf(tbClassificationDto.getParentClassificationId())) ) ? 0 : tbClassificationDto.getParentClassificationId());
                 tbClassification.setClassificationType(tbClassificationDto.getClassificationType());
+                tbClassification.setClassificationImage(tbClassificationDto.getClassificationImage());
                 tbClassification.setSortOrder(tbClassificationDto.getSortOrder());
                 tbClassification.setDepthNum(tbClassificationDto.getDepthNum());
                 tbClassification.setStatus(tbClassificationDto.getStatus());

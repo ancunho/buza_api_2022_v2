@@ -16,6 +16,7 @@ public class TbClassificationDto extends BaseRequest implements Serializable {
     private Integer classificationId;
     private String classificationName;
     private String classificationType;
+    private String classificationImage;
     private Integer parentClassificationId;
     private String parentClassificationName;
     private Integer sortOrder;

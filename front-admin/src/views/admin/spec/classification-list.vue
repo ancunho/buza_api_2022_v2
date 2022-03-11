@@ -28,7 +28,11 @@
                     {{ scope.row.depthNum }}级分类
                 </template>
             </el-table-column>
-            <el-table-column prop="classificationType" label="TYPE" ></el-table-column>
+            <el-table-column prop="classificationImage" label="Image" >
+                <template slot-scope="scope">
+                    <el-image :src="scope.row.classificationImage" style="width: 100px; height: 100px;" />
+                </template>
+            </el-table-column>
             <el-table-column prop="sortOrder" label="SORT_ORDER" width="130"></el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
                 <template slot-scope="scope">
@@ -104,6 +108,18 @@
                 <el-form-item label="是否激活">
                     <el-switch v-model="modifyItem.status"></el-switch>
                 </el-form-item>
+                <el-form-item label="主图片">
+                    <div class="block">
+                        <span class="demonstration"></span>
+                        <el-image :src="modifyItem.classificationImage || ''" style="width: 200px; height:200px;">
+                            <div slot="error" class="image-slot">
+                                <i class="el-icon-picture-outline font200px"></i>
+                            </div>
+                        </el-image>
+                    </div>
+                    <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选 择 图 片</el-button>
+                    <el-button type="danger" v-on:click="handleDeleteChooseMain('mainImage01')">删 除</el-button>
+                </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button type="danger" v-on:click="isModalVisible = false">取 消</el-button>
@@ -112,12 +128,29 @@
         </el-dialog>
         <!--  // dialog end  -->
 
+        <!--  // drawer start  -->
+        <el-drawer
+            v-loading="loadingDrawer"
+            title="图片详细信息"
+            :visible.sync="isDrawerVisible"
+            direction="rtl"
+            size="80%"
+            :close-on-press-escape="false"
+        >
+            <FileListComponent @childEmitItem="childEmitItem" />
+        </el-drawer>
+        <!--  // drawer end  -->
+
     </div>
 </template>
 
 <script>
+import FileListComponent from '@/components/FileListComponent';
 export default {
     name: "classification-list",
+    components: {
+        FileListComponent
+    },
     data: function () {
         return {
             itemList: [],
@@ -134,6 +167,10 @@ export default {
             lstClassificationList: [],
             lstCategory: [],
             selectedParentValue: [],
+
+            loadingDrawer: false,
+            isDrawerVisible: false,
+            choosenFlag: '',
         }
     },
     mounted: function () {
@@ -150,6 +187,13 @@ export default {
         }
     },
     methods: {
+        childEmitItem(data) {
+            let _this = this;
+            _this.isDrawerVisible = false;
+            if (_this.choosenFlag === 'mainImage01') {
+                _this.modifyItem.classificationImage = data.fileUrl;
+            }
+        },
         handleChangeDepth(value) {
             console.log(value);
         },
@@ -165,6 +209,18 @@ export default {
         handleCurrentChange(page) {
             this.currentPage = page;
             this.tableList();
+        },
+        handleChooseMain(flag) {
+            let _this = this;
+            // _this.loadingDrawer = true;
+            _this.isDrawerVisible = true;
+            _this.choosenFlag = flag;
+        },
+        handleDeleteChooseMain(flag) {
+            let _this = this;
+            if (flag == 'mainImage01') {
+                _this.modifyItem.classificationImage = '';
+            }
         },
         tableList() {
             let _this = this;
