@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Getter
@@ -145,8 +146,18 @@ public class SkuServiceImpl implements SkuService {
         return updateCount > 0;
     }
 
+    @Transactional
+    public Boolean deleteTbSkuAttributeBySkuId(Integer skuId) {
+        int deleteCount = tbSkuAttributeMapper.deleteTbSkuAttributeBySkuId(skuId);
+        return deleteCount > 0;
+    }
+
     public List<TbAttributeDto> lstTbAttribute(TbAttributeDto tbAttributeDto) {
         return tbAttributeMapper.lstTbAttribute(tbAttributeDto);
+    }
+
+    public List<Map<String, Object>> lstTbAttributeType2(TbAttributeDto tbAttributeDto) {
+        return tbAttributeMapper.lstTbAttributeType2(tbAttributeDto);
     }
 
     public TbAttributeDto getTbAttributeInfoByAttrId(Integer attrId) {

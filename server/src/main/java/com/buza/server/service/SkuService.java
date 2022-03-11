@@ -4,6 +4,7 @@ import com.buza.server.dto.*;
 import com.buza.server.entity.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SkuService {
 
@@ -35,9 +36,11 @@ public interface SkuService {
     public List<TbSkuAttributeDto> lstTbSkuAttributeByAttrValueId(Integer attrValueId);
     public Boolean insertTbSkuAttribute(TbSkuAttribute tbSkuAttribute);
     public Boolean updateTbSkuAttribute(TbSkuAttribute tbSkuAttribute);
+    public Boolean deleteTbSkuAttributeBySkuId(Integer skuId);
 
     // TB_ATTRIBUTE
     public List<TbAttributeDto> lstTbAttribute(TbAttributeDto tbAttributeDto);
+    public List<Map<String, Object>> lstTbAttributeType2(TbAttributeDto tbAttributeDto);
     public TbAttributeDto getTbAttributeInfoByAttrId(Integer attrId);
     public Boolean insertTbAttribute(TbAttribute tbAttribute);
     public Boolean updateTbAttribute(TbAttribute tbAttribute);

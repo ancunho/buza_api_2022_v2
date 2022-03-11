@@ -18,8 +18,9 @@
             <el-table-column prop="skuStock" label="Stock" width="130"></el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
                 <template slot-scope="scope">
-                    <el-tag type="danger" v-if="scope.row.status === '0'"> {{ scope.row.statusName }}</el-tag>
-                    <el-tag type="success" v-if="scope.row.status === '1'"> {{ scope.row.statusName }}</el-tag>
+                    <el-tag :type="scope.row.status === '1' ? 'success' : 'danger'"> {{ scope.row.status === '1' ? '使用中' : '禁用' }} </el-tag>
+<!--                    <el-tag type="danger" v-if="scope.row.status === '0'"> {{ scope.row.statusName }}</el-tag>-->
+<!--                    <el-tag type="success" v-if="scope.row.status === '1'"> {{ scope.row.statusName }}</el-tag>-->
                 </template>
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>

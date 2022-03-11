@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -142,6 +143,8 @@ public class SkuController {
         }
 
         TbSkuDto tbSkuDto = skuService.getTbSkuInfoBySkuId(skuId);
+        List<TbSkuAttributeDto> lstSkuAttr = skuService.lstTbSkuAttributeBySkuId(skuId);
+        tbSkuDto.setLstSkuAttr(lstSkuAttr);
         return BaseResponse.valueOfSuccess(tbSkuDto);
     }
 
@@ -224,7 +227,30 @@ public class SkuController {
                 tbSku.setOption05(tbSkuDto.getOption05());
 
                 boolean isSuccessUpdate = skuService.updateTbSku(tbSku);
-                if (isSuccessUpdate) {
+                boolean isSuccessDeleteSkuAttr = skuService.deleteTbSkuAttributeBySkuId(tbSkuDto.getSkuId());
+
+                boolean isSuccessInsertSkuAttr = false;
+                if (tbSkuDto.getLstSkuAttr().size() > 0) {
+                    for (int i = 0; i < tbSkuDto.getLstSkuAttr().size(); i++) {
+                        TbSkuAttribute tbSkuAttribute = new TbSkuAttribute();
+                        tbSkuAttribute.setSkuId(tbSkuDto.getLstSkuAttr().get(i).getSkuId());
+                        tbSkuAttribute.setAttrId(tbSkuDto.getLstSkuAttr().get(i).getAttrId());
+                        tbSkuAttribute.setAttrValueId(tbSkuDto.getLstSkuAttr().get(i).getAttrValueId());
+                        tbSkuAttribute.setIsMust(tbSkuDto.getLstSkuAttr().get(i).getIsMust());
+                        tbSkuAttribute.setIsDefault(tbSkuDto.getLstSkuAttr().get(i).getIsDefault());
+                        tbSkuAttribute.setPricePlus(tbSkuDto.getLstSkuAttr().get(i).getPricePlus());
+                        tbSkuAttribute.setStatus(tbSkuDto.getLstSkuAttr().get(i).getStatus());
+                        tbSkuAttribute.setOption01(tbSkuDto.getLstSkuAttr().get(i).getOption01());
+                        tbSkuAttribute.setOption02(tbSkuDto.getLstSkuAttr().get(i).getOption02());
+                        tbSkuAttribute.setOption03(tbSkuDto.getLstSkuAttr().get(i).getOption03());
+                        tbSkuAttribute.setOption04(tbSkuDto.getLstSkuAttr().get(i).getOption04());
+                        tbSkuAttribute.setOption05(tbSkuDto.getLstSkuAttr().get(i).getOption05());
+
+                        isSuccessInsertSkuAttr = skuService.insertTbSkuAttribute(tbSkuAttribute);
+                    }
+                }
+
+                if (isSuccessUpdate && isSuccessDeleteSkuAttr && isSuccessInsertSkuAttr) {
                     return BaseResponse.valueOfSuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
                 }
                 return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
@@ -428,6 +454,13 @@ public class SkuController {
     public BaseResponse lstTbAttribute(BaseRequest baseRequest, @RequestBody TbAttributeDto tbAttributeDto) {
         PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
         List<TbAttributeDto> returnData = skuService.lstTbAttribute(tbAttributeDto);
+        return BaseResponse.valueOfSuccessList(returnData);
+    }
+
+    @PostMapping(value = "/attr/list/type/2")
+    public BaseResponse lstTbAttributeType2(BaseRequest baseRequest, @RequestBody TbAttributeDto tbAttributeDto) {
+        PageHelper.startPage(baseRequest.getPage(), baseRequest.getLimit());
+        List<Map<String, Object>> returnData = skuService.lstTbAttributeType2(tbAttributeDto);
         return BaseResponse.valueOfSuccessList(returnData);
     }
 

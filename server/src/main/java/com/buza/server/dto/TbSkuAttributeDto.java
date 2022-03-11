@@ -29,4 +29,7 @@ public class TbSkuAttributeDto extends BaseRequest implements Serializable {
     private String option05;
     private String createTime;
     private String updateTime;
+
+    private String attrName;
+    private String attrValue;
 }

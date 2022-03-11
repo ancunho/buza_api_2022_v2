@@ -255,7 +255,9 @@
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
                 ,T1.ATTR_ID
+                ,(SELECT A1.ATTR_NAME FROM TB_ATTRIBUTE A1 WHERE A1.ATTR_ID = T1.ATTR_ID) AS ATTR_NAME
                 ,T1.ATTR_VALUE_ID
+                ,(SELECT B1.ATTR_VALUE FROM TB_ATTRIBUTE_VALUE B1 WHERE B1.ATTR_VALUE_ID = T1.ATTR_VALUE_ID) AS ATTR_VALUE
                 ,T1.IS_MUST
                 ,T1.IS_DEFAULT
                 ,T1.PRICE_PLUS
@@ -292,4 +294,11 @@
         FROM    TB_SKU_ATTRIBUTE T1
         WHERE   T1.ATTR_VALUE_ID = #{attrValueId}
     </select>
+
+    <delete id="deleteTbSkuAttributeBySkuId" parameterType="java.lang.Integer">
+        delete
+        from tb_sku_attribute
+        where SKU_ID = #{skuId,jdbcType=INTEGER}
+    </delete>
+
 </mapper>

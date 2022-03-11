@@ -25,4 +25,6 @@ public interface TbSkuAttributeMapper {
     List<TbSkuAttributeDto> lstTbSkuAttributeBySkuId(Integer skuId);
 
     List<TbSkuAttributeDto> lstTbSkuAttributeByAttrValueId(Integer attrValueId);
+
+    int deleteTbSkuAttributeBySkuId(Integer skuId);
 }

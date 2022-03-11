@@ -69,18 +69,50 @@
                 </el-col>
             </el-row>
 
-            <el-form-item label="主图片">
-                <div class="block">
-                    <span class="demonstration"></span>
-                    <el-image :src="form.mainImage01 || ''" style="width:100px; height:100px;">
-                        <div slot="error" class="image-slot">
-                            <i class="el-icon-picture-outline font100px" style="color:#ddd;"></i>
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form-item label="规格">
+                        <el-button type="info" v-on:click="isDrawerForAttrVisible = true">新增规格</el-button>
+                        <el-table :data="form.lstSkuAttr" style="width: 90%">
+                            <el-table-column prop="attrId" label="Attr" width="120" >
+                                <template slot-scope="scope">
+                                    {{ scope.row.attrName }}
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="attrValue" label="Value" width="120" >
+                                <template slot-scope="scope">
+                                    {{ scope.row.attrValue }}
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="pricePlus" label="plus prie" width="120" >
+                                <template slot-scope="scope">
+                                    <el-input v-model="scope.row.pricePlus" :width="50" type="number"></el-input>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作">
+                                <template slot-scope="scope">
+                                    <el-button type="danger" v-on:click="handleRemoveAttrValue(scope.row)" size="small" icon="el-icon-delete" circle></el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="主图片">
+                        <div class="block">
+                            <span class="demonstration"></span>
+                            <el-image :src="form.mainImage01 || ''" style="width:100px; height:100px;">
+                                <div slot="error" class="image-slot">
+                                    <i class="el-icon-picture-outline font100px" style="color:#ddd;"></i>
+                                </div>
+                            </el-image>
                         </div>
-                    </el-image>
-                </div>
-                <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选 择 图 片</el-button>
-                <el-button type="danger" v-on:click="handleDeleteChooseMain('mainImage01')">删 除</el-button>
-            </el-form-item>
+                        <el-button type="info" v-on:click="handleChooseMain('mainImage01')">选 择 图 片</el-button>
+                        <el-button type="danger" v-on:click="handleDeleteChooseMain('mainImage01')">删 除</el-button>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
             <el-form-item label="是否发布">
                 <el-radio-group v-model="form.status">
                     <el-radio label="1">是</el-radio>
@@ -88,8 +120,8 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="handleOnSubmit">立即创建</el-button>
-                <el-button>取消</el-button>
+                <el-button type="primary" @click="handleOnSubmit">保 存</el-button>
+                <el-button>取 消</el-button>
             </el-form-item>
         </el-form>
 
@@ -121,6 +153,21 @@
         </el-drawer>
         <!--  // spu drawer end  -->
 
+        <!--  // spu drawer start  -->
+        <el-drawer
+            v-loading="loadingDrawer"
+            title="请选择SPU"
+            :visible.sync="isDrawerForAttrVisible"
+            direction="rtl"
+            size="60%"
+            :close-on-press-escape="false"
+        >
+            <div style="padding: 30px;">
+                <AttrListComponent @childEmitAttrItem="childEmitAttrItem" />
+            </div>
+        </el-drawer>
+        <!--  // spu drawer end  -->
+
 
     </div>
 
@@ -129,9 +176,11 @@
 <script>
 import FileListComponent from '@/components/FileListComponent';
 import SpuListComponent from '@/components/SpuListComponent';
+import AttrListComponent from '@/components/AttrListComponent';
 export default {
     name: "sku-create",
     components: {
+        AttrListComponent,
         SpuListComponent,
         FileListComponent
     },
@@ -165,6 +214,7 @@ export default {
                 option03: '',
                 option04: '',
                 option05: '',
+                lstSkuAttr: [],
             },
             lstSpu: [],
             loading: true,
@@ -173,6 +223,7 @@ export default {
             choosenFlag: '',
 
             isDrawerForSpuVisible: false,
+            isDrawerForAttrVisible: false,
         }
     },
     mounted() {
@@ -185,6 +236,20 @@ export default {
         _this.loading = false;
     },
     methods: {
+        handleRemoveAttrValue(item) {
+            let _this = this;
+            _this.form.lstSkuAttr.splice(_this.form.lstSkuAttr.indexOf(item),1);
+        },
+        childEmitAttrItem(data) {
+            let _this = this;
+            data.skuId = _this.form.skuId;
+            console.log(data);
+            _this.isDrawerForAttrVisible = false;
+            _this.form.lstSkuAttr.push(data);
+            _this.form.lstSkuAttr = _this.form.lstSkuAttr.filter((item, idx, self) => {
+                return self.indexOf(item) === idx;
+            });
+        },
         childEmitSpuItem(data) {
             console.log(data);
             let _this = this;
