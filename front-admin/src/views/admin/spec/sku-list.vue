@@ -12,10 +12,10 @@
                     <el-image :src="scope.row.mainImage01" style="width: 100px; height: 100px;" />
                 </template>
             </el-table-column>
-            <el-table-column prop="categoryId" label="CATEGORY_ID" width="150" ></el-table-column>
-            <el-table-column prop="brandId" label="BRAND_ID" ></el-table-column>
-            <el-table-column prop="spuName" label="SPU_NAME" ></el-table-column>
-            <el-table-column prop="spuType" label="SPU_TYPE" width="130"></el-table-column>
+            <el-table-column prop="spuName" label="Spu Name" width="150"></el-table-column>
+            <el-table-column prop="skuName" label="Name" ></el-table-column>
+            <el-table-column prop="skuPrice" label="Price" ></el-table-column>
+            <el-table-column prop="skuStock" label="Stock" width="130"></el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
                 <template slot-scope="scope">
                     <el-tag type="danger" v-if="scope.row.status === '0'"> {{ scope.row.statusName }}</el-tag>
@@ -197,9 +197,12 @@ export default {
         },
         handleItemModify(idx, item) {
             let _this = this;
-            _this.isModalVisible = true;
-            item.status = item.status === "1";
-            _this.modifyItem = item;
+            _this.$router.push({
+                name: 'sku/create',
+                params: {
+                    skuId: item.skuId
+                }
+            });
         },
         handleChooseMain(flag) {
             let _this = this;

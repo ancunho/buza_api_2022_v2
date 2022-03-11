@@ -2,39 +2,73 @@
     <div v-loading="loading">
         <el-form ref="form" :model="form" label-width="120px">
             <input type="hidden" v-model="form.skuId" />
-            <el-form-item label="spuId">
+            <el-form-item label="SPU">
+                <input type="hidden" v-model="form.spuId" />
+                {{ form.spuName }}
+                <el-button type="info" v-on:click="handleChooseSpu('selectSpu')">选 择 S P U</el-button>
+            </el-form-item>
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form-item label="skuName">
+                        <el-input v-model="form.skuName"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="skuPrice">
+                        <el-input type="number" v-model="form.skuPrice" :min="0"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
 
-            </el-form-item>
-            <el-form-item label="skuName">
-                <el-input v-model="form.skuName"></el-input>
-            </el-form-item>
+
             <el-form-item label="skuIntro">
                 <el-input v-model="form.skuIntro"></el-input>
             </el-form-item>
-            <el-form-item label="skuPrice">
-                <el-input type="number" v-model="form.skuPrice" :min="0"></el-input>
-            </el-form-item>
-            <el-form-item label="skuCode">
-                <el-input v-model="form.skuCode"></el-input>
-            </el-form-item>
-            <el-form-item label="skuBarcode">
-                <el-input v-model="form.skuBarcode"></el-input>
-            </el-form-item>
-            <el-form-item label="skuStock">
-                <el-input v-model="form.skuStock" type="number" ></el-input>
-            </el-form-item>
-            <el-form-item label="skuUnit">
-                <el-input v-model="form.skuUnit"></el-input>
-            </el-form-item>
-            <el-form-item label="skuUnitName">
-                <el-input v-model="form.skuUnitName"></el-input>
-            </el-form-item>
-            <el-form-item label="price">
-                <el-input v-model="form.price" type="number" :min="0"></el-input>
-            </el-form-item>
-            <el-form-item label="vipPrice">
-                <el-input v-model="form.vipPrice" type="number" :min="0"></el-input>
-            </el-form-item>
+
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form-item label="skuCode">
+                        <el-input v-model="form.skuCode"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="skuBarcode">
+                        <el-input v-model="form.skuBarcode"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-row :gutter="20">
+                <el-col :span="8">
+                    <el-form-item label="skuStock">
+                        <el-input v-model="form.skuStock" type="number" ></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                    <el-form-item label="skuUnit">
+                        <el-input v-model="form.skuUnit"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                    <el-form-item label="skuUnitName">
+                        <el-input v-model="form.skuUnitName"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form-item label="price">
+                        <el-input v-model="form.price" type="number" :min="0"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="vipPrice">
+                        <el-input v-model="form.vipPrice" type="number" :min="0"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
             <el-form-item label="主图片">
                 <div class="block">
                     <span class="demonstration"></span>
@@ -72,6 +106,21 @@
         </el-drawer>
         <!--  // drawer end  -->
 
+        <!--  // spu drawer start  -->
+        <el-drawer
+            v-loading="loadingDrawer"
+            title="请选择SPU"
+            :visible.sync="isDrawerForSpuVisible"
+            direction="rtl"
+            size="60%"
+            :close-on-press-escape="false"
+        >
+            <div style="padding: 30px;">
+                <SpuListComponent @childEmitSpuItem="childEmitSpuItem" />
+            </div>
+        </el-drawer>
+        <!--  // spu drawer end  -->
+
 
     </div>
 
@@ -79,16 +128,19 @@
 
 <script>
 import FileListComponent from '@/components/FileListComponent';
+import SpuListComponent from '@/components/SpuListComponent';
 export default {
     name: "sku-create",
     components: {
+        SpuListComponent,
         FileListComponent
     },
     data() {
         return {
             form: {
                 skuId: '',
-                spuId: '1',
+                spuId: '',
+                spuName: '',
                 skuName: '',
                 skuIntro: '',
                 skuPrice: 0,
@@ -119,6 +171,8 @@ export default {
             isDrawerVisible: false,
             loadingDrawer: false,
             choosenFlag: '',
+
+            isDrawerForSpuVisible: false,
         }
     },
     mounted() {
@@ -131,6 +185,15 @@ export default {
         _this.loading = false;
     },
     methods: {
+        childEmitSpuItem(data) {
+            console.log(data);
+            let _this = this;
+            _this.isDrawerForSpuVisible = false;
+            if (_this.choosenFlag === 'selectSpu') {
+                _this.form.spuId = data.spuId;
+                _this.form.spuName = data.spuName;
+            }
+        },
         childEmitItem(data) {
             let _this = this;
             _this.isDrawerVisible = false;
@@ -163,6 +226,11 @@ export default {
                 alert("Fail");
             });
         },
+        handleChooseSpu(flag) {
+            let _this = this;
+            _this.isDrawerForSpuVisible = true;
+            _this.choosenFlag = flag;
+        },
         handleChooseMain(flag) {
             let _this = this;
             // _this.loadingDrawer = true;
@@ -178,7 +246,8 @@ export default {
         handleOnSubmit() {
             let _this = this;
             console.log(_this.form);
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/sku/proc", _this.form)
+            _this.$request
+                .post(process.env.VUE_APP_SERVER + "/system/sku/proc", _this.form)
                 .then(response => {
                     if (response.data.code === 0) {
                         _this.$message.success(response.data.msg);

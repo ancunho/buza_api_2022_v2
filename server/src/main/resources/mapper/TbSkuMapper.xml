@@ -152,12 +152,7 @@
             <if test="option05 != null">
                 OPTION05,
             </if>
-            <if test="createTime != null">
-                CREATE_TIME,
-            </if>
-            <if test="updateTime != null">
-                UPDATE_TIME,
-            </if>
+            CREATE_TIME
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="skuId != null">
@@ -238,12 +233,7 @@
             <if test="option05 != null">
                 #{option05,jdbcType=VARCHAR},
             </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
+            now()
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.buza.server.entity.TbSku">
@@ -324,12 +314,7 @@
             <if test="option05 != null">
                 OPTION05 = #{option05,jdbcType=VARCHAR},
             </if>
-            <if test="createTime != null">
-                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-            </if>
+            UPDATE_TIME = now()
         </set>
         where SKU_ID = #{skuId,jdbcType=INTEGER}
     </update>
@@ -369,6 +354,7 @@
         SELECT  ROW_NUMBER() OVER() AS RN
                 ,T1.SKU_ID
                 ,T1.SPU_ID
+                ,(SELECT A1.SPU_NAME FROM TB_SPU A1 WHERE A1.SPU_ID = T1.SPU_ID) AS SPU_NAME
                 ,T1.SKU_NAME
                 ,T1.SKU_INTRO
                 ,T1.SKU_PRICE
@@ -402,6 +388,7 @@
     <select id="getTbSkuInfoBySkuId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSkuDto">
         SELECT T1.SKU_ID
              ,T1.SPU_ID
+             ,(SELECT A1.SPU_NAME FROM TB_SPU A1 WHERE A1.SPU_ID = T1.SPU_ID) AS SPU_NAME
              ,T1.SKU_NAME
              ,T1.SKU_INTRO
              ,T1.SKU_PRICE
