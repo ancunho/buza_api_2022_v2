@@ -12,7 +12,7 @@
                     <el-image :src="scope.row.mainImage01" style="width: 100px; height: 100px;" />
                 </template>
             </el-table-column>
-            <el-table-column prop="categoryId" label="CATEGORY_ID" width="150" ></el-table-column>
+            <el-table-column prop="classificationName" label="카테고리명" width="150" ></el-table-column>
             <el-table-column prop="brandId" label="BRAND_ID" ></el-table-column>
             <el-table-column prop="spuName" label="SPU_NAME" ></el-table-column>
             <el-table-column prop="spuType" label="SPU_TYPE" width="130"></el-table-column>
