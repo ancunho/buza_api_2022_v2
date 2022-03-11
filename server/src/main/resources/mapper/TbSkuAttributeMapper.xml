@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.buza.server.entity.TbSkuAttribute">
         <id column="SKU_ATTR_ID" jdbcType="INTEGER" property="skuAttrId"/>
         <result column="SKU_ID" jdbcType="INTEGER" property="skuId"/>
+        <result column="ATTR_ID" jdbcType="INTEGER" property="attrId"/>
         <result column="ATTR_VALUE_ID" jdbcType="INTEGER" property="attrValueId"/>
         <result column="IS_MUST" jdbcType="VARCHAR" property="isMust"/>
         <result column="IS_DEFAULT" jdbcType="VARCHAR" property="isDefault"/>
@@ -19,7 +20,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         SKU_ATTR_ID
-        , SKU_ID, ATTR_VALUE_ID,IS_MUST, IS_DEFAULT, PRICE_PLUS, `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05,
+        , SKU_ID, ATTR_ID, ATTR_VALUE_ID, IS_MUST, IS_DEFAULT, PRICE_PLUS, `STATUS`, OPTION01, OPTION02, OPTION03, OPTION04, OPTION05,
     CREATE_TIME, UPDATE_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -34,11 +35,11 @@
         where SKU_ATTR_ID = #{skuAttrId,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.buza.server.entity.TbSkuAttribute">
-        insert into tb_sku_attribute (SKU_ATTR_ID, SKU_ID, ATTR_VALUE_ID,IS_MUST, IS_DEFAULT,PRICE_PLUS,
+        insert into tb_sku_attribute (SKU_ATTR_ID, SKU_ID, ATTR_ID, ATTR_VALUE_ID, IS_MUST, IS_DEFAULT,PRICE_PLUS,
                                       `STATUS`, OPTION01, OPTION02, OPTION03,
                                       OPTION04, OPTION05, CREATE_TIME,
                                       UPDATE_TIME)
-        values (#{skuAttrId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{attrValueId,jdbcType=INTEGER},
+        values (#{skuAttrId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{attrId,jdbcType=INTEGER},#{attrValueId,jdbcType=INTEGER},
                 #{isMust,jdbcType=VARCHAR},#{isDefault,jdbcType=VARCHAR},#{pricePlus,jdbcType=DECIMAL},
                 #{status,jdbcType=VARCHAR},
                 #{option01,jdbcType=VARCHAR}, #{option02,jdbcType=VARCHAR}, #{option03,jdbcType=VARCHAR},
@@ -53,6 +54,9 @@
             </if>
             <if test="skuId != null">
                 SKU_ID,
+            </if>
+            <if test="attrId != null">
+                ATTR_ID,
             </if>
             <if test="attrValueId != null">
                 ATTR_VALUE_ID,
@@ -98,6 +102,9 @@
             <if test="skuId != null">
                 #{skuId,jdbcType=INTEGER},
             </if>
+            <if test="attrId != null">
+                #{attrId,jdbcType=INTEGER},
+            </if>
             <if test="attrValueId != null">
                 #{attrValueId,jdbcType=INTEGER},
             </if>
@@ -142,6 +149,9 @@
             <if test="skuId != null">
                 SKU_ID = #{skuId,jdbcType=INTEGER},
             </if>
+            <if test="attrId != null">
+                ATTR_ID = #{attrId,jdbcType=INTEGER},
+            </if>
             <if test="attrValueId != null">
                 ATTR_VALUE_ID = #{attrValueId,jdbcType=INTEGER},
             </if>
@@ -184,6 +194,7 @@
     <update id="updateByPrimaryKey" parameterType="com.buza.server.entity.TbSkuAttribute">
         update tb_sku_attribute
         set SKU_ID        = #{skuId,jdbcType=INTEGER},
+            ATTR_ID = #{attrId,jdbcType=INTEGER},
             ATTR_VALUE_ID = #{attrValueId,jdbcType=INTEGER},
             IS_MUST = #{isMust,jdbcType=VARCHAR},
             IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
@@ -202,6 +213,7 @@
     <select id="lstTbSkuAttribute" parameterType="com.buza.server.dto.TbSkuAttributeDto" resultType="com.buza.server.dto.TbSkuAttributeDto">
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
+                ,T1.ATTR_ID
                 ,T1.ATTR_VALUE_ID
                 ,T1.IS_MUST
                 ,T1.IS_DEFAULT
@@ -221,6 +233,7 @@
     <select id="getTbSkuAttributeBySkuAttrId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSkuAttributeDto">
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
+                ,T1.ATTR_ID
                 ,T1.ATTR_VALUE_ID
                 ,T1.IS_MUST
                 ,T1.IS_DEFAULT
@@ -241,6 +254,7 @@
     <select id="lstTbSkuAttributeBySkuId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSkuAttributeDto">
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
+                ,T1.ATTR_ID
                 ,T1.ATTR_VALUE_ID
                 ,T1.IS_MUST
                 ,T1.IS_DEFAULT
@@ -261,6 +275,7 @@
     <select id="lstTbSkuAttributeByAttrValueId" parameterType="java.lang.Integer" resultType="com.buza.server.dto.TbSkuAttributeDto">
         SELECT  T1.SKU_ATTR_ID
                 ,T1.SKU_ID
+                ,T1.ATTR_ID
                 ,T1.ATTR_VALUE_ID
                 ,T1.IS_MUST
                 ,T1.IS_DEFAULT

@@ -16,6 +16,7 @@ public class TbSkuAttributeDto extends BaseRequest implements Serializable {
 
     private Integer skuAttrId;
     private Integer skuId;
+    private Integer attrId;
     private Integer attrValueId;
     private String isMust;
     private String isDefault;

@@ -8,6 +8,8 @@ public class TbSkuAttribute {
 
     private Integer skuId;
 
+    private Integer attrId;
+
     private Integer attrValueId;
 
     private String isMust;
@@ -46,6 +48,14 @@ public class TbSkuAttribute {
 
     public void setSkuId(Integer skuId) {
         this.skuId = skuId;
+    }
+
+    public Integer getAttrId() {
+        return attrId;
+    }
+
+    public void setAttrId(Integer attrId) {
+        this.attrId = attrId;
     }
 
     public Integer getAttrValueId() {
@@ -152,6 +162,7 @@ public class TbSkuAttribute {
         sb.append("Hash = ").append(hashCode());
         sb.append(", skuAttrId=").append(skuAttrId);
         sb.append(", skuId=").append(skuId);
+        sb.append(", attrId=").append(attrId);
         sb.append(", attrValueId=").append(attrValueId);
         sb.append(", isMust=").append(isMust);
         sb.append(", isDefault=").append(isDefault);

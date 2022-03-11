@@ -385,6 +385,7 @@ CREATE TABLE `tb_sku` (
 CREATE TABLE `tb_sku_attribute` (
                                     `SKU_ATTR_ID` int NOT NULL AUTO_INCREMENT,
                                     `SKU_ID` int NOT NULL,
+                                    `ATTR_ID` int NOT NULL,
                                     `ATTR_VALUE_ID` int NOT NULL,
                                     `IS_MUST` varchar(2) DEFAULT NULL,
                                     `IS_DEFAULT` varchar(2) DEFAULT NULL,

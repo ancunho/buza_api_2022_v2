@@ -374,6 +374,7 @@ public class SkuController {
                 // insert new
                 TbSkuAttribute tbSkuAttribute = new TbSkuAttribute();
                 tbSkuAttribute.setSkuId(tbSkuAttributeDto.getSkuId());
+                tbSkuAttribute.setAttrId(tbSkuAttributeDto.getAttrId());
                 tbSkuAttribute.setAttrValueId(tbSkuAttributeDto.getAttrValueId());
                 tbSkuAttribute.setIsMust(tbSkuAttributeDto.getIsMust());
                 tbSkuAttribute.setIsDefault(tbSkuAttributeDto.getIsDefault());
@@ -395,6 +396,7 @@ public class SkuController {
                 TbSkuAttribute tbSkuAttribute = new TbSkuAttribute();
                 tbSkuAttribute.setSkuAttrId(tbSkuAttributeDto.getSkuAttrId());
                 tbSkuAttribute.setSkuId(tbSkuAttributeDto.getSkuId());
+                tbSkuAttribute.setAttrId(tbSkuAttributeDto.getAttrId());
                 tbSkuAttribute.setAttrValueId(tbSkuAttributeDto.getAttrValueId());
                 tbSkuAttribute.setIsMust(tbSkuAttributeDto.getIsMust());
                 tbSkuAttribute.setIsDefault(tbSkuAttributeDto.getIsDefault());
