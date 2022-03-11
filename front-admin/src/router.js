@@ -19,6 +19,7 @@ import Classification_List from "./views/admin/spec/classification-list.vue"
 import Spu_List from "./views/admin/spec/spu-list.vue"
 import Sku_List from "./views/admin/spec/sku-list.vue"
 import Sku_Create from "./views/admin/spec/sku-create.vue"
+import Attr_List from "./views/admin/spec/attr-list.vue"
 
 Vue.use(Router);
 
@@ -57,6 +58,7 @@ export default new Router({
             ,{ path: "spu/list", name: "spu/list", component: Spu_List, meta: {title: "SPU" }}
             ,{ path: "sku/list", name: "sku/list", component: Sku_List, meta: {title: "SKU" }}
             ,{ path: "sku/create", name: "sku/create", component: Sku_Create, meta: {title: "SKU Create" }}
+            ,{ path: "attr/list", name: "attr/list", component: Attr_List, meta: {title: "Attribute List" }}
         ]
     }]
 })

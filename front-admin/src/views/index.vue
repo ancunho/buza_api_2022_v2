@@ -109,18 +109,26 @@
                                     </router-link>
                                 </li>
                                 <li class="spu-list-sidebar">
-                                <router-link to="/spu/list">
-                                    <i class="el-icon-user-solid"
-                                       style="font-size: 20px; margin-right: 0.5rem;"></i>
-                                    <span>SPU</span>
-                                    <span class="las la-angle-right"></span>
-                                </router-link>
-                            </li>
+                                    <router-link to="/spu/list">
+                                        <i class="el-icon-user-solid"
+                                           style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>SPU</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
                                 <li class="sku-list-sidebar">
                                     <router-link to="/sku/list">
                                         <i class="el-icon-user-solid"
                                            style="font-size: 20px; margin-right: 0.5rem;"></i>
                                         <span>SKU</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
+                                <li class="attr-list-sidebar">
+                                    <router-link to="/attr/list">
+                                        <i class="el-icon-user-solid"
+                                           style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>Attr</span>
                                         <span class="las la-angle-right"></span>
                                     </router-link>
                                 </li>
