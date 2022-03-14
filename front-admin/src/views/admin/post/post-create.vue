@@ -93,13 +93,13 @@ export default {
     methods: {
         setListCommonCode(codeType) {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + "/system/code/type/list?codeType=" + codeType).then((response) => {
+            _this.$request.get("/system/code/type/list?codeType=" + codeType).then((response) => {
                 _this.lstPostType = response.data.data;
             })
         },
         getPostInfoByPostId(postId) {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + '/system/post/info?postId=' + postId)
+            _this.$request.get('/system/post/info?postId=' + postId)
             .then(response => {
                 if (response.data.code === 0) {
                     _this.form = response.data.data;
@@ -123,7 +123,7 @@ export default {
             _this.form.postContent = _this.editorData;
             _this.form.isJoin = _this.form.isJoin == true ? "1" : "0";
             _this.form.isNeedPay = _this.form.isNeedPay == true ? "1" : "0";
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/post/proc", _this.form)
+            _this.$request.post("/system/post/proc", _this.form)
                 .then(response => {
                     if (response.data.code === 0) {
                         _this.$message.success(response.data.msg);
@@ -142,7 +142,7 @@ export default {
             editor.config.onchange = (newHtml) => {
                 this.editorData = newHtml
             };
-            editor.config.uploadImgServer = process.env.VUE_APP_SERVER + '/system/file/handle/upload';
+            editor.config.uploadImgServer = '/system/file/handle/upload';
             editor.config.uploadFileName = 'file';
             editor.config.showLinkImg = false;
             editor.config.uploadImgMaxLength = 1;

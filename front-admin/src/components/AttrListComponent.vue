@@ -82,7 +82,7 @@ export default {
         },
         tableList() {
             let _this = this;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/attr/list/type/2?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
+            _this.$request.post("/system/attr/list/type/2?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
                 if(response.data.status === 200) {
                     _this.itemList = response.data.data;
                     _this.total = response.data.count;

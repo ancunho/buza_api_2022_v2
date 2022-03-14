@@ -10,8 +10,9 @@ Vue.use(ElementUI);
 // axios.defaults.baseURL = '/api';
 Vue.config.productionTip = false
 
-Vue.prototype.$request = axios;
 
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+axios.defaults.withCredentials = true;
 axios.interceptors.request.use(function(config) {
   if (Tool.getLoginUser() !== null || Tool.getLoginUser() !== '') {
     config.headers.Authorization = Tool.getLoginUser();
@@ -20,6 +21,7 @@ axios.interceptors.request.use(function(config) {
   }
   return config;
 });
+Vue.prototype.$request = axios;
 
 // router.beforeEach((to, from, next) => {
 //   console.log(to);

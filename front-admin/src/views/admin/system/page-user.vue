@@ -123,7 +123,7 @@ export default {
     },
     listTable() {
       let _this = this;
-      _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/list?page=" + _this.currentPage + "&limit=" + _this.pageSize).then((response) => {
+      _this.$request.get("/system/config/user/list?page=" + _this.currentPage + "&limit=" + _this.pageSize).then((response) => {
         _this.userList = response.data.data;
         _this.total = response.data.count;
         _this.loading = false;
@@ -159,7 +159,7 @@ export default {
 
       let userSeq = userItem.userSeq;
       _this.modifyUserId = userItem.userSeq;
-      _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/user/role?userSeq=" + userSeq).then(response => {
+      _this.$request.get("/system/config/user/role?userSeq=" + userSeq).then(response => {
       _this.roleList = response.data.data;
 
       let cloneData = [];
@@ -178,7 +178,7 @@ export default {
       let _this = this;
       _this.modalType = 1;
       sysUserDto.status = sysUserDto.status === true ? "1" : "0";
-      _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/user/modify", sysUserDto).then(response => {
+      _this.$request.post("/system/config/user/modify", sysUserDto).then(response => {
         if (response.data.code == 0) {
           _this.$message.success(response.data.msg);
           _this.modalHide();
@@ -197,7 +197,7 @@ export default {
         type: 'warning'
       }).then(() => {
         _this.$request
-            .post(process.env.VUE_APP_SERVER + "/system/config/user/role/modify?userSeq=" + _this.modifyUserId + "&roleIds=" + _this.roleIdChecked.toString(), )
+            .post("/system/config/user/role/modify?userSeq=" + _this.modifyUserId + "&roleIds=" + _this.roleIdChecked.toString(), )
             .then(response => {
               if (response.data.code == 0) {
                 _this.$message.success(response.data.msg);

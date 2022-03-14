@@ -224,7 +224,7 @@ export default {
         },
         tableList() {
             let _this = this;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/classification/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
+            _this.$request.post("/system/classification/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
                 _this.itemList = response.data.data;
                 _this.setItemListToTree(response.data.data);
                 _this.total = response.data.count;
@@ -275,7 +275,7 @@ export default {
         },
         getAllClassificationList() {
             let _this = this;
-            _this.$request.post(process.env.VUE_APP_SERVER + '/system/classification/list', {})
+            _this.$request.post('/system/classification/list', {})
             .then (response => {
                 if (response.data.status === 200) {
                     _this.lstClassificationList = response.data.data;
@@ -305,7 +305,7 @@ export default {
             console.log("save item: ", item);
 
             _this.loading = true;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/classification/proc", item).then(response => {
+            _this.$request.post("/system/classification/proc", item).then(response => {
                 if (response.data.code === 0) {
                     _this.$message.success(response.data.msg);
                     _this.tableList();

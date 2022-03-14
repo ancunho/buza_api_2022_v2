@@ -115,7 +115,7 @@ export default {
         },
         getShopList() {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + "/system/shop/list?page=1&limit=10")
+            _this.$request.get("/system/shop/list?page=1&limit=10")
             .then(response => {
                 if (response.data.code === 0) {
                     _this.shopList = response.data.data;
@@ -127,7 +127,7 @@ export default {
         },
         tableList() {
             let _this = this;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/room/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
+            _this.$request.post("/system/room/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
                 _this.itemList = response.data.data;
                 _this.total = response.data.count;
                 _this.loading = false;
@@ -153,7 +153,7 @@ export default {
             item.shopId = _this.shopId;
             console.log("save Room Item: ", item);
             _this.loading = true;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/room/proc", item).then(response => {
+            _this.$request.post("/system/room/proc", item).then(response => {
                 if (response.data.code === 0) {
                     _this.$message.success(response.data.msg);
                     _this.tableList();

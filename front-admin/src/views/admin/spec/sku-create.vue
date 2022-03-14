@@ -272,13 +272,13 @@ export default {
         },
         setListCommonCode(codeType) {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + "/system/code/type/list?codeType=" + codeType).then((response) => {
+            _this.$request.get("/system/code/type/list?codeType=" + codeType).then((response) => {
                 _this.lstPostType = response.data.data;
             })
         },
         getSkuInfoBySkuId(skuId) {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + '/system/sku/info?skuId=' + skuId)
+            _this.$request.get('/system/sku/info?skuId=' + skuId)
             .then(response => {
                 if (response.data.code === 0) {
                     _this.form = response.data.data;
@@ -312,7 +312,7 @@ export default {
             let _this = this;
             console.log(_this.form);
             _this.$request
-                .post(process.env.VUE_APP_SERVER + "/system/sku/proc", _this.form)
+                .post("/system/sku/proc", _this.form)
                 .then(response => {
                     if (response.data.code === 0) {
                         _this.$message.success(response.data.msg);

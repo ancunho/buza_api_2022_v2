@@ -106,7 +106,7 @@ export default {
         },
         listTable() {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/menu/list?page=" + _this.currentPage + "&limit=" + _this.pageSize).then((response) => {
+            _this.$request.get("/system/config/menu/list?page=" + _this.currentPage + "&limit=" + _this.pageSize).then((response) => {
                 _this.menuList = response.data.data;
                 _this.total = response.data.count;
                 _this.loading = false;
@@ -128,7 +128,7 @@ export default {
         saveMenu(sysMenuDto) {
             let _this = this;
             sysMenuDto.status = sysMenuDto.status === true ? "1" : "0";
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/menu/modify", sysMenuDto).then(response => {
+            _this.$request.post("/system/config/menu/modify", sysMenuDto).then(response => {
                 if (response.data.status == 200) {
                     _this.listTable();
                 } else {

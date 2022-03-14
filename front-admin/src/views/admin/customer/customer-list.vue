@@ -115,13 +115,13 @@ export default {
   methods: {
     list() {
       let _this = this;
-      _this.$request.get(process.env.VUE_APP_SERVER + "/system/customer/list").then((response) => {
+      _this.$request.get("/system/customer/list").then((response) => {
         _this.customerList = response.data.data;
       })
     },
     getShopList() {
       let _this = this;
-      _this.$request.get(process.env.VUE_APP_SERVER + "/system/shop/list").then(response => {
+      _this.$request.get("/system/shop/list").then(response => {
         console.log(response);
       })
     },
@@ -136,7 +136,7 @@ export default {
     },
     saveCustomer(customerDto) {
       let _this = this;
-      _this.$request.post(process.env.VUE_APP_SERVER + "/system/customer/proc", customerDto).then(response => {
+      _this.$request.post("/system/customer/proc", customerDto).then(response => {
         if (response.data.code == 0) {
           $("#myModal").modal('hide');
           _this.list();

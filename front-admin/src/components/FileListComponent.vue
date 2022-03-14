@@ -64,8 +64,8 @@ export default {
             pageSizes: [24, 50, 100, 200],
             total: 100,
 
-            imgDetailURL: process.env.VUE_APP_SERVER + '/system/file/handle/info',
-            initDataListURL: process.env.VUE_APP_SERVER + '/system/file/handle/list',
+            imgDetailURL: '/system/file/handle/info',
+            initDataListURL: '/system/file/handle/list',
             arrInitData: [],
             fileId: '',
             itemDetail: {},

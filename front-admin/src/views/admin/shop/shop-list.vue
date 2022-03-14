@@ -112,7 +112,7 @@ export default {
         },
         tableList() {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + "/system/shop/list?page=" + _this.currentPage + "&limit=" + _this.pageSize).then((response) => {
+            _this.$request.get("/system/shop/list?page=" + _this.currentPage + "&limit=" + _this.pageSize).then((response) => {
                 _this.itemList = response.data.data;
                 _this.total = response.data.count;
                 _this.loading = false;
@@ -134,7 +134,7 @@ export default {
             let _this = this;
             item.shopStatus = item.shopStatus === true ? "1" : "0";
             _this.loading = true;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/shop/proc", item).then(response => {
+            _this.$request.post("/system/shop/proc", item).then(response => {
                 if (response.data.code == 0) {
                     _this.$message.success(response.data.msg);
                     _this.tableList();

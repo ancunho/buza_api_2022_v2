@@ -116,7 +116,7 @@ export default {
         },
         getShopList() {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + '/system/shop/list?page=1&limit=100')
+            _this.$request.get('/system/shop/list?page=1&limit=100')
             .then(response => {
                 _this.lstShopList = response.data.data;
             })
@@ -126,7 +126,7 @@ export default {
         },
         getRoomList(params) {
             let _this = this;
-            _this.$request.post(process.env.VUE_APP_SERVER + '/system/room/list?page=1&limit=100', params)
+            _this.$request.post('/system/room/list?page=1&limit=100', params)
                 .then(response => {
                     _this.lstRoomList = response.data.data;
                 })
@@ -136,7 +136,7 @@ export default {
         },
         getBookingInfoByBookingId(bookingId) {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + '/system/booking/info?bookingId=' + bookingId)
+            _this.$request.get('/system/booking/info?bookingId=' + bookingId)
             .then(response => {
                 if (response.data.code === 0) {
                     alert("OK");
@@ -153,7 +153,7 @@ export default {
             let _this = this;
             console.log("handleOnSubmit:", _this.form);
             _this.form.bookingEndday = _this.form.bookingStartday;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/booking/proc", _this.form)
+            _this.$request.post("/system/booking/proc", _this.form)
                 .then(response => {
                     if (response.data.code === 0) {
                         _this.$message.success(response.data.msg);

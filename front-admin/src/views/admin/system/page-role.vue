@@ -135,7 +135,7 @@ export default {
         },
         listTable() {
             let _this = this;
-            _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/role/list?page=" + _this.currentPage + "&limit=" + _this.pageSize).then((response) => {
+            _this.$request.get("/system/config/role/list?page=" + _this.currentPage + "&limit=" + _this.pageSize).then((response) => {
                 _this.roleList = response.data.data;
                 _this.total = response.data.count;
                 _this.loading = false;
@@ -170,7 +170,7 @@ export default {
             _this.modalType = 2;
             let roleId = roleItem.id;
             _this.modifyRoleId = roleItem.id;
-            _this.$request.get(process.env.VUE_APP_SERVER + "/system/config/rolemenu/detail?roleId=" + roleId).then(response => {
+            _this.$request.get("/system/config/rolemenu/detail?roleId=" + roleId).then(response => {
                 let menuTreeData = response.data.data;
                 let cloneData = [];
                 for (var i = 0; i < menuTreeData.length; i++) {
@@ -202,7 +202,7 @@ export default {
             let _this = this;
             _this.modalType = 1;
             sysRoleDto.status = sysRoleDto.status === true ? "1" : "0";
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/role/modify", sysRoleDto).then(response => {
+            _this.$request.post("/system/config/role/modify", sysRoleDto).then(response => {
                 if (response.data.status == 200) {
                     _this.modalHide();
                     _this.listTable();
@@ -219,7 +219,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                _this.$request.post(process.env.VUE_APP_SERVER + "/system/config/rolemenu/modify?roleId=" + _this.modifyRoleId + "&menuIds=" + _this.menuIdChecked.toString(),)
+                _this.$request.post("/system/config/rolemenu/modify?roleId=" + _this.modifyRoleId + "&menuIds=" + _this.menuIdChecked.toString(),)
                     .then(response => {
                         if (response.data.code == 0) {
                             _this.$message.success(response.data.msg);

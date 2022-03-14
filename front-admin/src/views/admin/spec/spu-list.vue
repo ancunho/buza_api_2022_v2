@@ -143,8 +143,8 @@ export default {
             buzaModalTitle: 'Modal',
             disable: false,
 
-            imgUploadURL: process.env.VUE_APP_SERVER + '/system/file/handle/single/image/upload',
-            imgDeleteURL: process.env.VUE_APP_SERVER + '/system/file/handle/single/image/delete',
+            imgUploadURL: '/system/file/handle/single/image/upload',
+            imgDeleteURL: '/system/file/handle/single/image/delete',
             dialogImageUrl: '',
             dialogVisible: false,
             fileList: [],
@@ -153,7 +153,7 @@ export default {
             isDrawerVisible: false,
             itemDetail: {},
             imgList: [],
-            initDataListURL: process.env.VUE_APP_SERVER + '/system/file/handle/list',
+            initDataListURL: '/system/file/handle/list',
 
             choosenFlag: '',
             lstClassificationDepth01: [],
@@ -161,7 +161,7 @@ export default {
             lstClassificationDepth03: [],
             depth02ClassificationId: '',
             depth03ClassificationId: '',
-            initLstClassificationURL: process.env.VUE_APP_SERVER + '/system/classification/list/byParentClassificationId'
+            initLstClassificationURL: '/system/classification/list/byParentClassificationId'
         }
     },
     mounted: function () {
@@ -219,7 +219,7 @@ export default {
         },
         tableList() {
             let _this = this;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/spu/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
+            _this.$request.post("/system/spu/list?page=" + _this.currentPage + "&limit=" + _this.pageSize, {}).then((response) => {
                 if(response.data.status === 200) {
                     _this.itemList = response.data.data;
                     _this.total = response.data.count;
@@ -261,7 +261,7 @@ export default {
             item.status = item.status === true ? "1" : "0";
             console.log("item:", item);
             _this.loading = true;
-            _this.$request.post(process.env.VUE_APP_SERVER + "/system/spu/proc", item).then(response => {
+            _this.$request.post("/system/spu/proc", item).then(response => {
                 if (response.data.code === 0) {
                     _this.$message.success(response.data.msg);
                     _this.tableList();

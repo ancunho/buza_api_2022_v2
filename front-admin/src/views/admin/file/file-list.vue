@@ -106,10 +106,10 @@ export default {
 
             fileList: [],
             fileData: '', // 文件上传数据（多文件合一）
-            imgUploadURL: process.env.VUE_APP_SERVER + '/system/file/handle/multie/image/upload',
-            imgDeleteURL: process.env.VUE_APP_SERVER + '/system/file/handle/single/image/delete',
-            imgDetailURL: process.env.VUE_APP_SERVER + '/system/file/handle/info',
-            initDataListURL: process.env.VUE_APP_SERVER + '/system/file/handle/list',
+            imgUploadURL: '/system/file/handle/multie/image/upload',
+            imgDeleteURL: '/system/file/handle/single/image/delete',
+            imgDetailURL: '/system/file/handle/info',
+            initDataListURL: '/system/file/handle/list',
             arrInitData: [],
             isDrawerVisible: false,
             fileId: '',

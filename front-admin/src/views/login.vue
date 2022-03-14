@@ -116,7 +116,7 @@ export default {
   methods: {
     loadCaptchaImage() {
       let _this = this;
-      _this.$request.get(process.env.VUE_APP_SERVER + "/system/captcha").then(response => {
+      _this.$request.get("/system/captcha").then(response => {
         $("#image-code").attr("src", response.data.data.base64Img);
         _this.captchaKey = response.data.data.captchaKey;
         _this.captchaCode = response.data.data.captchaCode;
@@ -138,7 +138,7 @@ export default {
         return;
       }
 
-      _this.$request.post(process.env.VUE_APP_SERVER + "/system/login?username=" + _this.username + "&password=" + _this.password + "&captchaCode=" + _this.captchaCode + "&captchaKey=" + _this.captchaKey).then(response => {
+      _this.$request.post("/system/login?username=" + _this.username + "&password=" + _this.password + "&captchaCode=" + _this.captchaCode + "&captchaKey=" + _this.captchaKey).then(response => {
         if (response.data.status === 200) {
           Tool.setLoginUser(response.data.data.token);
           Tool.setStorageParam("username", _this.username);
