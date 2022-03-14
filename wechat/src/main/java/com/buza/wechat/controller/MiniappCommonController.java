@@ -14,8 +14,8 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/buza/miniapp")
-public class MiniappController {
+@RequestMapping(value = "/miniapp/common")
+public class MiniappCommonController {
 
     @RequestMapping(value = "/getOpenIdByCode")
     public BaseResponse getOpenIdOrSessionKeyByCode(@RequestParam(value = "code", required = true) String code) {

@@ -95,3 +95,40 @@ console.log(result);
     </el-col>
 </el-row>
 ---------팝업창에 이미지선택하는거 세개 ( 메인이미지) end
+
+
+
+
+<view class="topBox">
+				<view class="title01">Welcome!</view>
+				<view class="btnLogin" v-if="!hasUserInfo">
+					<u-button :type="primary" :plain="true" v-if="canIUseGetUserProfile" @click="newWxLogin" text="登录"></u-button>
+				</view>
+				<view class="avatar" v-else>
+						<u-avatar :size="75" :src="userInfo.avatarUrl"></u-avatar>
+						<view style="text-align: center;">{{ userInfo.nickName }}</view>
+				</view>
+
+				<!-- main button start -->
+
+				<view class="mainBtn">
+					<u-grid :border="false" col="3">
+						 <u-grid-item>
+							<u-icon name="home" :size="60"></u-icon>
+							<text class="grid-text">点单</text>
+						</u-grid-item>
+						<u-grid-item>
+							<u-icon name="rmb-circle" :size="60"></u-icon>
+							<text class="grid-text">积分</text>
+						</u-grid-item>
+						<u-grid-item>
+							<u-icon name="shopping-cart" :size="60"></u-icon>
+							<text class="grid-text">商城</text>
+						</u-grid-item>
+					</u-grid>
+				</view>
+
+
+				<!-- // main button end -->
+
+			</view>

@@ -29,8 +29,8 @@ module.exports = {
 
     },
 
-    build: {
-        assetsPublicPath: '/admin/'
-    }
+    // build: {
+    //     assetsPublicPath: '/admin/'
+    // }
 
 };
