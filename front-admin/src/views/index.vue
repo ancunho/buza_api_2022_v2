@@ -8,6 +8,7 @@
         </div>
 
         <div class="sidebar">
+
             <div class="sidebar-container">
                 <div class="brand">
                     <h2>
@@ -193,7 +194,7 @@
                         <!-- // 预约管理 end -->
 
                         <!-- 文章管理 start -->
-                        <li class="shop-list-sidebar">
+                        <li class="post-list-sidebar">
                             <router-link to="/post/list">
                                 <i class="el-icon-document-copy" style="font-size: 20px; margin-right: 0.5rem;"></i>
                                 <span>文章管理</span>
@@ -259,6 +260,7 @@ export default {
     data() {
         return {
             username: '',
+            isCollapse: false,
         }
     },
     mounted: function () {
@@ -278,11 +280,12 @@ export default {
     },
     methods: {
         activeSidebar: function (className, title) {
-            // console.log(title);
+            console.log(className, title);
             $(".header-title h2").text(title);
             $(".sidebar-menu li").removeClass("active");
+            $("." + className).siblings("li").find("ul.sidebar-submenu").css({ 'height': '0px', 'overflow': 'hidden', });
             $("." + className).addClass("active");
-
+            $("." + className).find("ul.sidebar-submenu").css({ 'height': '100%',});
             let parentLi = $("." + className).parents("li");
             if (parentLi) {
                 parentLi.addClass("active");

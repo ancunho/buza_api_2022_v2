@@ -47,7 +47,7 @@ img {
     top:0;
     left:0;
     bottom:0;
-    padding: 1rem 1.2rem;
+    /*padding: 1rem 1.2rem;*/
     transition: left 300ms;
 }
 
@@ -55,7 +55,7 @@ img {
     height:100%;
     width:100%;
     background:#fff;
-    border-radius:20px;
+    /*border-radius:20px;*/
     box-shadow: var(--shadow);
     padding: 1.2rem 1.5rem;
     overflow-y: auto;
@@ -111,7 +111,7 @@ img {
     margin-bottom: 1rem;
 }
 
-.sidebar-menu li ul li {
+.sidebar-menu li ul > li {
     margin-bottom: .1rem;
 }
 
@@ -127,7 +127,7 @@ img {
     border-radius: 7px;
     color: var(--color-main);
     transition: background-color 300ms;
-
+    height: 100%;
 }
 
 .sidebar-menu ul > li > a {
@@ -147,8 +147,8 @@ img {
 }
 
 .sidebar-submenu {
-    margin-top: .3rem;
-    padding: .5rem .7rem;
+    /*margin-top: .3rem;*/
+    /*padding: .5rem .7rem;*/
     border-radius: 7px;
     /*background: #FAFBFC;*/
 }
