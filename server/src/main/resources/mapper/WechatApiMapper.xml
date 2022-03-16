@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buza.server.dao.WechatApiMapper">
+
+    <resultMap id="resultAllWechatGoodsMap" type="com.buza.server.dto.WechatGoodsDto">
+        <id property="classificationId" column="CLASSIFICATION_ID" />
+        <result property="classificationName" column="CLASSIFICATION_NAME" />
+        <collection property="lstSkuMap" ofType="java.util.Map">
+            <id property="spuId" column="SPU_ID" />
+            <result property="spuName" column="SPU_NAME" />
+            <result property="skuId" column="SKU_ID" />
+            <result property="skuName" column="SKU_NAME" />
+            <result property="mainImage01" column="MAIN_IMAGE_01" />
+            <result property="price" column="PRICE" />
+            <result property="pricePlus" column="PRICE_PLUS" />
+            <result property="attrId" column="ATTR_ID" />
+            <result property="attrValueId" column="ATTR_VALUE_ID" />
+            <result property="attrName" column="ATTR_NAME" />
+            <result property="attrValue" column="ATTR_VALUE" />
+        </collection>
+    </resultMap>
+    <select id="getAllWechatGoods" parameterType="java.util.Map" resultMap="resultAllWechatGoodsMap">
+        SELECT 	T1.CLASSIFICATION_ID,
+                T1.CLASSIFICATION_NAME,
+                T2.SPU_ID,
+                T2.SPU_NAME,
+                T3.SKU_ID,
+                T3.SKU_NAME,
+                T3.MAIN_IMAGE_01,
+                T3.PRICE,
+                T4.PRICE_PLUS,
+                T4.ATTR_ID,
+                T4.ATTR_VALUE_ID,
+                T5.ATTR_NAME,
+                T6.ATTR_VALUE
+        FROM 	TB_CLASSIFICATION T1
+                LEFT OUTER JOIN TB_SPU T2 ON T1.CLASSIFICATION_ID = T2.CLASSIFICATION_ID
+                LEFT OUTER JOIN TB_SKU T3 ON T2.SPU_ID = T3.SPU_ID
+                LEFT OUTER JOIN TB_SKU_ATTRIBUTE T4 ON T3.SKU_ID = T4.SKU_ID
+                LEFT OUTER JOIN TB_ATTRIBUTE T5 ON T4.ATTR_ID = T5.ATTR_ID
+                LEFT OUTER JOIN TB_ATTRIBUTE_VALUE T6 ON T4.ATTR_VALUE_ID = T6.ATTR_VALUE_ID
+        WHERE	T1.PARENT_CLASSIFICATION_ID = 0
+    </select>
+
+
+</mapper>

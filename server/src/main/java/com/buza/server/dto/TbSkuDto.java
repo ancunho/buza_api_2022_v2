@@ -7,6 +7,7 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 
 @Getter
@@ -49,5 +50,6 @@ public class TbSkuDto extends BaseRequest implements Serializable {
     private List<TbSkuAttributeDto> lstSkuAttr;
     private List<TbAttributeDto> lstAttr;
     private List<TbAttributeValueDto> lstAttrValue;
+    private List<Map<String, Object>> lstSkuMap;
 
 }
