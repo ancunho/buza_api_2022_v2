@@ -5,18 +5,22 @@
     <resultMap id="resultAllWechatGoodsMap" type="com.buza.server.dto.WechatGoodsDto">
         <id property="classificationId" column="CLASSIFICATION_ID" />
         <result property="classificationName" column="CLASSIFICATION_NAME" />
-        <collection property="lstSkuMap" ofType="java.util.Map">
-            <id property="spuId" column="SPU_ID" />
-            <result property="spuName" column="SPU_NAME" />
-            <result property="skuId" column="SKU_ID" />
+        <collection property="lstSkuMap" ofType="java.util.HashMap" javaType="java.util.ArrayList">
+            <id property="skuId" column="SKU_ID" />
             <result property="skuName" column="SKU_NAME" />
+            <result property="spuId" column="SPU_ID" />
+            <result property="spuName" column="SPU_NAME" />
             <result property="mainImage01" column="MAIN_IMAGE_01" />
             <result property="price" column="PRICE" />
             <result property="pricePlus" column="PRICE_PLUS" />
-            <result property="attrId" column="ATTR_ID" />
-            <result property="attrValueId" column="ATTR_VALUE_ID" />
-            <result property="attrName" column="ATTR_NAME" />
-            <result property="attrValue" column="ATTR_VALUE" />
+            <collection property="lstAttr" ofType="java.util.HashMap" javaType="java.util.ArrayList">
+                <id property="attrId" column="ATTR_ID" />
+                <result property="attrName" column="ATTR_NAME" />
+                <collection property="lstAttrValue" ofType="java.util.HashMap" javaType="java.util.ArrayList">
+                    <id property="attrValueId" column="ATTR_VALUE_ID" />
+                    <result property="attrValue" column="ATTR_VALUE" />
+                </collection>
+            </collection>
         </collection>
     </resultMap>
     <select id="getAllWechatGoods" parameterType="java.util.Map" resultMap="resultAllWechatGoodsMap">

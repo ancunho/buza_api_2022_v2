@@ -28,9 +28,9 @@ public class WechatGoodsDto extends BaseRequest implements Serializable {
     private String attrName;
     private String attrValue;
 
-    private List<TbSpuDto> lstSpu;
-    private List<TbSkuDto> lstSku;
-    private List<TbAttributeDto> lstAttribute;
-    private List<TbAttributeValueDto> lstAttributeValue;
+//    private List<TbSpuDto> lstSpu;
+//    private List<TbSkuDto> lstSku;
+//    private List<TbAttributeDto> lstAttribute;
+//    private List<TbAttributeValueDto> lstAttributeValue;
     private List<Map<String, Object>> lstSkuMap;
 }
