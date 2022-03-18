@@ -13,6 +13,9 @@
             <result property="mainImage01" column="MAIN_IMAGE_01" />
             <result property="price" column="PRICE" />
             <result property="pricePlus" column="PRICE_PLUS" />
+            <result property="skuAttrId" column="SKU_ATTR_ID" />
+            <result property="cartQty" column="CART_QTY" />
+            <result property="selected" column="SELECTED" />
             <collection property="lstAttr" ofType="java.util.HashMap" javaType="java.util.ArrayList">
                 <id property="attrId" column="ATTR_ID" />
                 <result property="attrName" column="ATTR_NAME" />
@@ -32,18 +35,20 @@
                 T3.SKU_NAME,
                 T3.MAIN_IMAGE_01,
                 T3.PRICE,
+                T4.SKU_ATTR_ID,
                 T4.PRICE_PLUS,
                 T4.ATTR_ID,
+                0 AS CART_QTY,
+                0 AS SELECTED,
+                (SELECT A1.ATTR_NAME FROM TB_ATTRIBUTE A1 WHERE A1.ATTR_ID = T4.ATTR_ID) AS ATTR_NAME,
                 T4.ATTR_VALUE_ID,
-                T5.ATTR_NAME,
-                T6.ATTR_VALUE
+                (SELECT A1.ATTR_VALUE FROM TB_ATTRIBUTE_VALUE A1 WHERE A1.ATTR_VALUE_ID = T4.ATTR_VALUE_ID) AS ATTR_VALUE
         FROM 	TB_CLASSIFICATION T1
                 LEFT OUTER JOIN TB_SPU T2 ON T1.CLASSIFICATION_ID = T2.CLASSIFICATION_ID
                 LEFT OUTER JOIN TB_SKU T3 ON T2.SPU_ID = T3.SPU_ID
                 LEFT OUTER JOIN TB_SKU_ATTRIBUTE T4 ON T3.SKU_ID = T4.SKU_ID
-                LEFT OUTER JOIN TB_ATTRIBUTE T5 ON T4.ATTR_ID = T5.ATTR_ID
-                LEFT OUTER JOIN TB_ATTRIBUTE_VALUE T6 ON T4.ATTR_VALUE_ID = T6.ATTR_VALUE_ID
         WHERE	T1.PARENT_CLASSIFICATION_ID = 0
+        AND     T3.STATUS = '1'
     </select>
 
 
