@@ -542,3 +542,30 @@ CREATE TABLE `ma_province` (
                            `PROVINCE_ENAME` varchar(45) DEFAULT NULL,
                            PRIMARY KEY (`PROVINCE_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='省份表';
+
+--
+CREATE TABLE `tb_file_list` (
+                                `FILE_ID` int NOT NULL AUTO_INCREMENT,
+                                `FILE_TYPE` varchar(45) DEFAULT NULL,
+                                `FILE_PURPOSE` varchar(45) DEFAULT NULL,
+                                `FILE_ORIGIN_NAME` varchar(100) DEFAULT NULL,
+                                `FILE_NAME` varchar(100) DEFAULT NULL,
+                                `FILE_PATH` varchar(45) DEFAULT NULL,
+                                `FILE_BUCKET_NAME` varchar(45) DEFAULT NULL,
+                                `FILE_BUCKET_OBJECT` varchar(45) DEFAULT NULL,
+                                `FILE_SIZE` varchar(45) DEFAULT NULL,
+                                `FILE_EXTENTION` varchar(20) DEFAULT NULL,
+                                `FILE_URL` varchar(100) DEFAULT NULL,
+                                `FILE_SORT` int DEFAULT NULL,
+                                `FILE_IS_MAIN` varchar(2) DEFAULT NULL,
+                                `FILE_REMARK` varchar(45) DEFAULT NULL,
+                                `STATUS` varchar(2) DEFAULT NULL,
+                                `OPTION01` varchar(45) DEFAULT NULL,
+                                `OPTION02` varchar(45) DEFAULT NULL,
+                                `OPTION03` varchar(45) DEFAULT NULL,
+                                `OPTION04` varchar(45) DEFAULT NULL,
+                                `OPTION05` varchar(45) DEFAULT NULL,
+                                `CREATE_TIME` datetime DEFAULT NULL,
+                                `UPDATE_TIME` datetime DEFAULT NULL,
+                                PRIMARY KEY (`FILE_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -1,6 +1,5 @@
 module.exports = {
     publicPath: process.env.NODE_ENV === 'production' ? '/admin/' : '/admin/',
-
     devServer: {
         port: 3000,
         proxy: {
@@ -27,7 +26,7 @@ module.exports = {
             }
         }
 
-    },
+    }
 
     // build: {
     //     assetsPublicPath: '/admin/'
