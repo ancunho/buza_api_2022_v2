@@ -5,11 +5,12 @@ import ElementUI from 'element-ui';
 import './assets/element-customer.css';
 import router from './router'
 import axios from 'axios'
+import echarts from 'echarts'
 
 Vue.use(ElementUI);
 // axios.defaults.baseURL = '/api';
 Vue.config.productionTip = false
-
+Vue.prototype.$echarts = echarts;
 
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
 axios.defaults.withCredentials = true;

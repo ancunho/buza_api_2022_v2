@@ -3,8 +3,10 @@ package com.buza.system.controller;
 import com.buza.server.common.BaseResponse;
 import com.buza.server.common.ResponseCode;
 import com.buza.server.dto.BaseRequest;
+import com.buza.server.dto.TbBlogCategoryDto;
 import com.buza.server.dto.TbPostDto;
 import com.buza.server.entity.TbPost;
+import com.buza.server.service.BlogCategoryService;
 import com.buza.server.service.PostService;
 import com.buza.server.util.JwtProperties;
 import com.buza.server.util.JwtTokenUtil;
@@ -31,6 +33,9 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private BlogCategoryService blogCategoryService;
 
     /**
      * Post List Action
@@ -136,6 +141,16 @@ public class PostController {
         TbPostDto tbPostDto = postService.getTbPostByPostId(postId);
         return BaseResponse.valueOfSuccess(tbPostDto);
 
+    }
+
+    @GetMapping(value = "/blog/category/list")
+    public BaseResponse getBlogCategoryList(@RequestBody TbBlogCategoryDto tbBlogCategoryDto) {
+        if (tbBlogCategoryDto == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        List<TbBlogCategoryDto> lstBlogCategory = blogCategoryService.getAllTbBlogCategoryByTbBlogCategory(tbBlogCategoryDto);
+        return BaseResponse.valueOfSuccess(lstBlogCategory);
     }
 
 
