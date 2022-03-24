@@ -221,6 +221,34 @@
                         </li>
                         <!-- // 文章管理 end -->
 
+                        <!-- 博客管理 start -->
+                        <li class="blog-list-sidebar">
+                            <router-link to="/blog/list">
+                                <i class="el-icon-document-copy" style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                <span>博客管理</span>
+                                <span class="las la-angle-down"></span>
+                            </router-link>
+                            <ul class="sidebar-submenu">
+                                <li class="blog-create-sidebar">
+                                    <router-link to="/blog/create">
+                                        <i class="el-icon-edit"
+                                           style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>新建/编辑</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
+                                <li class="blog-list-sidebar">
+                                    <router-link to="/blog/list">
+                                        <i class="el-icon-document"
+                                           style="font-size: 20px; margin-right: 0.5rem;"></i>
+                                        <span>文章列表</span>
+                                        <span class="las la-angle-right"></span>
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- // 博客管理 end -->
+
                     </ul>
                 </div>
 
