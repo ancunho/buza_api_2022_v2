@@ -2,7 +2,7 @@
     <div v-loading="loading">
 
 <!--        <el-button @click="handleAddNew()" type="primary" icon="el-icon-plus">新增文章</el-button>-->
-        <router-link to="/blog/create"><el-button type="primary" icon="el-icon-plus">新增博客文章</el-button></router-link>
+        <router-link to="/blog/create"><el-button type="primary" icon="el-icon-plus">新增文章</el-button></router-link>
 
         <!--  table list start  -->
         <el-table :data="itemList" style="width: 100%; margin-top: 1.5rem;">
@@ -76,14 +76,12 @@
         </el-dialog>
         <!--  // dialog end  -->
 
-
-
     </div>
 </template>
 
 <script>
 export default {
-    name: "blog-list",
+    name: "blog-category",
     data: function () {
         return {
             itemList: [],
@@ -95,8 +93,6 @@ export default {
             total: 100,
             isModalVisible: false,
             buzaModalTitle: 'Modal',
-
-
         }
     },
     mounted: function () {

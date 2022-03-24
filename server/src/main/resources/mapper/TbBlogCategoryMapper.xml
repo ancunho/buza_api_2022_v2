@@ -191,4 +191,27 @@
                 ,DATE_FORMAT(T1.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_TIME
         FROM    TB_BLOG_CATEGORY T1
     </select>
+
+    <resultMap id="lstDepthCategoryResultMap" type="java.util.HashMap">
+        <id property="value" column="DEPTH_01_ID" />
+        <result property="label" column="DEPTH_01_NAME" />
+        <result property="parent" column="DEPTH_01_PARENT_ID" />
+        <collection property="children" ofType="java.util.HashMap" javaType="java.util.ArrayList">
+            <id property="value" column="DEPTH_02_ID"/>
+            <result property="label" column="DEPTH_02_NAME" />
+            <result property="parent" column="DEPTH_02_PARENT_ID" />
+        </collection>
+    </resultMap>
+    <select id="lstDepthCategory" parameterType="com.buza.server.dto.TbBlogCategoryDto" resultMap="lstDepthCategoryResultMap">
+        SELECT 	T1.CATEGORY_ID AS DEPTH_01_ID,
+                T1.PARENT_CATEGORY_ID AS DEPTH_01_PARENT_ID,
+                T1.CATEGORY_NAME AS DEPTH_01_NAME,
+                T2.CATEGORY_ID AS DEPTH_02_ID,
+                T2.PARENT_CATEGORY_ID AS DEPTH_02_PARENT_ID,
+                T2.CATEGORY_NAME AS DEPTH_02_NAME
+        FROM 	TB_BLOG_CATEGORY T1
+                LEFT OUTER JOIN TB_BLOG_CATEGORY T2 ON T1.CATEGORY_ID = T2.PARENT_CATEGORY_ID
+        WHERE	T1.PARENT_CATEGORY_ID = 0
+    </select>
+
 </mapper>

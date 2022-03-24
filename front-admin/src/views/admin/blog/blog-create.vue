@@ -6,9 +6,16 @@
                 <el-input v-model="form.postTitle"></el-input>
             </el-form-item>
             <el-form-item label="文章类别">
-                <el-select v-model="form.postType" placeholder="请选择文章分类">
-                    <el-option v-for="item in lstPostType" :label="item.codeName" :key="item.codeId" :value="item.codeCd"></el-option>
-                </el-select>
+                <el-button @click="handleAddCategory" round>新增分类</el-button>
+                <el-cascader
+                    style="margin: 30px 0;"
+                    @change="handleChangeChooseCategory"
+                    :props="{ checkStrictly: true }"
+                    :options="categoryList"
+                    v-model="chooseCategory"
+                    clearable></el-cascader>
+                <el-button type="primary" @click="handleClickChooseCategory">确 认</el-button>
+                <el-button type="primary" @click="handleChooseCategory">选择分类</el-button>
             </el-form-item>
             <el-form-item label="是否参与">
                 <el-switch v-model="form.isJoin"></el-switch>
@@ -47,6 +54,58 @@
                 <el-button>取消</el-button>
             </el-form-item>
         </el-form>
+
+        <!-- Blog Category Drawer Start -->
+        <el-drawer
+            v-loading="loadingDrawer"
+            title="博客文件分类"
+            :visible.sync="isDrawerVisible"
+            direction="rtl"
+            size="50%"
+            :close-on-press-escape="false"
+        >
+            <div style="padding: 30px;">
+                <el-button @click="handleAddCategory" round>新增分类</el-button>
+                <el-cascader
+                    style="margin: 30px 0;"
+                    @change="handleChangeChooseCategory"
+                    :props="{ checkStrictly: true }"
+                    :options="categoryList"
+                    v-model="chooseCategory"
+                    clearable></el-cascader>
+                <el-button type="primary" @click="handleClickChooseCategory">确 认</el-button>
+            </div>
+        </el-drawer>
+        <!-- //Blog Category Drawer End -->
+
+        <!-- Blog Category dialog start  -->
+        <el-dialog v-bind:title="buzaModalTitle" :visible.sync="isModalVisible" :close-on-click-modal="false">
+            <!--:close-on-click-modal="false"-->
+            <input type="hidden" v-model="categoryItem.categoryId"/>
+            <el-form ref="form" label-width="130px">
+                <el-form-item label="ID" v-if="categoryItem.categoryId != null">
+                    <el-input v-model="categoryItem.categoryId" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="分类名称">
+                    <el-input v-model="categoryItem.categoryName"></el-input>
+                </el-form-item>
+                <el-form-item label="父分类">
+                    <el-input v-model="categoryItem.parentCategoryId"></el-input>
+                </el-form-item>
+                <el-form-item label="Type">
+                    <el-input v-model="categoryItem.categoryType"></el-input>
+                </el-form-item>
+                <el-form-item label="是否激活">
+                    <el-switch v-model="categoryItem.status"></el-switch>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="danger" v-on:click="isModalVisible = false">取 消</el-button>
+                <el-button type="primary" v-on:click="saveCategoryItem(categoryItem)">保 存</el-button>
+            </div>
+        </el-dialog>
+        <!--  // Blog Category dialog end  -->
+
     </div>
 
 </template>
@@ -77,6 +136,16 @@ export default {
             editor: null,
             editorData: '',
             loading: true,
+
+            loadingDrawer: false,
+            isDrawerVisible: true,
+
+            isModalVisible: false,
+            buzaModalTitle: '新增分类',
+
+            categoryItem: {},
+            categoryList: [],
+            chooseCategory: '',
         }
     },
     mounted() {
@@ -89,8 +158,37 @@ export default {
         }
         _this.initWangEditor();
         _this.loading = false;
+        _this.initCategoryList();
     },
     methods: {
+        handleClickChooseCategory(val) {
+            let _this = this;
+            console.log(_this.chooseCategory);
+        },
+        handleChangeChooseCategory(val) {
+            console.log(val);
+        },
+        initCategoryList() {
+            let _this = this;
+            _this.$request.post("/system/blog/category/depth", {})
+            .then(response => {
+                if (response.data.status == 200) {
+                    _this.categoryList = response.data.data;
+                } else {
+                    _this.$message.error(response.data.msg);
+                }
+            })
+            .catch(response => {})
+        },
+        handleAddCategory() {
+            let _this = this;
+            _this.isModalVisible = true;
+
+        },
+        handleChooseCategory() {
+            let _this = this;
+            _this.isDrawerVisible = true;
+        },
         setListCommonCode(codeType) {
             let _this = this;
             _this.$request.get("/system/code/type/list?codeType=" + codeType).then((response) => {
@@ -167,6 +265,17 @@ export default {
             editor.create();
 
             this.editor = editor;
+        },
+        saveCategoryItem(item) {
+            let _this = this;
+            item.status = item.status == true ? "1" : "0";
+            _this.$request.post("/system/blog/category/proc", item)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(response => {
+                _this.$message.error("Error！请重新再试！");
+            })
         }
     }
 }

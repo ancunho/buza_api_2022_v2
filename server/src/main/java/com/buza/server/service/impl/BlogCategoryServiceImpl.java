@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Getter
@@ -38,5 +39,9 @@ public class BlogCategoryServiceImpl implements BlogCategoryService {
 
     public List<TbBlogCategoryDto> getAllTbBlogCategoryByTbBlogCategory(TbBlogCategoryDto tbBlogCategoryDto) {
         return tbBlogCategoryMapper.getAllTbBlogCategoryByTbBlogCategory(tbBlogCategoryDto);
+    }
+
+    public List<Map<String, Object>> lstDepthCategory(TbBlogCategoryDto tbBlogCategoryDto) {
+        return tbBlogCategoryMapper.lstDepthCategory(tbBlogCategoryDto);
     }
 }

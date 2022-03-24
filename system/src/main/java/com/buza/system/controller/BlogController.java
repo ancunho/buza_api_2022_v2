@@ -5,6 +5,7 @@ import com.buza.server.common.ResponseCode;
 import com.buza.server.dto.BaseRequest;
 import com.buza.server.dto.TbBlogCategoryDto;
 import com.buza.server.dto.TbPostDto;
+import com.buza.server.entity.TbBlogCategory;
 import com.buza.server.entity.TbPost;
 import com.buza.server.service.BlogCategoryService;
 import com.buza.server.service.PostService;
@@ -19,11 +20,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/post")
-public class PostController {
+@RequestMapping(value = "/blog")
+public class BlogController {
 
     @Resource
     private JwtTokenUtil jwtTokenUtil;
@@ -38,7 +40,7 @@ public class PostController {
     private BlogCategoryService blogCategoryService;
 
     /**
-     * Post List Action
+     * Blog List Action
      * @param baseRequest
      * @param tbPostDto
      * @return
@@ -60,8 +62,8 @@ public class PostController {
     @PostMapping(value = "/proc")
     public BaseResponse procTbPostByTbPostDto(HttpServletRequest request, @RequestBody TbPostDto tbPostDto) {
         if (tbPostDto == null
-            || StringUtils.isEmpty(tbPostDto.getPostTitle())
-            || StringUtils.isEmpty(tbPostDto.getPostType())
+                || StringUtils.isEmpty(tbPostDto.getPostTitle())
+                || StringUtils.isEmpty(tbPostDto.getPostType())
         ) {
             return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
@@ -141,6 +143,75 @@ public class PostController {
         TbPostDto tbPostDto = postService.getTbPostByPostId(postId);
         return BaseResponse.valueOfSuccess(tbPostDto);
 
+    }
+
+    @GetMapping(value = "/category/list")
+    public BaseResponse getBlogCategoryList(@RequestBody TbBlogCategoryDto tbBlogCategoryDto) {
+        if (tbBlogCategoryDto == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        List<TbBlogCategoryDto> lstBlogCategory = blogCategoryService.getAllTbBlogCategoryByTbBlogCategory(tbBlogCategoryDto);
+        return BaseResponse.valueOfSuccess(lstBlogCategory);
+    }
+
+    @PostMapping(value = "/category/proc")
+    public BaseResponse proc_TbBlogCategory(@RequestBody TbBlogCategoryDto tbBlogCategoryDto) {
+        try {
+            if (tbBlogCategoryDto.getCategoryId() == null || "".equals(tbBlogCategoryDto.getCategoryId())) {
+                // insert new
+                TbBlogCategory tbBlogCategory = new TbBlogCategory();
+                tbBlogCategory.setParentCategoryId(tbBlogCategoryDto.getParentCategoryId());
+                tbBlogCategory.setCategoryName(tbBlogCategoryDto.getCategoryName());
+                tbBlogCategory.setCategoryType(tbBlogCategoryDto.getCategoryType());
+                tbBlogCategory.setSortOrder(tbBlogCategoryDto.getSortOrder());
+                tbBlogCategory.setStatus(tbBlogCategoryDto.getStatus());
+                tbBlogCategory.setOption01(tbBlogCategoryDto.getOption01());
+                tbBlogCategory.setOption02(tbBlogCategoryDto.getOption02());
+                tbBlogCategory.setOption03(tbBlogCategoryDto.getOption03());
+                tbBlogCategory.setOption04(tbBlogCategoryDto.getOption04());
+                tbBlogCategory.setOption05(tbBlogCategoryDto.getOption05());
+
+                boolean isSuccessInsert = blogCategoryService.insertTbBlogCategory(tbBlogCategory);
+                if (isSuccessInsert) {
+                    return BaseResponse.valueOfSuccessMessage(ResponseCode.INSERT_SUCCESS.getDesc());
+                }
+                return BaseResponse.valueOfFailureMessage(ResponseCode.INSERT_ERROR.getDesc());
+            } else {
+                // update
+                TbBlogCategory tbBlogCategory = new TbBlogCategory();
+                tbBlogCategory.setCategoryId(tbBlogCategoryDto.getCategoryId());
+                tbBlogCategory.setParentCategoryId(tbBlogCategoryDto.getParentCategoryId());
+                tbBlogCategory.setCategoryName(tbBlogCategoryDto.getCategoryName());
+                tbBlogCategory.setCategoryType(tbBlogCategoryDto.getCategoryType());
+                tbBlogCategory.setSortOrder(tbBlogCategoryDto.getSortOrder());
+                tbBlogCategory.setStatus(tbBlogCategoryDto.getStatus());
+                tbBlogCategory.setOption01(tbBlogCategoryDto.getOption01());
+                tbBlogCategory.setOption02(tbBlogCategoryDto.getOption02());
+                tbBlogCategory.setOption03(tbBlogCategoryDto.getOption03());
+                tbBlogCategory.setOption04(tbBlogCategoryDto.getOption04());
+                tbBlogCategory.setOption05(tbBlogCategoryDto.getOption05());
+
+                boolean isSuccessUpdate = blogCategoryService.updateTbBlogCategory(tbBlogCategory);
+                if (isSuccessUpdate) {
+                    return BaseResponse.valueOfSuccessMessage(ResponseCode.SAVE_SUCCESS.getDesc());
+                }
+                return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseResponse.valueOfFailureMessage(ResponseCode.SAVE_ERROR.getDesc());
+        }
+    }
+
+    @PostMapping(value = "/category/depth")
+    public BaseResponse lstDepthCategory(@RequestBody TbBlogCategoryDto tbBlogCategoryDto) {
+        if (tbBlogCategoryDto == null) {
+            return BaseResponse.valueOfFailureMessage(ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        List<Map<String, Object>> lstDepthCategoryData = blogCategoryService.lstDepthCategory(tbBlogCategoryDto);
+        return BaseResponse.valueOfSuccess(lstDepthCategoryData);
     }
 
 }

@@ -4,6 +4,7 @@ import com.buza.server.dto.TbBlogCategoryDto;
 import com.buza.server.entity.TbBlogCategory;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TbBlogCategoryMapper {
     int deleteByPrimaryKey(Integer categoryId);
@@ -19,4 +20,6 @@ public interface TbBlogCategoryMapper {
     int updateByPrimaryKey(TbBlogCategory record);
 
     List<TbBlogCategoryDto> getAllTbBlogCategoryByTbBlogCategory(TbBlogCategoryDto tbBlogCategoryDto);
+
+    List<Map<String, Object>> lstDepthCategory(TbBlogCategoryDto tbBlogCategoryDto);
 }

@@ -20,6 +20,9 @@ import Spu_List from "./views/admin/spec/spu-list.vue"
 import Sku_List from "./views/admin/spec/sku-list.vue"
 import Sku_Create from "./views/admin/spec/sku-create.vue"
 import Attr_List from "./views/admin/spec/attr-list.vue"
+import Blog_List from "./views/admin/blog/blog-list.vue"
+import Blog_Create from "./views/admin/blog/blog-create.vue"
+import Blog_Category from "./views/admin/blog/blog-category.vue"
 
 Vue.use(Router);
 
@@ -60,6 +63,9 @@ export default new Router({
             ,{ path: "sku/list", name: "sku/list", component: Sku_List, meta: {title: "SKU" }}
             ,{ path: "sku/create", name: "sku/create", component: Sku_Create, meta: {title: "SKU Create" }}
             ,{ path: "attr/list", name: "attr/list", component: Attr_List, meta: {title: "Attribute List" }}
+            ,{ path: "blog/list", name: "blog/list", component: Blog_List, meta: {title: "Blog List" }}
+            ,{ path: "blog/create", name: "blog/create", component: Blog_Create, meta: {title: "Blog Create" }}
+            ,{ path: "blog/category", name: "blog/category", component: Blog_Category, meta: {title: "Blog Category" }}
         ]
     }]
 })
