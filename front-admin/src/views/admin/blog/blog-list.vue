@@ -9,9 +9,8 @@
             <el-table-column prop="rn" label="编号" width="80"></el-table-column>
             <el-table-column prop="postTitle" label="postTitle" width="150" ></el-table-column>
             <el-table-column prop="postTypeName" label="postTypeName" ></el-table-column>
+            <el-table-column prop="postCategoryName" label="Category" ></el-table-column>
             <el-table-column prop="postAuthor" label="postAuthor" ></el-table-column>
-            <el-table-column prop="eventStartTime" label="eventStartTime" width="130"></el-table-column>
-            <el-table-column prop="eventEndTime" label="eventEndTime" width="130"></el-table-column>
             <el-table-column prop="status" label="状态" align="center" width="120">
                 <template slot-scope="scope">
                     <el-tag type="danger" v-if="scope.row.status == '0'"> {{ scope.row.statusName }}</el-tag>
@@ -22,7 +21,7 @@
             <el-table-column prop="updateTime" label="更新时间" width="150"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button @click="handleItemModify(scope.$index, scope.row)" type="primary" icon="el-icon-edit-outline">修改门店</el-button>
+                    <el-button @click="handleItemModify(scope.$index, scope.row)" type="primary" icon="el-icon-edit-outline">修改</el-button>
                     <!--          <el-button @click="getRoleHandler(scope.row)" type="danger" icon="el-icon-delete">删除</el-button>-->
                 </template>
             </el-table-column>
@@ -132,7 +131,7 @@ export default {
         handleItemModify(idx, item) {
             let _this = this;
             _this.$router.push({
-                name: 'post/create',
+                name: 'blog/create',
                 params: {
                     postId: item.postId
                 }

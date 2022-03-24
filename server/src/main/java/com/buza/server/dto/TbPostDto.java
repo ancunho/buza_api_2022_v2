@@ -38,5 +38,6 @@ public class TbPostDto extends BaseRequest implements Serializable {
 
     private String postTypeName;
     private String statusName;
+    private String postCategoryName;
 
 }

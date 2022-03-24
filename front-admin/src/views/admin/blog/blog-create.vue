@@ -2,43 +2,53 @@
     <div v-loading="loading">
         <el-form ref="form" :model="form" label-width="120px">
             <input type="hidden" v-model="form.postId" />
+            <input type="hidden" v-model="form.postType" />
             <el-form-item label="文章标题">
                 <el-input v-model="form.postTitle"></el-input>
             </el-form-item>
             <el-form-item label="文章类别">
-                <el-button @click="handleAddCategory" round>新增分类</el-button>
                 <el-cascader
-                    style="margin: 30px 0;"
                     @change="handleChangeChooseCategory"
                     :props="{ checkStrictly: true }"
                     :options="categoryList"
-                    v-model="chooseCategory"
-                    clearable></el-cascader>
-                <el-button type="primary" @click="handleClickChooseCategory">确 认</el-button>
-                <el-button type="primary" @click="handleChooseCategory">选择分类</el-button>
+                    v-model="form.postCategoryId"
+                    popper-class="category-popup"
+                    clearable></el-cascader>&nbsp;
+                <el-button @click="handleAddCategory" round>新增分类</el-button>
             </el-form-item>
-            <el-form-item label="是否参与">
-                <el-switch v-model="form.isJoin"></el-switch>
-            </el-form-item>
-            <el-form-item label="活动时间" v-if="form.isJoin">
-                <el-col :span="10">
-                    <el-date-picker
-                        v-model="form.eventDateRange"
-                        type="daterange"
-                        format="yyyy-MM-dd"
-                        value-format="yyyy-MM-dd"
-                        range-separator="至"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期">
-                    </el-date-picker>
+
+            <el-row :gutter="20">
+                <el-col :span="8">
+                    <el-form-item label="小图片">
+                        <div class="block">
+                            <span class="demonstration"></span>
+                            <el-image :src="form.postThumbnailSmall || ''" style="width:100px; height:100px;">
+                                <div slot="error" class="image-slot">
+                                    <i class="el-icon-picture-outline font100px" style="color:#9a9a9a;"></i>
+                                </div>
+                            </el-image>
+                        </div>
+                        <el-button round v-on:click="handleChooseMain('postThumbnailSmall')">选 择 图 片</el-button>
+                        <el-button round type="danger" v-on:click="handleDeleteChooseMain('postThumbnailSmall')">删 除</el-button>
+                    </el-form-item>
                 </el-col>
-            </el-form-item>
-            <el-form-item label="是否需要付款">
-                <el-switch v-model="form.isNeedPay"></el-switch>
-            </el-form-item>
-            <el-form-item label="价格" v-if="form.isNeedPay">
-                <el-input v-model="form.postPrice"></el-input>
-            </el-form-item>
+                <el-col :span="16">
+                    <el-form-item label="大图片">
+                        <div class="block">
+                            <span class="demonstration"></span>
+                            <el-image :src="form.postThumbnailBig || ''" style="width:100px; height:100px;">
+                                <div slot="error" class="image-slot">
+                                    <i class="el-icon-picture-outline font100px" style="color:#9a9a9a;"></i>
+                                </div>
+                            </el-image>
+                        </div>
+                        <el-button round v-on:click="handleChooseMain('postThumbnailBig')">选 择 图 片</el-button>
+                        <el-button round type="danger" v-on:click="handleDeleteChooseMain('postThumbnailBig')">删 除</el-button>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+
             <el-form-item label="是否发布">
                 <el-radio-group v-model="form.status">
                     <el-radio label="1">是</el-radio>
@@ -46,7 +56,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="文章内容">
-                <div id="post-content-div" style="z-index: 1!important;"></div>
+                <div id="blog-content-div" v-show="isShowContentDiv"></div>
                 <el-input type="hidden" v-model="form.postContent"></el-input>
             </el-form-item>
             <el-form-item>
@@ -54,29 +64,6 @@
                 <el-button>取消</el-button>
             </el-form-item>
         </el-form>
-
-        <!-- Blog Category Drawer Start -->
-        <el-drawer
-            v-loading="loadingDrawer"
-            title="博客文件分类"
-            :visible.sync="isDrawerVisible"
-            direction="rtl"
-            size="50%"
-            :close-on-press-escape="false"
-        >
-            <div style="padding: 30px;">
-                <el-button @click="handleAddCategory" round>新增分类</el-button>
-                <el-cascader
-                    style="margin: 30px 0;"
-                    @change="handleChangeChooseCategory"
-                    :props="{ checkStrictly: true }"
-                    :options="categoryList"
-                    v-model="chooseCategory"
-                    clearable></el-cascader>
-                <el-button type="primary" @click="handleClickChooseCategory">确 认</el-button>
-            </div>
-        </el-drawer>
-        <!-- //Blog Category Drawer End -->
 
         <!-- Blog Category dialog start  -->
         <el-dialog v-bind:title="buzaModalTitle" :visible.sync="isModalVisible" :close-on-click-modal="false">
@@ -90,7 +77,14 @@
                     <el-input v-model="categoryItem.categoryName"></el-input>
                 </el-form-item>
                 <el-form-item label="父分类">
-                    <el-input v-model="categoryItem.parentCategoryId"></el-input>
+<!--                    <el-input v-model="categoryItem.parentCategoryId"></el-input>-->
+                    <el-cascader
+                        @change="handleChangeChooseCategory"
+                        :props="{ checkStrictly: true }"
+                        :options="categoryList"
+                        v-model="categoryItem.parentCategoryId"
+                        popper-class="category-popup"
+                        clearable></el-cascader>
                 </el-form-item>
                 <el-form-item label="Type">
                     <el-input v-model="categoryItem.categoryType"></el-input>
@@ -106,23 +100,42 @@
         </el-dialog>
         <!--  // Blog Category dialog end  -->
 
+        <!--  // drawer start  -->
+        <el-drawer
+            v-loading="loadingDrawer"
+            title="图片详细信息"
+            :visible.sync="isDrawerVisible"
+            direction="rtl"
+            size="80%"
+            :close-on-press-escape="false"
+        >
+            <FileListComponent @childEmitItem="childEmitItem" />
+        </el-drawer>
+        <!--  // drawer end  -->
+
     </div>
 
 </template>
 
 <script>
-import wangEditor from 'wangeditor'
+import FileListComponent from '@/components/FileListComponent';
+import wangEditor from 'wangeditor';
 export default {
     name: "blog-create",
-
+    components: {
+        FileListComponent
+    },
     data() {
         return {
             form: {
                 postId: '',
+                postCategoryId: '',
                 postTitle: '',
                 postContent: '',
-                postType: '',
-                postAuthor: Tool.getLoginUser(),
+                postType: '03',
+                postThumbnailSmall: '',
+                postThumbnailBig: '',
+                postAuthor: Tool.getStorageParam("username"),
                 eventStartTime: '',
                 eventEndTime: '',
                 isJoin: false,
@@ -138,7 +151,7 @@ export default {
             loading: true,
 
             loadingDrawer: false,
-            isDrawerVisible: true,
+            isDrawerVisible: false,
 
             isModalVisible: false,
             buzaModalTitle: '新增分类',
@@ -146,6 +159,8 @@ export default {
             categoryItem: {},
             categoryList: [],
             chooseCategory: '',
+
+            isShowContentDiv: true,
         }
     },
     mounted() {
@@ -160,10 +175,41 @@ export default {
         _this.loading = false;
         _this.initCategoryList();
     },
-    methods: {
-        handleClickChooseCategory(val) {
+    watch: {
+        isDrawerVisible(val, oldVal) {
             let _this = this;
-            console.log(_this.chooseCategory);
+            if (val === false) {
+                _this.isShowContentDiv = true;
+            } else {
+                _this.isShowContentDiv = false;
+            }
+        }
+    },
+    methods: {
+        childEmitItem(data) {
+            let _this = this;
+            _this.isDrawerVisible = false;
+            _this.isShowContentDiv = true;
+            if (_this.choosenFlag === 'postThumbnailSmall') {
+                _this.form.postThumbnailSmall = data.fileUrl;
+            } else if (_this.choosenFlag === 'postThumbnailBig') {
+                _this.form.postThumbnailBig = data.fileUrl;
+            }
+        },
+        handleDeleteChooseMain(flag) {
+            let _this = this;
+            if (flag === 'postThumbnailSmall') {
+                _this.form.postThumbnailSmall = '';
+            } else if (flag === 'postThumbnailBig') {
+                _this.form.postThumbnailBig = '';
+            }
+        },
+        handleChooseMain(flag) {
+            let _this = this;
+            // _this.loadingDrawer = true;
+            _this.isDrawerVisible = true;
+            _this.choosenFlag = flag;
+            _this.isShowContentDiv = false;
         },
         handleChangeChooseCategory(val) {
             console.log(val);
@@ -184,10 +230,6 @@ export default {
             let _this = this;
             _this.isModalVisible = true;
 
-        },
-        handleChooseCategory() {
-            let _this = this;
-            _this.isDrawerVisible = true;
         },
         setListCommonCode(codeType) {
             let _this = this;
@@ -221,11 +263,13 @@ export default {
             _this.form.postContent = _this.editorData;
             _this.form.isJoin = _this.form.isJoin == true ? "1" : "0";
             _this.form.isNeedPay = _this.form.isNeedPay == true ? "1" : "0";
+            _this.form.postCategoryId = _this.form.postCategoryId[_this.form.postCategoryId.length - 1];
+
             _this.$request.post("/system/post/proc", _this.form)
                 .then(response => {
                     if (response.data.code === 0) {
                         _this.$message.success(response.data.msg);
-                        _this.$router.push({name: 'post/list'});
+                        _this.$router.push({name: 'blog/list'});
                     } else {
                         _this.$message.error(response.data.msg);
                     }
@@ -235,7 +279,7 @@ export default {
         },
         initWangEditor() {
             let _this = this;
-            const editor = new wangEditor(`#post-content-div`);
+            const editor = new wangEditor(`#blog-content-div`);
             // 配置 onchange 回调函数，将数据同步到 vue 中
             editor.config.onchange = (newHtml) => {
                 this.editorData = newHtml
@@ -268,10 +312,18 @@ export default {
         },
         saveCategoryItem(item) {
             let _this = this;
-            item.status = item.status == true ? "1" : "0";
+            item.status = item.status === true ? "1" : "0";
+            item.parentCategoryId = item.parentCategoryId[item.parentCategoryId.length - 1];
+
             _this.$request.post("/system/blog/category/proc", item)
             .then(response => {
-                console.log(response);
+                if (response.data.status === 200) {
+                    _this.$message.success(response.data.msg);
+                    _this.isModalVisible = false;
+                    _this.initCategoryList();
+                } else {
+                    _this.$message.error(response.data.msg);
+                }
             })
             .catch(response => {
                 _this.$message.error("Error！请重新再试！");
@@ -282,7 +334,8 @@ export default {
 </script>
 
 <style>
-#post-content-div > div {
-    z-index: 2000!important;
+#blog-content-div > div. {
+    /*z-index: 1000!important;*/
 }
+.category-popup .el-radio__inner { width: 20px; height: 20px;}
 </style>

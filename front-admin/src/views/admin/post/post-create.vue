@@ -63,7 +63,7 @@ export default {
                 postTitle: '',
                 postContent: '',
                 postType: '',
-                postAuthor: Tool.getLoginUser(),
+                postAuthor: Tool.getStorageParam("username"),
                 eventStartTime: '',
                 eventEndTime: '',
                 isJoin: false,
