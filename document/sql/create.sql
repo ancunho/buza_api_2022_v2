@@ -504,3 +504,41 @@ PRIMARY KEY (`SECKILL_ID`, `USER_PHONE`), /*联合主键*/
 KEY IDX_CREATE_TIME(`CREATE_TIME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='秒杀成功明细表';
 
+-- tb_blog_cagegory
+CREATE TABLE `tb_blog_category` (
+                                    `CATEGORY_ID` int NOT NULL AUTO_INCREMENT,
+                                    `PARENT_CATEGORY_ID` int DEFAULT NULL,
+                                    `CATEGORY_NAME` varchar(100) DEFAULT NULL,
+                                    `CATEGORY_TYPE` varchar(45) DEFAULT NULL,
+                                    `SORT_ORDER` int DEFAULT NULL,
+                                    `STATUS` varchar(10) DEFAULT NULL,
+                                    `OPTION01` varchar(45) DEFAULT NULL,
+                                    `OPTION02` varchar(45) DEFAULT NULL,
+                                    `OPTION03` varchar(45) DEFAULT NULL,
+                                    `OPTION04` varchar(45) DEFAULT NULL,
+                                    `OPTION05` varchar(45) DEFAULT NULL,
+                                    `CREATE_TIME` datetime DEFAULT NULL,
+                                    `UPDATE_TIME` datetime DEFAULT NULL,
+                                    PRIMARY KEY (`CATEGORY_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--ma_city
+CREATE TABLE `ma_city` (
+                       `CITY_ID` int NOT NULL AUTO_INCREMENT,
+                       `CITY_NAME` varchar(45) DEFAULT NULL,
+                       `PROVINCE_ID` int DEFAULT NULL,
+                       `CITY_NAME_PINYIN` varchar(45) DEFAULT NULL,
+                       `CITY_GRADE_ID` varchar(10) DEFAULT NULL,
+                       `CITY_ENAME` varchar(45) DEFAULT NULL,
+                       PRIMARY KEY (`CITY_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=513 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='城市表';
+
+--ma_province
+CREATE TABLE `ma_province` (
+                           `PROVINCE_ID` int NOT NULL AUTO_INCREMENT,
+                           `PROVINCE_NAME` varchar(45) DEFAULT NULL,
+                           `PROVINCE_NAME_PINYIN` varchar(45) DEFAULT NULL,
+                           `PROVINCE_FULL_NAME` varchar(45) DEFAULT NULL,
+                           `PROVINCE_ENAME` varchar(45) DEFAULT NULL,
+                           PRIMARY KEY (`PROVINCE_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='省份表';
