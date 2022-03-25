@@ -1,5 +1,5 @@
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production' ? '/admin/' : '/admin/',
+    publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
     devServer: {
         port: 3000,
         proxy: {
