@@ -13,7 +13,7 @@
                 <div class="brand">
                     <h2>
                         <span class="lab la-staylinked"></span>
-                        Good Shot
+                        Cunho
                     </h2>
                 </div>
                 <div class="block" style="display: flex; justify-content: center; margin: 1.2rem 0 .6rem 0">

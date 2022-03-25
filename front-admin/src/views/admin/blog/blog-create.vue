@@ -177,12 +177,10 @@ export default {
     },
     watch: {
         isDrawerVisible(val, oldVal) {
-            let _this = this;
-            if (val === false) {
-                _this.isShowContentDiv = true;
-            } else {
-                _this.isShowContentDiv = false;
-            }
+            this.isShowContentDiv = !val;
+        },
+        isModalVisible(val, oldVal) {
+            this.isShowContentDiv = !val;
         }
     },
     methods: {
@@ -229,7 +227,7 @@ export default {
         handleAddCategory() {
             let _this = this;
             _this.isModalVisible = true;
-
+            _this.isShowContentDiv = false;
         },
         setListCommonCode(codeType) {
             let _this = this;
@@ -313,13 +311,13 @@ export default {
         saveCategoryItem(item) {
             let _this = this;
             item.status = item.status === true ? "1" : "0";
-            item.parentCategoryId = item.parentCategoryId[item.parentCategoryId.length - 1];
-
+            item.parentCategoryId = item.parentCategoryId == null ? 0 : item.parentCategoryId[item.parentCategoryId.length - 1];
             _this.$request.post("/system/blog/category/proc", item)
             .then(response => {
                 if (response.data.status === 200) {
                     _this.$message.success(response.data.msg);
                     _this.isModalVisible = false;
+                    _this.isShowContentDiv = true;
                     _this.initCategoryList();
                 } else {
                     _this.$message.error(response.data.msg);
