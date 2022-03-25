@@ -1,6 +1,7 @@
 package com.buza.wechat.controller;
 
 import com.buza.server.common.BaseResponse;
+import com.buza.server.common.ResponseCode;
 import com.buza.server.dto.BaseRequest;
 import com.buza.server.dto.TbPostDto;
 import com.buza.server.service.PostService;
@@ -31,4 +32,14 @@ public class MiniappPostController {
         return BaseResponse.valueOfSuccessList(returnData);
     }
 
+    @GetMapping(value = "/info")
+    public BaseResponse getTbPostByPostId(@RequestParam("postId") Integer postId) {
+        if (postId == null) {
+            return BaseResponse.valueOfFailureCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        TbPostDto tbPostDto = postService.getTbPostByPostId(postId);
+        return BaseResponse.valueOfSuccess(tbPostDto);
+
+    }
 }
